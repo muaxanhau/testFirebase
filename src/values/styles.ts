@@ -1,0 +1,93 @@
+import {Dimensions, StatusBar, TextStyle, ViewStyle} from 'react-native';
+import {colors} from './colors';
+
+const {width, height} = Dimensions.get('screen');
+
+export const valueStyles = {
+  width,
+  height: height - (StatusBar.currentHeight || 0),
+  padding: 24,
+  padding2: 16,
+  padding3: 8,
+  margin: 24,
+  margin2: 16,
+  margin3: 8,
+  borderRadius10: 10,
+  borderRadius: 24,
+  gap: 16,
+  gap2: 9,
+  line: 0.2,
+  line2: 0.5,
+  line3: 1,
+};
+
+const textColor = colors.neutral900;
+const textDefault: TextStyle = {
+  fontSize: 17,
+  color: textColor,
+};
+const textH1: TextStyle = {
+  fontSize: 35,
+  color: textColor,
+};
+const textH2: TextStyle = {
+  fontSize: 27,
+  color: textColor,
+};
+const textH3: TextStyle = {
+  fontSize: 22,
+  color: textColor,
+};
+const rowCenter: ViewStyle = {
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
+};
+const columnCenter: ViewStyle = {
+  justifyContent: 'center',
+  alignItems: 'center',
+};
+const shadow: ViewStyle = {
+  shadowColor: colors.neutral900,
+  shadowOffset: {
+    width: 1,
+    height: 3,
+  },
+  shadowOpacity: 0.3,
+  shadowRadius: 5,
+  elevation: 6,
+};
+const shadowTop: ViewStyle = {
+  shadowColor: colors.neutral900,
+  shadowOffset: {
+    width: 0,
+    height: -4,
+  },
+  shadowOpacity: 0.3,
+  shadowRadius: 5,
+  elevation: 6,
+};
+const fullParent: ViewStyle = {
+  width: '100%',
+  height: '100%',
+};
+const modalContainer: ViewStyle = {
+  backgroundColor: colors.white,
+  borderRadius: valueStyles.borderRadius10,
+  padding: valueStyles.padding,
+  width: valueStyles.width - valueStyles.padding2 * 2,
+  gap: valueStyles.gap,
+};
+
+export const commonStyles = {
+  textDefault,
+  textH1,
+  textH2,
+  textH3,
+  rowCenter,
+  columnCenter,
+  shadow,
+  shadowTop,
+  fullParent,
+  modalContainer,
+};
