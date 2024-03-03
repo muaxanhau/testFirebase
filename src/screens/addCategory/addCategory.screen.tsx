@@ -3,15 +3,20 @@ import React, {FC} from 'react';
 import {ScreenBaseModel, addCategoryFormSchema} from 'models';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {valueStyles} from 'values';
-import {useHookForm} from 'utils';
+import {useHookForm, useMainStackNavigation} from 'utils';
 import {ButtonComponent, InputTextComponent, TextComponent} from 'components';
+import {useAddCategoryRepo} from 'repositories';
 
 export const AddCategoryScreen: FC<ScreenBaseModel> = () => {
+  const navigation = useMainStackNavigation();
   const {control, handleSubmit} = useHookForm({schema: addCategoryFormSchema});
-
-  const onPress = handleSubmit(({name, description, image}) => {
-    console.log(name);
+  const {addCategory} = useAddCategoryRepo({
+    onSuccess: () => {
+      navigation.navigate('Home');
+    },
   });
+
+  const onPress = handleSubmit(data => addCategory(data));
 
   return (
     <SafeAreaView style={styles.container}>
