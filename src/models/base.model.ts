@@ -1,3 +1,4 @@
+import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
 import {PropsWithChildren} from 'react';
 import {ViewStyle} from 'react-native';
 
@@ -26,3 +27,9 @@ export type ActionStoreBaseModel<TAction> = Readonly<
     reset: () => void;
   }
 >;
+
+/**
+ * collection for firebase model
+ */
+export type FirestoreBaseModel<T extends {}> =
+  FirebaseFirestoreTypes.DocumentSnapshot<T>;

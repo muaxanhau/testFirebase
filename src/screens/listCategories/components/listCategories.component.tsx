@@ -3,7 +3,7 @@ import React, {FC} from 'react';
 import {ComponentBaseModel, EnteringAnimationEnum} from 'models';
 import {useGetAllCategoriesRepo} from 'repositories';
 import {TextComponent, ViewAnimationComponent} from 'components';
-import {colors, images, valueStyles} from 'values';
+import {colors, valueStyles} from 'values';
 import {utils} from 'utils';
 
 export const ListCategoriesComponent: FC<ComponentBaseModel> = () => {
@@ -11,16 +11,20 @@ export const ListCategoriesComponent: FC<ComponentBaseModel> = () => {
 
   return (
     <FlatList
-      keyExtractor={i => i.name}
+      keyExtractor={i => i.id}
       data={categories}
-      renderItem={({item: {name, image, description}, index}) => (
-        <CategoryComponent
-          index={index}
-          name={name}
-          image={image}
-          description={description}
-        />
-      )}
+      renderItem={({item, index}) => {
+        const {name, description, image} = item.data()!;
+
+        return (
+          <CategoryComponent
+            index={index}
+            name={name}
+            image={image}
+            description={description}
+          />
+        );
+      }}
       contentContainerStyle={styles.container}
     />
   );

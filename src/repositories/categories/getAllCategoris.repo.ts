@@ -1,8 +1,8 @@
 import {KeyService, useApiQuery} from 'repositories/services';
 import firestore from '@react-native-firebase/firestore';
-import {CategoryModel} from 'models';
+import {CategoryFirestoreModel, CategoryModel} from 'models';
 
-export type GetAllCategoriesOutput = CategoryModel[];
+export type GetAllCategoriesOutput = CategoryFirestoreModel[];
 export const useGetAllCategoriesRepo = () => {
   const {data: categories, ...rest} = useApiQuery<GetAllCategoriesOutput>({
     queryKey: [KeyService.GET_ALL_CATEGORIES],
@@ -10,8 +10,9 @@ export const useGetAllCategoriesRepo = () => {
       const data = await firestore()
         .collection<CategoryModel>('categories')
         .get();
-      const categories: CategoryModel[] = [];
-      data.forEach(category => categories.push(category.data()));
+
+      const categories: CategoryFirestoreModel[] = [];
+      data.forEach(category => categories.push(category));
 
       return categories;
     },
