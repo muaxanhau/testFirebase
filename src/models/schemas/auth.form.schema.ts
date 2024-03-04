@@ -71,11 +71,3 @@ export const phoneFormSchema = z.object({
     .regex(/^\+\d+$/, 'invalid phone number')
     .min(6, 'minimum is 6 digits'),
 });
-
-export const otpFormSchema = z.object({
-  otp: z
-    .string({required_error: 'otp is required'})
-    .trim()
-    .regex(/^\d+\.?\d*$/, 'must be number')
-    .length(6, 'length is 6 digits'),
-});
