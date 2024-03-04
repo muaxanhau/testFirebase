@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   itemImage: {
-    resizeMode: 'contain',
+    resizeMode: 'cover',
     width: utils.wp(40),
     aspectRatio: 3 / 2,
     borderRadius: valueStyles.borderRadius10,
