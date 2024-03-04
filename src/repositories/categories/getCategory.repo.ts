@@ -20,7 +20,7 @@ export const useGetCategoryRepo = ({id}: GetCategoryProps) => {
   const {data: category, ...rest} = useApiQuery<GetCategoryOutput>({
     queryKey: [KeyService.GET_CATEGORY, id],
     queryFn: async () => {
-      await utils.sleep(1000);
+      await utils.sleep(3000);
       const currentCategory = await firestore()
         .collection<CategoryModel>(FirestoreCollectionService.CATEGORIES)
         .doc(id)

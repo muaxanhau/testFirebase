@@ -9,10 +9,10 @@ import {useMainStackNavigation} from 'utils';
 import {TextComponent} from 'components';
 
 export const DetailCategoryScreen: FC<ScreenBaseModel> = () => {
+  const navigation = useMainStackNavigation();
   const {params} =
     useRoute<RouteProp<MainStackNavigationModel, 'DetailCategory'>>();
   const {id} = params;
-  const navigation = useMainStackNavigation();
   const {category} = useGetCategoryRepo({id});
   const data = category?.data();
 
