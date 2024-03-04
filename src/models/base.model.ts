@@ -26,14 +26,3 @@ export type ActionStoreBaseModel<TAction> = Readonly<
     reset: () => void;
   }
 >;
-
-export type FirebaseBaseModel<T = null> = Promise<
-  | {
-      success: true;
-      data: T;
-    }
-  | {
-      success: false;
-      message: string;
-    }
->;
