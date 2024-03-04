@@ -3,6 +3,7 @@ import React, {FC} from 'react';
 import {StatusBar} from 'react-native';
 import {MainStackNavigation} from 'navigations';
 import {useFirstCheckNavigation, useFirstSetupApp, withProvider} from 'utils';
+import {LoaderComponent} from 'components';
 
 export const App: FC = withProvider(() => {
   useFirstSetupApp();
@@ -11,6 +12,8 @@ export const App: FC = withProvider(() => {
   return (
     <>
       <StatusBar hidden translucent />
+
+      <LoaderComponent />
 
       <MainStackNavigation />
     </>
