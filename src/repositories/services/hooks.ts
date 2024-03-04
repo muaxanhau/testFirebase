@@ -39,7 +39,7 @@ type ApiMutationProps<Output, Input> = UseMutationOptions<
   ResponseErrorModel,
   Input
 >;
-export const useApiMutation = <Output, Input = {}>(
+export const useApiMutation = <Output, Input = void>(
   props: ApiMutationProps<Output, Input>,
 ) => {
   const {error, ...rest} = useMutation<Output, ResponseErrorModel, Input>(

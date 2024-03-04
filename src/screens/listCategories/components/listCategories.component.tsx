@@ -64,7 +64,7 @@ const CategoryComponent = forwardRef<CategoryRefProps, CategoryProps>(
 
     const closeRightAction = () => refSwipeable.current?.close();
 
-    const onPressDelete = () => deleteCategory(item);
+    const onPressDelete = () => deleteCategory({id: item.id});
     const onPressEdit = () => navigation.navigate('EditCategory');
 
     useImperativeHandle(ref, () => ({closeRightAction}), []);

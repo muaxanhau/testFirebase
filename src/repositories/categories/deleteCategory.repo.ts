@@ -4,8 +4,8 @@ import {CategoryFirestoreModel, CategoryModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
 import {GetAllCategoriesOutput} from './getAllCategoris.repo';
 
-type DeleteCategoryInput = CategoryFirestoreModel;
-type DeleteCategoryOutput = CategoryFirestoreModel;
+type DeleteCategoryInput = {id: string};
+type DeleteCategoryOutput = void;
 export const useDeleteCategoryRepo = () => {
   const queryClient = useQueryClient();
 
@@ -14,15 +14,14 @@ export const useDeleteCategoryRepo = () => {
     DeleteCategoryInput
   >({
     mutationKey: [KeyService.DELETE_CATEGORY],
-    mutationFn: async category => {
-      const {id: deleteId} = category;
+    mutationFn: async ({id}) => {
       queryClient.setQueryData<GetAllCategoriesOutput>(
         [KeyService.GET_ALL_CATEGORIES],
         oldData => {
           if (!oldData) return oldData;
 
           const deletedItemCategories = oldData.filter(
-            category => category.id !== deleteId,
+            category => category.id !== id,
           );
           return deletedItemCategories;
         },
@@ -30,14 +29,12 @@ export const useDeleteCategoryRepo = () => {
 
       await firestore()
         .collection<CategoryModel>('categories')
-        .doc(deleteId)
+        .doc(id)
         .delete();
 
       queryClient.invalidateQueries({
         queryKey: [KeyService.GET_ALL_CATEGORIES],
       });
-
-      return category;
     },
   });
   return {deleteCategory, ...rest};

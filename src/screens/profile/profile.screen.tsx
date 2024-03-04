@@ -17,7 +17,7 @@ export const ProfileScreen: FC<ScreenBaseModel> = () => {
     },
   });
 
-  const onPress = () => logout({});
+  const onPress = () => logout();
 
   return (
     <SafeAreaView style={styles.container}>
