@@ -16,7 +16,11 @@ export const ListCategoriesScreen: FC<ScreenBaseModel> = () => {
     <SafeAreaView style={styles.container}>
       <ListCategoriesComponent />
 
-      <ButtonComponent title="Add new category" onPress={onPress} />
+      <ButtonComponent
+        title="Add new category"
+        onPress={onPress}
+        style={styles.button}
+      />
     </SafeAreaView>
   );
 };
@@ -24,7 +28,8 @@ export const ListCategoriesScreen: FC<ScreenBaseModel> = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: valueStyles.padding2,
+    paddingVertical: valueStyles.padding2,
     gap: valueStyles.gap,
   },
+  button: {marginHorizontal: valueStyles.margin2},
 });

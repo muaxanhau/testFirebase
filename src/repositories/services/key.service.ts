@@ -8,6 +8,7 @@ export enum KeyService {
   // categories
   GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES',
   ADD_CATEGORY = 'ADD_CATEGORY',
+  DELETE_CATEGORY = 'DELETE_CATEGORY',
 
   // users
   LIST_USERS = 'LIST_USERS',
