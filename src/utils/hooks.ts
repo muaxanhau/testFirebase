@@ -26,11 +26,10 @@ export const useFirstSetupApp = () =>
 
     LogBox.ignoreAllLogs();
 
+    // event for re-online => refetch data
     onlineManager.setEventListener(setOnline =>
       NetInfo.addEventListener(state => setOnline(!!state.isConnected)),
     );
-
-    // hideNavigationBar()
 
     storageUtil.store(StorageEnum.AUTH, {
       token: 'token123456789',
