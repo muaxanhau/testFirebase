@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {
   MainStackNavigationModel,
   ScreenBaseModel,
@@ -18,11 +18,8 @@ export const EditCategoryScreen: FC<ScreenBaseModel> = () => {
   const {id} = params;
   const navigation = useMainStackNavigation();
   const {category} = useGetCategoryRepo({id});
-  const data = category?.data();
   const {editCategory} = useEditCategoryRepo({
-    onSuccess: () => {
-      navigation.navigate('ListCategories');
-    },
+    onSuccess: () => navigation.navigate('ListCategories'),
   });
   const {control, handleSubmit} = useHookForm({
     schema: editCategoryFormSchema,
@@ -36,10 +33,6 @@ export const EditCategoryScreen: FC<ScreenBaseModel> = () => {
   const onPress = handleSubmit(({name, description, image}) =>
     editCategory({id, name, description, image}),
   );
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   return (
     <SafeAreaView style={styles.container}>

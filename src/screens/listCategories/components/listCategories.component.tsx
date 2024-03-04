@@ -31,13 +31,13 @@ export const ListCategoriesComponent: FC<ComponentBaseModel> = () => {
 
   return (
     <FlatList
-      keyExtractor={i => i.id}
       data={categories}
       onScrollBeginDrag={onScrollBeginDrag}
       renderItem={({item, index}) => {
         const {name, image} = item.data()!;
         return (
           <CategoryComponent
+            key={item.id}
             ref={ref => ref && (refCategoriesList.current[index] = ref)}
             index={index}
             id={item.id}
@@ -96,7 +96,7 @@ const CategoryComponent = forwardRef<CategoryRefProps, CategoryProps>(
           <ViewAnimationComponent
             style={styles.itemContainer}
             entering={EnteringAnimationEnum.FADE_IN_RIGHT}
-            exiting={ExitingAnimationEnum.FADE_OUT_LEFT}
+            exiting={ExitingAnimationEnum.FADE_OUT_RIGHT}
             delay={index * 100}>
             <TextComponent>{name}</TextComponent>
             <Image source={utils.imageUrl(image)} style={styles.itemImage} />
