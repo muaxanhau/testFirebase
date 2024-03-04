@@ -1,4 +1,8 @@
-import {KeyService, useApiMutation} from 'repositories/services';
+import {
+  FirestoreCollectionService,
+  KeyService,
+  useApiMutation,
+} from 'repositories/services';
 import firestore from '@react-native-firebase/firestore';
 import {CategoryFirestoreModel, CategoryModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
@@ -19,7 +23,7 @@ export const useAddCategoryRepo = (props: AddCategoryProps) => {
     mutationKey: [KeyService.ADD_CATEGORY],
     mutationFn: async data => {
       const response = await firestore()
-        .collection<CategoryModel>('categories')
+        .collection<CategoryModel>(FirestoreCollectionService.CATEGORIES)
         .add(data);
       const category = await response.get();
 

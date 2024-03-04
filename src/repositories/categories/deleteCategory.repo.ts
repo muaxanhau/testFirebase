@@ -1,4 +1,8 @@
-import {KeyService, useApiMutation} from 'repositories/services';
+import {
+  FirestoreCollectionService,
+  KeyService,
+  useApiMutation,
+} from 'repositories/services';
 import firestore from '@react-native-firebase/firestore';
 import {CategoryFirestoreModel, CategoryModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
@@ -28,7 +32,7 @@ export const useDeleteCategoryRepo = () => {
       );
 
       await firestore()
-        .collection<CategoryModel>('categories')
+        .collection<CategoryModel>(FirestoreCollectionService.CATEGORIES)
         .doc(id)
         .delete();
 

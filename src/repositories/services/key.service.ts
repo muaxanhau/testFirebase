@@ -1,3 +1,7 @@
+export enum FirestoreCollectionService {
+  CATEGORIES = 'categories',
+}
+
 export enum KeyService {
   // auth
   LOGIN = 'LOGIN',
@@ -10,6 +14,7 @@ export enum KeyService {
   ADD_CATEGORY = 'ADD_CATEGORY',
   DELETE_CATEGORY = 'DELETE_CATEGORY',
   EDIT_CATEGORY = 'EDIT_CATEGORY',
+  GET_CATEGORY = 'GET_CATEGORY',
 
   // users
   LIST_USERS = 'LIST_USERS',
