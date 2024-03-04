@@ -43,8 +43,7 @@ export const useFirstCheckNavigation = () => {
   const resetToHome = useResetMainStackNavigation('Home');
 
   useEffect(() => {
-    const user = auth().currentUser;
-    const isAuthorized = user !== null;
+    const isAuthorized = auth().currentUser !== null;
     (isAuthorized ? resetToHome : resetToLogin)();
   }, []);
 };
