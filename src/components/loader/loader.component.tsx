@@ -1,4 +1,3 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React, {FC} from 'react';
 import {
   ComponentBaseModel,
@@ -6,9 +5,11 @@ import {
   ExitingAnimationEnum,
 } from 'models';
 import {useIsFetching, useIsMutating} from '@tanstack/react-query';
+import {ActivityIndicatorComponent} from './activityIndicator.component';
+import {StyleSheet} from 'react-native';
 import {utils} from 'utils';
 import {colors} from 'values';
-import {ViewAnimationComponent} from 'components/common';
+import {ViewAnimationComponent} from 'components';
 
 type LoaderProps = ComponentBaseModel;
 export const LoaderComponent: FC<LoaderProps> = () => {
@@ -25,7 +26,7 @@ export const LoaderComponent: FC<LoaderProps> = () => {
       style={styles.container}
       entering={EnteringAnimationEnum.FADE_IN}
       exiting={ExitingAnimationEnum.FADE_OUT}>
-      <View style={styles.loader}></View>
+      <ActivityIndicatorComponent size={90} />
     </ViewAnimationComponent>
   );
 };
@@ -37,11 +38,5 @@ const styles = StyleSheet.create({
     zIndex: 999999,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  loader: {
-    width: 150,
-    aspectRatio: 1,
-    backgroundColor: 'orange',
-    borderRadius: 75,
   },
 });
