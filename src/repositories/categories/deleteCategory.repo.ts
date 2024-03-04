@@ -4,7 +4,7 @@ import {
   useApiMutation,
 } from 'repositories/services';
 import firestore from '@react-native-firebase/firestore';
-import {CategoryFirestoreModel, CategoryModel} from 'models';
+import {CategoryModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
 import {GetAllCategoriesOutput} from './getAllCategoris.repo';
 

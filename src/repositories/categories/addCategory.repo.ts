@@ -27,11 +27,10 @@ export const useAddCategoryRepo = (props: AddCategoryProps) => {
         .add(data);
       const category = await response.get();
 
-      category &&
-        queryClient.setQueryData<GetAllCategoriesOutput>(
-          [KeyService.GET_ALL_CATEGORIES],
-          oldData => (oldData ? [category, ...oldData] : oldData),
-        );
+      queryClient.setQueryData<GetAllCategoriesOutput>(
+        [KeyService.GET_ALL_CATEGORIES],
+        oldData => (oldData ? [category, ...oldData] : oldData),
+      );
 
       queryClient.invalidateQueries({
         queryKey: [KeyService.GET_ALL_CATEGORIES],

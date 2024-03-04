@@ -32,13 +32,11 @@ export const useEditCategoryRepo = (props: EditCategoryProps) => {
 
             return {
               ...category,
-              data: () => {
-                return {
-                  name,
-                  description,
-                  image,
-                };
-              },
+              data: () => ({
+                name,
+                description,
+                image,
+              }),
             };
           });
           return editedItemCategories;
