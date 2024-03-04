@@ -6,3 +6,4 @@ export * from './signUp';
 export * from './profile';
 export * from './listCategories';
 export * from './addCategory';
+export * from './editCategory';

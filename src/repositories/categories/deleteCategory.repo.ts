@@ -15,23 +15,23 @@ export const useDeleteCategoryRepo = () => {
   >({
     mutationKey: [KeyService.DELETE_CATEGORY],
     mutationFn: async category => {
-      const {id: deletedId} = category;
-      await firestore()
-        .collection<CategoryModel>('categories')
-        .doc(deletedId)
-        .delete();
-
+      const {id: deleteId} = category;
       queryClient.setQueryData<GetAllCategoriesOutput>(
         [KeyService.GET_ALL_CATEGORIES],
         oldData => {
           if (!oldData) return oldData;
 
           const deletedItemCategories = oldData.filter(
-            category => category.id !== deletedId,
+            category => category.id !== deleteId,
           );
           return deletedItemCategories;
         },
       );
+
+      await firestore()
+        .collection<CategoryModel>('categories')
+        .doc(deleteId)
+        .delete();
 
       queryClient.invalidateQueries({
         queryKey: [KeyService.GET_ALL_CATEGORIES],

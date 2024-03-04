@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {MainStackNavigationModel} from 'models';
 import {
   AddCategoryScreen,
+  EditCategoryScreen,
   FriendScreen,
   HomeScreen,
   ListCategoriesScreen,
@@ -29,6 +30,7 @@ export const MainStackNavigation: FC = () => {
       <Stack.Screen name={'Profile'} component={ProfileScreen} />
       <Stack.Screen name={'ListCategories'} component={ListCategoriesScreen} />
       <Stack.Screen name={'AddCategory'} component={AddCategoryScreen} />
+      <Stack.Screen name={'EditCategory'} component={EditCategoryScreen} />
     </Stack.Navigator>
   );
 };

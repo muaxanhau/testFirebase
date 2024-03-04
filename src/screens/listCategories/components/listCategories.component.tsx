@@ -18,7 +18,7 @@ import {
   ViewAnimationComponent,
 } from 'components';
 import {colors, valueStyles} from 'values';
-import {utils} from 'utils';
+import {useMainStackNavigation, utils} from 'utils';
 import {Swipeable} from 'react-native-gesture-handler';
 
 export const ListCategoriesComponent: FC<ComponentBaseModel> = () => {
@@ -57,13 +57,15 @@ type CategoryProps = ComponentBaseModel<{
 }>;
 const CategoryComponent = forwardRef<CategoryRefProps, CategoryProps>(
   ({index, item}, ref) => {
+    const navigation = useMainStackNavigation();
     const {deleteCategory} = useDeleteCategoryRepo();
     const refSwipeable = useRef<Swipeable>(null);
     const {name, description, image} = item.data()!;
 
     const closeRightAction = () => refSwipeable.current?.close();
 
-    const onPress = () => deleteCategory(item);
+    const onPressDelete = () => deleteCategory(item);
+    const onPressEdit = () => navigation.navigate('EditCategory');
 
     useImperativeHandle(ref, () => ({closeRightAction}), []);
 
@@ -71,13 +73,20 @@ const CategoryComponent = forwardRef<CategoryRefProps, CategoryProps>(
       <Swipeable
         ref={refSwipeable}
         renderRightActions={() => (
-          <ButtonComponent
-            title="Delete"
-            color="fail"
-            type="outline"
-            onPress={onPress}
-            style={styles.buttonDelete}
-          />
+          <View style={styles.buttonContainer}>
+            <ButtonComponent
+              title="Edit"
+              color="warning"
+              type="outline"
+              onPress={onPressEdit}
+            />
+            <ButtonComponent
+              title="Delete"
+              color="fail"
+              type="outline"
+              onPress={onPressDelete}
+            />
+          </View>
         )}>
         <TouchableOpacity>
           <ViewAnimationComponent
@@ -113,8 +122,9 @@ const styles = StyleSheet.create({
     aspectRatio: 3 / 2,
     borderRadius: valueStyles.borderRadius10,
   },
-  buttonDelete: {
+  buttonContainer: {
     marginRight: valueStyles.margin2,
-    alignSelf: 'center',
+    justifyContent: 'center',
+    gap: valueStyles.gap2,
   },
 });
