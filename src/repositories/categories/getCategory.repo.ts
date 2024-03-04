@@ -7,7 +7,6 @@ import firestore from '@react-native-firebase/firestore';
 import {CategoryFirestoreModel, CategoryModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
 import {GetAllCategoriesOutput} from './getAllCategoris.repo';
-import {utils} from 'utils';
 
 export type GetCategoryProps = {id: string};
 export type GetCategoryOutput = CategoryFirestoreModel;
