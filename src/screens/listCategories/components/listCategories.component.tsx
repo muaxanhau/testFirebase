@@ -68,8 +68,9 @@ const CategoryComponent = forwardRef<CategoryRefProps, CategoryProps>(
 
     const closeRightAction = () => refSwipeable.current?.close();
 
-    const onPressDelete = () => deleteCategory({id});
+    const onPress = () => navigation.navigate('DetailCategory', {id});
     const onPressEdit = () => navigation.navigate('EditCategory', {id});
+    const onPressDelete = () => deleteCategory({id});
 
     useImperativeHandle(ref, () => ({closeRightAction}), []);
 
@@ -92,7 +93,7 @@ const CategoryComponent = forwardRef<CategoryRefProps, CategoryProps>(
             />
           </View>
         )}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onPress}>
           <ViewAnimationComponent
             style={styles.itemContainer}
             entering={EnteringAnimationEnum.FADE_IN_RIGHT}

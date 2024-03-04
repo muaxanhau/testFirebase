@@ -12,7 +12,7 @@ type EditCategoryProps = {
   onSuccess: () => void;
 } | void;
 type EditCategoryInput = {id: string} & CategoryModel;
-type EditCategoryOutput = CategoryFirestoreModel;
+type EditCategoryOutput = void;
 export const useEditCategoryRepo = (props: EditCategoryProps) => {
   const queryClient = useQueryClient();
 
@@ -22,31 +22,25 @@ export const useEditCategoryRepo = (props: EditCategoryProps) => {
   >({
     mutationKey: [KeyService.EDIT_CATEGORY],
     mutationFn: async ({id, name, description, image}) => {
-      const allCategories = queryClient.getQueryData<GetAllCategoriesOutput>([
-        KeyService.GET_ALL_CATEGORIES,
-      ]);
-      const currentCategory = allCategories?.find(
-        category => category.id === id,
-      )!;
-      const newCategory: CategoryFirestoreModel = {
-        ...currentCategory,
-        data: () => {
-          return {
-            name,
-            description,
-            image,
-          };
-        },
-      };
-
       queryClient.setQueryData<GetAllCategoriesOutput>(
         [KeyService.GET_ALL_CATEGORIES],
         oldData => {
           if (!oldData) return oldData;
 
-          const editedItemCategories = oldData.map(category =>
-            category.id === id ? newCategory : category,
-          );
+          const editedItemCategories = oldData.map(category => {
+            if (category.id !== id) return category;
+
+            return {
+              ...category,
+              data: () => {
+                return {
+                  name,
+                  description,
+                  image,
+                };
+              },
+            };
+          });
           return editedItemCategories;
         },
       );
@@ -62,8 +56,6 @@ export const useEditCategoryRepo = (props: EditCategoryProps) => {
       queryClient.invalidateQueries({
         queryKey: [KeyService.GET_CATEGORY, id],
       });
-
-      return newCategory;
     },
     ...props,
   });

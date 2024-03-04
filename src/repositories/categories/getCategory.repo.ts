@@ -13,7 +13,7 @@ export type GetCategoryProps = {id: string};
 export type GetCategoryOutput = CategoryFirestoreModel;
 export const useGetCategoryRepo = ({id}: GetCategoryProps) => {
   const queryClient = useQueryClient();
-  const currentCategory = queryClient
+  const localCategory = queryClient
     .getQueryData<GetAllCategoriesOutput>([KeyService.GET_ALL_CATEGORIES])
     ?.find(category => category.id === id);
 
@@ -21,14 +21,14 @@ export const useGetCategoryRepo = ({id}: GetCategoryProps) => {
     queryKey: [KeyService.GET_CATEGORY, id],
     queryFn: async () => {
       await utils.sleep(1000);
-      const category = await firestore()
+      const currentCategory = await firestore()
         .collection<CategoryModel>(FirestoreCollectionService.CATEGORIES)
         .doc(id)
         .get();
 
-      return category;
+      return currentCategory;
     },
-    initialData: currentCategory,
+    initialData: localCategory,
   });
 
   return {category, ...rest};
