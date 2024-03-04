@@ -8,3 +8,4 @@ export const addCategoryFormSchema = z.object({
   description: z.string().trim().default('Empty...'),
   image: z.string().url('must be url').default(''),
 });
+export const editCategoryFormSchema = addCategoryFormSchema;

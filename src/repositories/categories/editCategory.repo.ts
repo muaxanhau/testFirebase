@@ -8,9 +8,12 @@ import {CategoryFirestoreModel, CategoryModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
 import {GetAllCategoriesOutput} from './getAllCategoris.repo';
 
+type EditCategoryProps = {
+  onSuccess: () => void;
+} | void;
 type EditCategoryInput = {id: string} & CategoryModel;
 type EditCategoryOutput = CategoryFirestoreModel;
-export const useEditCategoryRepo = () => {
+export const useEditCategoryRepo = (props: EditCategoryProps) => {
   const queryClient = useQueryClient();
 
   const {mutate: editCategory, ...rest} = useApiMutation<
@@ -29,7 +32,6 @@ export const useEditCategoryRepo = () => {
         ...currentCategory,
         data: () => {
           return {
-            ...currentCategory?.data(),
             name,
             description,
             image,
@@ -57,9 +59,13 @@ export const useEditCategoryRepo = () => {
       queryClient.invalidateQueries({
         queryKey: [KeyService.GET_ALL_CATEGORIES],
       });
+      queryClient.invalidateQueries({
+        queryKey: [KeyService.GET_CATEGORY, id],
+      });
 
       return newCategory;
     },
+    ...props,
   });
   return {editCategory, ...rest};
 };

@@ -6,7 +6,11 @@ import {
   View,
 } from 'react-native';
 import React, {FC, forwardRef, useImperativeHandle, useRef} from 'react';
-import {ComponentBaseModel, EnteringAnimationEnum} from 'models';
+import {
+  ComponentBaseModel,
+  EnteringAnimationEnum,
+  ExitingAnimationEnum,
+} from 'models';
 import {useDeleteCategoryRepo, useGetAllCategoriesRepo} from 'repositories';
 import {
   ButtonComponent,
@@ -91,7 +95,8 @@ const CategoryComponent = forwardRef<CategoryRefProps, CategoryProps>(
         <TouchableOpacity>
           <ViewAnimationComponent
             style={styles.itemContainer}
-            entering={EnteringAnimationEnum.FLIP_IN_Y_RIGHT}
+            entering={EnteringAnimationEnum.FADE_IN_RIGHT}
+            exiting={ExitingAnimationEnum.FADE_OUT_LEFT}
             delay={index * 100}>
             <TextComponent>{name}</TextComponent>
             <Image source={utils.imageUrl(image)} style={styles.itemImage} />
