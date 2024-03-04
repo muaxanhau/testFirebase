@@ -1,18 +1,19 @@
 import {StyleSheet, View} from 'react-native';
 import React, {FC, useEffect} from 'react';
 import {ComponentBaseModel} from 'models';
-import {colors} from 'values';
-import {utils} from 'utils';
+import {colors, valueStyles} from 'values';
 import Animated, {
   Easing,
   useAnimatedStyle,
   useSharedValue,
+  withDelay,
   withRepeat,
+  withSequence,
   withTiming,
 } from 'react-native-reanimated';
 
 const values = {
-  gap: 8, // percent % of container's width
+  gap: 6, // percent % of container's width
 };
 type ActivityIndicatorProps = ComponentBaseModel<{
   size?: number;
@@ -23,25 +24,21 @@ export const ActivityIndicatorComponent: FC<ActivityIndicatorProps> = ({
 }) => {
   const rotation = useSharedValue(0);
 
-  const containerStyle = useAnimatedStyle(() => ({
-    transform: [{rotate: `${rotation.value}deg`}],
-  }));
-  const box1Styles = useAnimatedStyle(() => ({
-    transform: [{rotate: `${rotation.value}deg`}],
-  }));
-  const box2Styles = useAnimatedStyle(() => ({
-    transform: [{rotate: `${rotation.value}deg`}],
-  }));
-  const box3Styles = useAnimatedStyle(() => ({
-    transform: [{rotate: `${rotation.value}deg`}],
-  }));
-  const box4Styles = useAnimatedStyle(() => ({
-    transform: [{rotate: `${rotation.value}deg`}],
+  const rStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        rotate: `${rotation.value}deg`,
+      },
+    ],
   }));
 
   useEffect(() => {
     rotation.value = withRepeat(
-      withTiming(360, {duration: 2000, easing: Easing.linear}),
+      withSequence(
+        withTiming(360, {duration: 500, easing: Easing.linear}),
+        withTiming(0, {duration: 0}),
+        withDelay(2000, withTiming(0, {duration: 0})),
+      ),
       -1,
       false,
     );
@@ -53,12 +50,36 @@ export const ActivityIndicatorComponent: FC<ActivityIndicatorProps> = ({
         styles.container,
         {width: size, gap: (size * values.gap) / 100},
         style,
-        containerStyle,
+        rStyle,
       ]}>
-      <View style={[styles.box, {backgroundColor: colors.green300}]} />
-      <View style={[styles.box, {backgroundColor: colors.primary300}]} />
-      <View style={[styles.box, {backgroundColor: colors.yellow300}]} />
-      <View style={[styles.box, {backgroundColor: colors.red300}]} />
+      {/* 1 */}
+      <View
+        style={[
+          styles.box,
+          {backgroundColor: colors.green300, borderBottomLeftRadius: 0},
+        ]}
+      />
+      {/* 4 */}
+      <View
+        style={[
+          styles.box,
+          {backgroundColor: colors.primary300, borderBottomRightRadius: 0},
+        ]}
+      />
+      {/* 2 */}
+      <View
+        style={[
+          styles.box,
+          {backgroundColor: colors.yellow300, borderTopLeftRadius: 0},
+        ]}
+      />
+      {/* 3 */}
+      <View
+        style={[
+          styles.box,
+          {backgroundColor: colors.red300, borderTopRightRadius: 0},
+        ]}
+      />
     </Animated.View>
   );
 };
@@ -71,5 +92,6 @@ const styles = StyleSheet.create({
   box: {
     width: `${50 - values.gap / 2}%`,
     aspectRatio: 1,
+    borderRadius: valueStyles.borderRadius10,
   },
 });
