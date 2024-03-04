@@ -3,10 +3,10 @@ import {KeyService, useApiMutation} from 'repositories/services';
 
 type LoginWithPhoneProps = {
   onSuccess?: (data: LoginWithPhoneOutput) => void;
-};
+} | void;
 type LoginWithPhoneInput = {phone: string};
 type LoginWithPhoneOutput = FirebaseAuthTypes.ConfirmationResult;
-export const useLoginWithPhoneRepo = ({onSuccess}: LoginWithPhoneProps) => {
+export const useLoginWithPhoneRepo = (props: LoginWithPhoneProps) => {
   const {mutate: loginWithPhone, ...rest} = useApiMutation<
     LoginWithPhoneOutput,
     LoginWithPhoneInput
@@ -16,7 +16,7 @@ export const useLoginWithPhoneRepo = ({onSuccess}: LoginWithPhoneProps) => {
       const confirmation = await auth().signInWithPhoneNumber(phone);
       return confirmation;
     },
-    onSuccess,
+    ...props,
   });
 
   return {loginWithPhone, ...rest};

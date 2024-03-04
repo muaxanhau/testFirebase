@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: valueStyles.padding2,
     gap: valueStyles.gap,
+    backgroundColor: colors.white,
   },
   bsContainer: {
     flex: 1,

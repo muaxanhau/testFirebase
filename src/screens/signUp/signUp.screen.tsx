@@ -4,7 +4,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useGoBackScreen, useHookForm} from 'utils';
 import {loginFormSchema} from 'models';
 import {ButtonComponent, InputTextComponent, TextComponent} from 'components';
-import {valueStyles} from 'values';
+import {colors, valueStyles} from 'values';
 import {useSignUpRepo} from 'repositories';
 
 export const SignUpScreen: FC = () => {
@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: valueStyles.padding2,
+    backgroundColor: colors.white,
   },
   wrapper: {
     gap: valueStyles.gap,

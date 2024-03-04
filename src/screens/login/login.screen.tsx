@@ -13,7 +13,7 @@ import {
   ModalRefProps,
   TextComponent,
 } from 'components';
-import {valueStyles} from 'values';
+import {colors, valueStyles} from 'values';
 import {LoginPhoneModalComponent} from './components';
 import {useLoginRepo} from 'repositories';
 
@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: valueStyles.padding2,
     gap: valueStyles.gap,
+    backgroundColor: colors.white,
   },
   wrapper: {
     gap: valueStyles.gap,

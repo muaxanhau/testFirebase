@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 import React, {FC} from 'react';
 import {ScreenBaseModel} from 'models';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {valueStyles} from 'values';
+import {colors, valueStyles} from 'values';
 import {ListCategoriesComponent} from './components';
 import {ButtonComponent} from 'components';
 import {useMainStackNavigation} from 'utils';
@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: valueStyles.padding2,
     gap: valueStyles.gap,
+    backgroundColor: colors.white,
   },
   button: {marginHorizontal: valueStyles.margin2},
 });

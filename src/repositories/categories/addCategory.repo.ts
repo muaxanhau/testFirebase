@@ -6,10 +6,10 @@ import {GetAllCategoriesOutput} from './getAllCategoris.repo';
 
 type AddCategoryProps = {
   onSuccess?: () => void;
-};
+} | void;
 type AddCategoryInput = CategoryModel;
 type AddCategoryOutput = CategoryFirestoreModel;
-export const useAddCategoryRepo = ({onSuccess}: AddCategoryProps) => {
+export const useAddCategoryRepo = (props: AddCategoryProps) => {
   const queryClient = useQueryClient();
 
   const {mutate: addCategory, ...rest} = useApiMutation<
@@ -35,7 +35,7 @@ export const useAddCategoryRepo = ({onSuccess}: AddCategoryProps) => {
 
       return category;
     },
-    onSuccess,
+    ...props,
   });
   return {addCategory, ...rest};
 };

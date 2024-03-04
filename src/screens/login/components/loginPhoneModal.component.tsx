@@ -10,7 +10,6 @@ import {
 } from 'components';
 import {commonStyles} from 'values';
 import {useHookForm} from 'utils';
-import {firebase} from 'firebase';
 import {OtpModalComponent, OtpModalRefProps} from './otpModal.component';
 import {useLoginWithPhoneRepo} from 'repositories';
 
