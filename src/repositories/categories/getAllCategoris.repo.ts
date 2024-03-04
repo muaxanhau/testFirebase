@@ -2,7 +2,7 @@ import {KeyService, useApiQuery} from 'repositories/services';
 import firestore from '@react-native-firebase/firestore';
 import {CategoryModel} from 'models';
 
-type GetAllCategoriesOutput = CategoryModel[];
+export type GetAllCategoriesOutput = CategoryModel[];
 export const useGetAllCategoriesRepo = () => {
   const {data: categories, ...rest} = useApiQuery<GetAllCategoriesOutput>({
     queryKey: [KeyService.GET_ALL_CATEGORIES],

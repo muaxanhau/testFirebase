@@ -1,7 +1,7 @@
 import {config, devToolConfig} from 'config';
 import {Platform} from 'react-native';
 import {z} from 'zod';
-import {valueStyles} from 'values';
+import {images, valueStyles} from 'values';
 import {validationUtil} from './validation.util';
 
 const isIos = () => Platform.OS === 'ios';
@@ -323,6 +323,17 @@ const opacityColor = (hexColorString: string, opacity = 1) => {
 };
 
 /**
+ * check url
+ * @param url url of image
+ * @returns
+ */
+const imageUrl = (url?: string) => {
+  const source =
+    !!url?.length && validationUtil.isUrl(url) ? {uri: url} : images.imgNull;
+  return source;
+};
+
+/**
  * ****************************************************************
  * ****************************************************************
  * generic tools
@@ -365,6 +376,7 @@ export const utils = {
   wp,
   hp,
   opacityColor,
+  imageUrl,
 };
 
 export const devTools = {

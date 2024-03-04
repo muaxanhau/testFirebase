@@ -12,7 +12,7 @@ export const AddCategoryScreen: FC<ScreenBaseModel> = () => {
   const {control, handleSubmit} = useHookForm({schema: addCategoryFormSchema});
   const {addCategory} = useAddCategoryRepo({
     onSuccess: () => {
-      navigation.navigate('Home');
+      navigation.navigate('ListCategories');
     },
   });
 
