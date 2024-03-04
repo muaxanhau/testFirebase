@@ -19,13 +19,13 @@ import {useLoginRepo} from 'repositories';
 
 export const LoginScreen: FC = () => {
   const navigation = useMainStackNavigation();
-  const resetToHome = useResetMainStackNavigation('Home');
+  const resetMainStackNavigation = useResetMainStackNavigation();
   const {control, handleSubmit} = useHookForm({schema: loginFormSchema});
   const refLoginPhoneModal = useRef<ModalRefProps>(null);
   const {login} = useLoginRepo({
     onSuccess: () => {
       Alert.alert('Alert', 'Login successful');
-      resetToHome();
+      resetMainStackNavigation('Home');
     },
   });
 

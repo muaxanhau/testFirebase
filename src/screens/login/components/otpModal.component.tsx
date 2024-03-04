@@ -20,7 +20,7 @@ export type OtpModalRefProps = {
 type OtpModalProps = ComponentBaseModel;
 export const OtpModalComponent = forwardRef<OtpModalRefProps, OtpModalProps>(
   ({}, ref) => {
-    const resetToHome = useResetMainStackNavigation('Home');
+    const resetMainStackNavigation = useResetMainStackNavigation();
     const refOtp = useRef<InputOTPRefProps>(null);
     const refModal = useRef<ModalRefProps>(null);
     const refConfirmation = useRef<FirebaseAuthTypes.ConfirmationResult | null>(
@@ -40,7 +40,7 @@ export const OtpModalComponent = forwardRef<OtpModalRefProps, OtpModalProps>(
         await refConfirmation.current?.confirm(otp);
         close();
         Alert.alert('Alert', 'Login successful');
-        resetToHome();
+        resetMainStackNavigation('Home');
       } catch (e) {
         Alert.alert('Warning', 'Invalid OTP. Please try again');
       }

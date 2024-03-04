@@ -39,12 +39,11 @@ export const useFirstSetupApp = () =>
   }, []);
 
 export const useFirstCheckNavigation = () => {
-  const resetToLogin = useResetMainStackNavigation('Login');
-  const resetToHome = useResetMainStackNavigation('Home');
+  const resetMainStackNavigation = useResetMainStackNavigation();
 
   useEffect(() => {
     const isAuthorized = auth().currentUser !== null;
-    (isAuthorized ? resetToHome : resetToLogin)();
+    resetMainStackNavigation(isAuthorized ? 'Home' : 'Login');
   }, []);
 };
 
@@ -216,14 +215,12 @@ export const useScreenFocusedEffect = (
 export const useMainStackNavigation = () =>
   useNavigation<NavigationProp<MainStackNavigationModel>>();
 
-export const useResetMainStackNavigation = (
-  name: keyof MainStackNavigationModel,
-) => {
+export const useResetMainStackNavigation = () => {
   const navigation = useMainStackNavigation();
 
-  const navigate = () => navigation.reset({index: 0, routes: [{name}]});
-
-  return navigate;
+  const reset = (name: keyof MainStackNavigationModel) =>
+    navigation.reset({index: 0, routes: [{name}]});
+  return reset;
 };
 
 export const useGoBackScreen = () => {

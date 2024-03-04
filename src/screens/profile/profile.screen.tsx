@@ -9,11 +9,11 @@ import {useLogoutRepo} from 'repositories';
 
 export const ProfileScreen: FC<ScreenBaseModel> = () => {
   const navigation = useMainStackNavigation();
-  const resetToLogin = useResetMainStackNavigation('Login');
+  const resetMainStackNavigation = useResetMainStackNavigation();
   const {logout} = useLogoutRepo({
     onSuccess: () => {
       Alert.alert('Alert', 'Logout successful');
-      resetToLogin();
+      resetMainStackNavigation('Login');
     },
   });
 
