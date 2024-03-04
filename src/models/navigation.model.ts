@@ -7,5 +7,10 @@ export type MainStackNavigationModel = {
   Profile: undefined;
   ListCategories: undefined;
   AddCategory: undefined;
-  EditCategory: undefined;
+  EditCategory: {
+    id: string;
+  };
+  DetailCategory: {
+    id: string;
+  };
 };

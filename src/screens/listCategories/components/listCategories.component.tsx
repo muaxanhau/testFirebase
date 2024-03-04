@@ -6,11 +6,7 @@ import {
   View,
 } from 'react-native';
 import React, {FC, forwardRef, useImperativeHandle, useRef} from 'react';
-import {
-  CategoryFirestoreModel,
-  ComponentBaseModel,
-  EnteringAnimationEnum,
-} from 'models';
+import {ComponentBaseModel, EnteringAnimationEnum} from 'models';
 import {useDeleteCategoryRepo, useGetAllCategoriesRepo} from 'repositories';
 import {
   ButtonComponent,
@@ -35,11 +31,14 @@ export const ListCategoriesComponent: FC<ComponentBaseModel> = () => {
       data={categories}
       onScrollBeginDrag={onScrollBeginDrag}
       renderItem={({item, index}) => {
+        const {name, image} = item.data()!;
         return (
           <CategoryComponent
             ref={ref => ref && (refCategoriesList.current[index] = ref)}
             index={index}
-            item={item}
+            id={item.id}
+            name={name}
+            image={image}
           />
         );
       }}
@@ -53,19 +52,20 @@ type CategoryRefProps = {
 };
 type CategoryProps = ComponentBaseModel<{
   index: number;
-  item: CategoryFirestoreModel;
+  id: string;
+  name: string;
+  image?: string;
 }>;
 const CategoryComponent = forwardRef<CategoryRefProps, CategoryProps>(
-  ({index, item}, ref) => {
+  ({index, id, name, image}, ref) => {
     const navigation = useMainStackNavigation();
     const {deleteCategory} = useDeleteCategoryRepo();
     const refSwipeable = useRef<Swipeable>(null);
-    const {name, description, image} = item.data()!;
 
     const closeRightAction = () => refSwipeable.current?.close();
 
-    const onPressDelete = () => deleteCategory({id: item.id});
-    const onPressEdit = () => navigation.navigate('EditCategory');
+    const onPressDelete = () => deleteCategory({id});
+    const onPressEdit = () => navigation.navigate('EditCategory', {id});
 
     useImperativeHandle(ref, () => ({closeRightAction}), []);
 
