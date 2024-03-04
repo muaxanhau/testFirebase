@@ -15,6 +15,7 @@ import NetInfo, {useNetInfo} from '@react-native-community/netinfo';
 import {onlineManager} from '@tanstack/react-query';
 import {z} from 'zod';
 import {storageUtil} from './storage.util';
+import auth from '@react-native-firebase/auth';
 
 export const useFirstSetupApp = () =>
   useLayoutEffect(() => {
@@ -36,6 +37,17 @@ export const useFirstSetupApp = () =>
       refreshToken: '',
     });
   }, []);
+
+export const useFirstCheckNavigation = () => {
+  const resetToLogin = useResetMainStackNavigation('Login');
+  const resetToHome = useResetMainStackNavigation('Home');
+
+  useEffect(() => {
+    const user = auth().currentUser;
+    const isAuthorized = user !== null;
+    (isAuthorized ? resetToHome : resetToLogin)();
+  }, []);
+};
 
 /**
  * It returns an object with a status property that is either 'active' or 'inactive' depending on the

@@ -4,10 +4,11 @@ import {ScreenBaseModel} from 'models';
 import {colors, valueStyles} from 'values';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ButtonComponent} from 'components';
-import {useResetMainStackNavigation} from 'utils';
+import {useMainStackNavigation, useResetMainStackNavigation} from 'utils';
 import {useLogoutRepo} from 'repositories';
 
 export const ProfileScreen: FC<ScreenBaseModel> = () => {
+  const navigation = useMainStackNavigation();
   const resetToLogin = useResetMainStackNavigation('Login');
   const {logout} = useLogoutRepo({
     onSuccess: () => {
@@ -20,6 +21,14 @@ export const ProfileScreen: FC<ScreenBaseModel> = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ButtonComponent
+        title="Friend"
+        color="warning"
+        onPress={() => {
+          navigation.navigate('Friend');
+        }}
+      />
+
       <ButtonComponent title="Logout" color="fail" onPress={onPress} />
     </SafeAreaView>
   );

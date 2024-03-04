@@ -17,20 +17,6 @@ export const SplashScreen: FC<ScreenBaseModel> = () => {
           navigation.navigate('Login');
         }}
       />
-      <ButtonComponent
-        title="Home"
-        color="success"
-        onPress={() => {
-          navigation.navigate('Home');
-        }}
-      />
-      <ButtonComponent
-        title="Friend"
-        color="warning"
-        onPress={() => {
-          navigation.navigate('Friend');
-        }}
-      />
     </SafeAreaView>
   );
 };
