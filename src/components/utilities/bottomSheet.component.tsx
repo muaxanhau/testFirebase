@@ -59,7 +59,7 @@ export const BottomSheetComponent = memo(
       //#endregion
 
       //#region constants
-      const maxTranslateY = -(valueStyles.height - (insets.top || 24));
+      const maxTranslateY = -(valueStyles.height - insets.top);
       //#endregion
 
       //#region func

@@ -1,11 +1,11 @@
-import {Dimensions, StatusBar, TextStyle, ViewStyle} from 'react-native';
+import {Dimensions, TextStyle, ViewStyle} from 'react-native';
 import {colors} from './colors';
 
-const {width, height} = Dimensions.get('screen');
+const {width, height} = Dimensions.get('window');
 
 export const valueStyles = {
   width,
-  height: height - (StatusBar.currentHeight || 0),
+  height,
   padding: 24,
   padding2: 16,
   padding3: 8,

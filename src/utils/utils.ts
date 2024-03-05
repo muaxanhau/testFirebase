@@ -288,8 +288,8 @@ const wp = (percent: number) => {
   if (percent < 0 || percent > 100) {
     return screenWidth;
   }
-  const widthPercen = (screenWidth * percent) / 100;
-  return widthPercen;
+  const widthPercent = (screenWidth * percent) / 100;
+  return widthPercent;
 };
 /**
  * percentage of screen height
@@ -301,8 +301,8 @@ const hp = (percent: number) => {
   if (percent < 0 || percent > 100) {
     return screenHeight;
   }
-  const heightPercen = (screenHeight * percent) / 100;
-  return heightPercen;
+  const heightPercent = (screenHeight * percent) / 100;
+  return heightPercent;
 };
 
 /**
