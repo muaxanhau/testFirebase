@@ -32,7 +32,14 @@ export const MainStackNavigation: FC = () => {
       <Stack.Screen name={'ListCategories'} component={ListCategoriesScreen} />
       <Stack.Screen name={'AddCategory'} component={AddCategoryScreen} />
       <Stack.Screen name={'EditCategory'} component={EditCategoryScreen} />
-      <Stack.Screen name={'DetailCategory'} component={DetailCategoryScreen} />
+      <Stack.Screen
+        name={'DetailCategory'}
+        component={DetailCategoryScreen}
+        options={{
+          presentation: 'transparentModal',
+          animation: 'slide_from_bottom',
+        }}
+      />
     </Stack.Navigator>
   );
 };
