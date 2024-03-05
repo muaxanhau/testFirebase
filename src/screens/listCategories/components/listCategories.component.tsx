@@ -14,6 +14,7 @@ import {
 import {useDeleteCategoryRepo, useGetAllCategoriesRepo} from 'repositories';
 import {
   ButtonComponent,
+  ImageSharedComponent,
   TextComponent,
   ViewAnimationComponent,
 } from 'components';
@@ -100,7 +101,12 @@ const CategoryComponent = forwardRef<CategoryRefProps, CategoryProps>(
             exiting={ExitingAnimationEnum.FADE_OUT_RIGHT}
             delay={index * 100}>
             <TextComponent>{name}</TextComponent>
-            <Image source={utils.imageUrl(image)} style={styles.itemImage} />
+
+            <ImageSharedComponent
+              sharedTransitionTag={id}
+              source={utils.imageUrl(image)}
+              style={styles.itemImage}
+            />
           </ViewAnimationComponent>
         </TouchableOpacity>
       </Swipeable>

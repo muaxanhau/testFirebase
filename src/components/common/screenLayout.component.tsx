@@ -71,7 +71,7 @@ type TopBarProps = ComponentBaseModel<{
 }>;
 const TopBarComponent: FC<TopBarProps> = ({hideTopBar, title}) => {
   const navigation = useNavigation();
-  const [canGoBack, setCanGoBack] = useState(false);
+  const [canGoBack, setCanGoBack] = useState(true);
   const insets = useSafeAreaInsets();
 
   useEffect(() => {

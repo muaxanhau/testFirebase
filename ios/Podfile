@@ -26,6 +26,15 @@ if linkage != nil
 end
 
 target 'testFirebase' do
+  pre_install do |installer|
+    installer.pod_targets.each do |pod|
+      if pod.name.eql?('RNScreens')
+        def pod.build_type
+          Pod::BuildType.static_library
+        end
+      end
+    end
+  end
   config = use_native_modules!
 
   use_frameworks! :linkage => :static
