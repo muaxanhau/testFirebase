@@ -8,3 +8,4 @@ export * from './listCategories';
 export * from './addCategory';
 export * from './editCategory';
 export * from './detailCategory';
+export * from './map';

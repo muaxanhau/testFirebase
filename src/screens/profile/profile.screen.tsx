@@ -1,8 +1,6 @@
-import {Alert, StyleSheet} from 'react-native';
+import {Alert} from 'react-native';
 import React, {FC} from 'react';
 import {ScreenBaseModel} from 'models';
-import {colors, valueStyles} from 'values';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {ButtonComponent, ScreenLayoutComponent} from 'components';
 import {useMainStackNavigation, useResetMainStackNavigation} from 'utils';
 import {useLogoutRepo} from 'repositories';
@@ -17,19 +15,16 @@ export const ProfileScreen: FC<ScreenBaseModel> = () => {
     },
   });
 
-  const onPress = () => logout();
-
   return (
     <ScreenLayoutComponent paddingHorizontal gap scrollable>
       <ButtonComponent
         title="Friend"
         color="warning"
-        onPress={() => {
-          navigation.navigate('Friend');
-        }}
+        onPress={() => navigation.navigate('Friend')}
       />
+      <ButtonComponent title="Map" onPress={() => navigation.navigate('Map')} />
 
-      <ButtonComponent title="Logout" color="fail" onPress={onPress} />
+      <ButtonComponent title="Logout" color="fail" onPress={logout} />
     </ScreenLayoutComponent>
   );
 };

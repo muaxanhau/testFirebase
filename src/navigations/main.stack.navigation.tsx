@@ -9,6 +9,7 @@ import {
   HomeScreen,
   ListCategoriesScreen,
   LoginScreen,
+  MapScreen,
   ProfileScreen,
   SignUpScreen,
   SplashScreen,
@@ -40,6 +41,7 @@ export const MainStackNavigation: FC = () => {
           animation: 'slide_from_bottom',
         }}
       />
+      <Stack.Screen name={'Map'} component={MapScreen} />
     </Stack.Navigator>
   );
 };

@@ -13,4 +13,5 @@ export type MainStackNavigationModel = {
   DetailCategory: {
     id: string;
   };
+  Map: undefined;
 };
