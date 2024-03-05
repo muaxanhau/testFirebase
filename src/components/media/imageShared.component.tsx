@@ -1,4 +1,4 @@
-import {ImageProps} from 'react-native';
+import {Image, ImageProps} from 'react-native';
 import React, {FC} from 'react';
 import {ComponentBaseModel} from 'models';
 import Animated from 'react-native-reanimated';
@@ -15,6 +15,11 @@ export const ImageSharedComponent: FC<ImageSharedProps> = ({
   url,
   ...rest
 }) => {
+  if (utils.isAndroid()) {
+    // have problem on android, so we use default image
+    return <Image source={utils.imageUrl(url)} {...rest} />;
+  }
+
   return (
     <Animated.Image
       sharedTransitionTag={sharedTransitionTag}

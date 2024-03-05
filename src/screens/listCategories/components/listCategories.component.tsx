@@ -63,7 +63,9 @@ const CategoryComponent = forwardRef<CategoryRefProps, CategoryProps>(
 
     const closeRightAction = () => refSwipeable.current?.close();
 
-    const onPress = () => navigation.navigate('DetailCategory', {id});
+    const onPress = () => {
+      navigation.navigate('DetailCategory', {id});
+    };
     const onPressEdit = () => navigation.navigate('EditCategory', {id});
     const onPressDelete = () => deleteCategory({id});
 
