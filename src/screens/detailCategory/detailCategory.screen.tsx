@@ -9,7 +9,7 @@ import {
   TextComponent,
 } from 'components';
 import {StyleSheet} from 'react-native';
-import {colors, valueStyles} from 'values';
+import {valueStyles} from 'values';
 
 export const DetailCategoryScreen: FC<ScreenBaseModel> = () => {
   const {params} =
@@ -25,7 +25,7 @@ export const DetailCategoryScreen: FC<ScreenBaseModel> = () => {
 
       <ImageSharedComponent
         sharedTransitionTag={id}
-        source={utils.imageUrl(data?.image)}
+        url={data?.image}
         style={styles.image}
       />
     </ScreenLayoutComponent>
@@ -35,7 +35,7 @@ export const DetailCategoryScreen: FC<ScreenBaseModel> = () => {
 const styles = StyleSheet.create({
   image: {
     width: '100%',
-    aspectRatio: 3 / 2,
+    height: utils.hp(30),
     resizeMode: 'cover',
     borderRadius: valueStyles.borderRadius,
   },

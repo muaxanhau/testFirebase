@@ -1,10 +1,4 @@
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {FC, forwardRef, useImperativeHandle, useRef} from 'react';
 import {
   ComponentBaseModel,
@@ -104,7 +98,7 @@ const CategoryComponent = forwardRef<CategoryRefProps, CategoryProps>(
 
             <ImageSharedComponent
               sharedTransitionTag={id}
-              source={utils.imageUrl(image)}
+              url={image}
               style={styles.itemImage}
             />
           </ViewAnimationComponent>

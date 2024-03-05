@@ -2,15 +2,24 @@ import {ImageProps} from 'react-native';
 import React, {FC} from 'react';
 import {ComponentBaseModel} from 'models';
 import Animated from 'react-native-reanimated';
+import {utils} from 'utils';
 
 type ImageSharedProps = ComponentBaseModel<
   {
     sharedTransitionTag: string;
+    url: string | undefined;
   } & ImageProps
 >;
 export const ImageSharedComponent: FC<ImageSharedProps> = ({
   sharedTransitionTag,
+  url,
   ...rest
 }) => {
-  return <Animated.Image sharedTransitionTag={sharedTransitionTag} {...rest} />;
+  return (
+    <Animated.Image
+      sharedTransitionTag={sharedTransitionTag}
+      source={utils.imageUrl(url)}
+      {...rest}
+    />
+  );
 };
