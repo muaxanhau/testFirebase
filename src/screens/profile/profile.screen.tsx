@@ -3,7 +3,7 @@ import React, {FC} from 'react';
 import {ScreenBaseModel} from 'models';
 import {colors, valueStyles} from 'values';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {ButtonComponent} from 'components';
+import {ButtonComponent, ScreenLayoutComponent} from 'components';
 import {useMainStackNavigation, useResetMainStackNavigation} from 'utils';
 import {useLogoutRepo} from 'repositories';
 
@@ -20,7 +20,7 @@ export const ProfileScreen: FC<ScreenBaseModel> = () => {
   const onPress = () => logout();
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScreenLayoutComponent paddingHorizontal gap scrollable>
       <ButtonComponent
         title="Friend"
         color="warning"
@@ -30,16 +30,6 @@ export const ProfileScreen: FC<ScreenBaseModel> = () => {
       />
 
       <ButtonComponent title="Logout" color="fail" onPress={onPress} />
-    </SafeAreaView>
+    </ScreenLayoutComponent>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.white,
-    gap: valueStyles.gap,
-    padding: valueStyles.padding2,
-    justifyContent: 'center',
-  },
-});

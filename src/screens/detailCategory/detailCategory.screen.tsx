@@ -1,12 +1,9 @@
-import {StyleSheet} from 'react-native';
 import React, {FC} from 'react';
 import {MainStackNavigationModel, ScreenBaseModel} from 'models';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {useGetCategoryRepo} from 'repositories';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {colors, valueStyles} from 'values';
 import {useMainStackNavigation} from 'utils';
-import {TextComponent} from 'components';
+import {ScreenLayoutComponent, TextComponent} from 'components';
 
 export const DetailCategoryScreen: FC<ScreenBaseModel> = () => {
   const navigation = useMainStackNavigation();
@@ -17,18 +14,9 @@ export const DetailCategoryScreen: FC<ScreenBaseModel> = () => {
   const data = category?.data();
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScreenLayoutComponent paddingHorizontal gap>
       <TextComponent>{data?.name}</TextComponent>
       <TextComponent>{data?.description}</TextComponent>
-    </SafeAreaView>
+    </ScreenLayoutComponent>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: valueStyles.padding2,
-    gap: valueStyles.gap,
-    backgroundColor: colors.white,
-  },
-});

@@ -111,6 +111,7 @@ const CategoryComponent = forwardRef<CategoryRefProps, CategoryProps>(
 const styles = StyleSheet.create({
   container: {
     gap: valueStyles.gap2,
+    paddingTop: valueStyles.padding2,
   },
   itemContainer: {
     padding: valueStyles.padding2,

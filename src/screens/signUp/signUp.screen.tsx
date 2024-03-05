@@ -1,10 +1,13 @@
-import {Alert, KeyboardAvoidingView, StyleSheet} from 'react-native';
+import {Alert, KeyboardAvoidingView} from 'react-native';
 import React, {FC} from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {useGoBackScreen, useHookForm} from 'utils';
 import {loginFormSchema} from 'models';
-import {ButtonComponent, InputTextComponent, TextComponent} from 'components';
-import {colors, valueStyles} from 'values';
+import {
+  ButtonComponent,
+  InputTextComponent,
+  ScreenLayoutComponent,
+  TextComponent,
+} from 'components';
 import {useSignUpRepo} from 'repositories';
 
 export const SignUpScreen: FC = () => {
@@ -20,10 +23,10 @@ export const SignUpScreen: FC = () => {
   const onPressSignUp = handleSubmit(data => signUp(data));
 
   return (
-    <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView style={styles.wrapper}>
-        <TextComponent type="h1">Sign up</TextComponent>
+    <ScreenLayoutComponent paddingHorizontal>
+      <TextComponent type="h1">Sign up</TextComponent>
 
+      <KeyboardAvoidingView>
         <InputTextComponent
           control={control}
           name="email"
@@ -42,17 +45,6 @@ export const SignUpScreen: FC = () => {
 
         <ButtonComponent title="Sign up" onPress={onPressSignUp} />
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </ScreenLayoutComponent>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: valueStyles.padding2,
-    backgroundColor: colors.white,
-  },
-  wrapper: {
-    gap: valueStyles.gap,
-  },
-});

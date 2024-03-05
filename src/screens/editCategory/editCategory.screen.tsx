@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {KeyboardAvoidingView} from 'react-native';
 import React, {FC} from 'react';
 import {
   MainStackNavigationModel,
@@ -7,9 +7,12 @@ import {
 } from 'models';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {useEditCategoryRepo, useGetCategoryRepo} from 'repositories';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {colors, valueStyles} from 'values';
-import {ButtonComponent, InputTextComponent, TextComponent} from 'components';
+import {
+  ButtonComponent,
+  InputTextComponent,
+  ScreenLayoutComponent,
+  TextComponent,
+} from 'components';
 import {useHookForm, useMainStackNavigation} from 'utils';
 
 export const EditCategoryScreen: FC<ScreenBaseModel> = () => {
@@ -35,33 +38,26 @@ export const EditCategoryScreen: FC<ScreenBaseModel> = () => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScreenLayoutComponent paddingHorizontal gap>
       <TextComponent type="h2">Edit</TextComponent>
 
-      <InputTextComponent
-        control={control}
-        name={'name'}
-        title="Name"
-        placeholder="Aa..."
-      />
+      <KeyboardAvoidingView>
+        <InputTextComponent
+          control={control}
+          name={'name'}
+          title="Name"
+          placeholder="Aa..."
+        />
 
-      <InputTextComponent
-        control={control}
-        name={'description'}
-        title="Description"
-        placeholder="Aa..."
-      />
+        <InputTextComponent
+          control={control}
+          name={'description'}
+          title="Description"
+          placeholder="Aa..."
+        />
 
-      <ButtonComponent title="Submit" onPress={onPress} />
-    </SafeAreaView>
+        <ButtonComponent title="Submit" onPress={onPress} />
+      </KeyboardAvoidingView>
+    </ScreenLayoutComponent>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: valueStyles.padding2,
-    gap: valueStyles.gap,
-    backgroundColor: colors.white,
-  },
-});

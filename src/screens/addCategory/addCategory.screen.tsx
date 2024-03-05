@@ -1,11 +1,14 @@
-import {StyleSheet} from 'react-native';
 import React, {FC} from 'react';
 import {ScreenBaseModel, addCategoryFormSchema} from 'models';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {colors, valueStyles} from 'values';
 import {useHookForm, useMainStackNavigation} from 'utils';
-import {ButtonComponent, InputTextComponent, TextComponent} from 'components';
+import {
+  ButtonComponent,
+  InputTextComponent,
+  ScreenLayoutComponent,
+  TextComponent,
+} from 'components';
 import {useAddCategoryRepo} from 'repositories';
+import {KeyboardAvoidingView} from 'react-native';
 
 export const AddCategoryScreen: FC<ScreenBaseModel> = () => {
   const navigation = useMainStackNavigation();
@@ -17,33 +20,26 @@ export const AddCategoryScreen: FC<ScreenBaseModel> = () => {
   const onPress = handleSubmit(data => addCategory(data));
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScreenLayoutComponent paddingHorizontal gap>
       <TextComponent type="h2">Add category</TextComponent>
 
-      <InputTextComponent
-        control={control}
-        name="name"
-        title="Name"
-        placeholder="Aa..."
-      />
+      <KeyboardAvoidingView>
+        <InputTextComponent
+          control={control}
+          name="name"
+          title="Name"
+          placeholder="Aa..."
+        />
 
-      <InputTextComponent
-        control={control}
-        name="description"
-        title="Description"
-        placeholder="Aa..."
-      />
+        <InputTextComponent
+          control={control}
+          name="description"
+          title="Description"
+          placeholder="Aa..."
+        />
 
-      <ButtonComponent title="Add" onPress={onPress} />
-    </SafeAreaView>
+        <ButtonComponent title="Add" onPress={onPress} />
+      </KeyboardAvoidingView>
+    </ScreenLayoutComponent>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: valueStyles.padding2,
-    gap: valueStyles.gap,
-    backgroundColor: colors.white,
-  },
-});

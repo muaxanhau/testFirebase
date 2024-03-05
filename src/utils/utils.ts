@@ -329,7 +329,7 @@ const opacityColor = (hexColorString: string, opacity = 1) => {
  */
 const imageUrl = (url?: string) => {
   const source =
-    !!url?.length && validationUtil.isUrl(url) ? {uri: url} : images.imgNull;
+    !!url?.length && validationUtil.isUrl(url) ? {uri: url} : images.null;
   return source;
 };
 

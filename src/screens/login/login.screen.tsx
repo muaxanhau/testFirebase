@@ -1,6 +1,5 @@
-import {Alert, KeyboardAvoidingView, StyleSheet} from 'react-native';
+import {Alert, KeyboardAvoidingView} from 'react-native';
 import React, {FC, useRef} from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   useHookForm,
   useMainStackNavigation,
@@ -11,9 +10,9 @@ import {
   ButtonComponent,
   InputTextComponent,
   ModalRefProps,
+  ScreenLayoutComponent,
   TextComponent,
 } from 'components';
-import {colors, valueStyles} from 'values';
 import {LoginPhoneModalComponent} from './components';
 import {useLoginRepo} from 'repositories';
 
@@ -37,10 +36,10 @@ export const LoginScreen: FC = () => {
     <>
       <LoginPhoneModalComponent ref={refLoginPhoneModal} />
 
-      <SafeAreaView style={styles.container}>
-        <KeyboardAvoidingView style={styles.wrapper} enabled>
-          <TextComponent type="h1">Login</TextComponent>
+      <ScreenLayoutComponent paddingHorizontal gap>
+        <TextComponent type="h1">Login</TextComponent>
 
+        <KeyboardAvoidingView>
           <InputTextComponent
             control={control}
             name="email"
@@ -71,19 +70,7 @@ export const LoginScreen: FC = () => {
           type="outline"
           onPress={onPressLoginWithPhone}
         />
-      </SafeAreaView>
+      </ScreenLayoutComponent>
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: valueStyles.padding2,
-    gap: valueStyles.gap,
-    backgroundColor: colors.white,
-  },
-  wrapper: {
-    gap: valueStyles.gap,
-  },
-});

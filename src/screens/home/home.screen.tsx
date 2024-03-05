@@ -6,9 +6,9 @@ import {
   BottomSheetComponent,
   BottomSheetRefProps,
   ButtonComponent,
+  ScreenLayoutComponent,
 } from 'components';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {colors, valueStyles} from 'values';
+import {colors} from 'values';
 
 export const HomeScreen: FC<ScreenBaseModel> = () => {
   const navigation = useMainStackNavigation();
@@ -23,7 +23,7 @@ export const HomeScreen: FC<ScreenBaseModel> = () => {
         <View style={styles.bsContainer} />
       </BottomSheetComponent>
 
-      <SafeAreaView style={styles.container}>
+      <ScreenLayoutComponent paddingHorizontal gap scrollable>
         <ButtonComponent title="Profile" onPress={onPressProfile} />
 
         <ButtonComponent
@@ -37,18 +37,12 @@ export const HomeScreen: FC<ScreenBaseModel> = () => {
           type="outline"
           onPress={() => refBottomSheet.current?.open()}
         />
-      </SafeAreaView>
+      </ScreenLayoutComponent>
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: valueStyles.padding2,
-    gap: valueStyles.gap,
-    backgroundColor: colors.white,
-  },
   bsContainer: {
     flex: 1,
     backgroundColor: colors.red300,

@@ -181,9 +181,9 @@ export const useDebounce = (
 
 export const useScreenFocusedEffect = (
   callback: () => void,
-  type: 'everyTime' | 'afterFirstTime' | 'onlyFirstTime' = 'everyTime',
+  type: 'everyTime' | 'afterFirstTime' = 'everyTime',
 ) => {
-  const isFocuesed = useIsFocused();
+  const isFocused = useIsFocused();
   const refCallback = useRef<() => void>(callback);
   const isFirstRender = useRef<boolean>(true);
 
@@ -192,11 +192,8 @@ export const useScreenFocusedEffect = (
   }, [callback]);
 
   useEffect(() => {
-    type === 'everyTime' && isFocuesed && refCallback.current();
-  }, [isFocuesed]);
-  useEffect(() => {
-    type === 'onlyFirstTime' && refCallback.current();
-  }, []);
+    type === 'everyTime' && isFocused && refCallback.current();
+  }, [isFocused]);
   useEffect(() => {
     if (type !== 'afterFirstTime') {
       return;
@@ -208,8 +205,8 @@ export const useScreenFocusedEffect = (
       return;
     }
 
-    isFocuesed && refCallback.current();
-  }, [isFocuesed]);
+    isFocused && refCallback.current();
+  }, [isFocused]);
 };
 
 export const useMainStackNavigation = () =>

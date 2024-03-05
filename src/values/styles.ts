@@ -19,6 +19,7 @@ export const valueStyles = {
   line: 0.2,
   line2: 0.5,
   line3: 1,
+  icon: 24,
 };
 
 const textColor = colors.neutral900;
