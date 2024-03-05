@@ -9,7 +9,7 @@ import {
   TextComponent,
 } from 'components';
 import {StyleSheet} from 'react-native';
-import {valueStyles} from 'values';
+import {colors, valueStyles} from 'values';
 
 export const DetailCategoryScreen: FC<ScreenBaseModel> = () => {
   const {params} =
@@ -19,7 +19,7 @@ export const DetailCategoryScreen: FC<ScreenBaseModel> = () => {
   const data = category?.data();
 
   return (
-    <ScreenLayoutComponent paddingHorizontal gap>
+    <ScreenLayoutComponent gap paddingHorizontal>
       <TextComponent>{data?.name}</TextComponent>
       <TextComponent>{data?.description}</TextComponent>
 
@@ -33,6 +33,15 @@ export const DetailCategoryScreen: FC<ScreenBaseModel> = () => {
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    backgroundColor: utils.opacityColor(colors.black, 0.5),
+  },
+  container: {
+    marginTop: 'auto',
+    height: utils.hp(70),
+    backgroundColor: colors.white,
+  },
   image: {
     width: '100%',
     height: utils.hp(30),
