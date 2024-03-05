@@ -9,6 +9,7 @@ import {useDeleteCategoryRepo, useGetAllCategoriesRepo} from 'repositories';
 import {
   ButtonComponent,
   ImageSharedComponent,
+  ListFooterComponent,
   TextComponent,
   ViewAnimationComponent,
 } from 'components';
@@ -42,6 +43,7 @@ export const ListCategoriesComponent: FC<ComponentBaseModel> = () => {
         );
       }}
       contentContainerStyle={styles.container}
+      ListFooterComponent={<ListFooterComponent />}
     />
   );
 };
@@ -63,9 +65,7 @@ const CategoryComponent = forwardRef<CategoryRefProps, CategoryProps>(
 
     const closeRightAction = () => refSwipeable.current?.close();
 
-    const onPress = () => {
-      navigation.navigate('DetailCategory', {id});
-    };
+    const onPress = () => navigation.navigate('DetailCategory', {id});
     const onPressEdit = () => navigation.navigate('EditCategory', {id});
     const onPressDelete = () => deleteCategory({id});
 
