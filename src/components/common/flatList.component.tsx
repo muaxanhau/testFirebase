@@ -1,21 +1,19 @@
 import {
-  // FlatList,
+  FlatList,
   FlatListProps as FlatListRootProps,
   LayoutChangeEvent,
-  ListRenderItem,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
-import React, {FC, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {ComponentBaseModel} from 'models';
 import {ActivityIndicatorComponent, TextComponent} from 'components';
-import {useIsLoading, utils} from 'utils';
-import {FlatList} from 'react-native-gesture-handler';
+import {useIsLoading} from 'utils';
 
 type FlatListProps<T> = ComponentBaseModel<FlatListRootProps<T>>;
 
 export const FlatListComponent = <T extends {}>({
+  data,
   ...rest
 }: FlatListProps<T>) => {
   const isLoading = useIsLoading();
@@ -35,8 +33,11 @@ export const FlatListComponent = <T extends {}>({
   return (
     <FlatList
       {...rest}
+      data={data}
       onLayout={onLayout}
-      ListFooterComponent={<View style={styles.footer} />}
+      ListFooterComponent={
+        <View style={{height: height * (data?.length ? 0.5 : 1)}} />
+      }
       ListEmptyComponent={
         <View style={[styles.emptyContainer, {height}]}>
           {isLoading ? (
@@ -51,14 +52,11 @@ export const FlatListComponent = <T extends {}>({
 };
 
 const styles = StyleSheet.create({
-  footer: {
-    height: utils.hp(30),
-  },
   emptyContainer: {
     position: 'absolute',
     top: 0,
     left: 0,
-    right: 0,
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
