@@ -68,7 +68,7 @@ export const OtpModalComponent = forwardRef<OtpModalRefProps, OtpModalProps>(
           <ButtonComponent
             title={'Confirm OTP'}
             onPress={onPress}
-            disabled={isPending}
+            isLoading={isPending}
           />
         </View>
       </ModalComponent>

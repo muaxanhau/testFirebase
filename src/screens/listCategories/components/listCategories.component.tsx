@@ -60,7 +60,7 @@ type CategoryProps = ComponentBaseModel<{
 const CategoryComponent = forwardRef<CategoryRefProps, CategoryProps>(
   ({index, id, name, image}, ref) => {
     const navigation = useMainStackNavigation();
-    const {deleteCategory} = useDeleteCategoryRepo();
+    const {deleteCategory, isPending} = useDeleteCategoryRepo();
     const refSwipeable = useRef<Swipeable>(null);
 
     const closeRightAction = () => refSwipeable.current?.close();
@@ -87,6 +87,7 @@ const CategoryComponent = forwardRef<CategoryRefProps, CategoryProps>(
               color="fail"
               type="outline"
               onPress={onPressDelete}
+              isLoading={isPending}
             />
           </View>
         )}>

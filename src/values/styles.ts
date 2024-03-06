@@ -22,21 +22,26 @@ export const valueStyles = {
   icon: 24,
 };
 
+// rule for lineHeight: lineHeight = fontSize * 1.5
 const textColor = colors.neutral900;
 const textDefault: TextStyle = {
   fontSize: 17,
+  lineHeight: 17 * 1.5,
   color: textColor,
 };
 const textH1: TextStyle = {
   fontSize: 35,
+  lineHeight: 35 * 1.5,
   color: textColor,
 };
 const textH2: TextStyle = {
   fontSize: 27,
+  lineHeight: 27 * 1.5,
   color: textColor,
 };
 const textH3: TextStyle = {
   fontSize: 22,
+  lineHeight: 22 * 1.5,
   color: textColor,
 };
 const rowCenter: ViewStyle = {

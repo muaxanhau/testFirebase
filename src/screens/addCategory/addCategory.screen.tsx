@@ -13,7 +13,7 @@ import {KeyboardAvoidingView} from 'react-native';
 export const AddCategoryScreen: FC<ScreenBaseModel> = () => {
   const navigation = useMainStackNavigation();
   const {control, handleSubmit} = useHookForm({schema: addCategoryFormSchema});
-  const {addCategory} = useAddCategoryRepo({
+  const {addCategory, isPending} = useAddCategoryRepo({
     onSuccess: () => navigation.navigate('ListCategories'),
   });
 
@@ -38,7 +38,7 @@ export const AddCategoryScreen: FC<ScreenBaseModel> = () => {
           placeholder="Aa..."
         />
 
-        <ButtonComponent title="Add" onPress={onPress} />
+        <ButtonComponent title="Add" onPress={onPress} isLoading={isPending} />
       </KeyboardAvoidingView>
     </ScreenLayoutComponent>
   );

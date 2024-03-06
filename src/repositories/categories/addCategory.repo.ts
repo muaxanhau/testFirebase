@@ -8,9 +8,7 @@ import {CategoryFirestoreModel, CategoryModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
 import {GetAllCategoriesOutput} from './getAllCategoris.repo';
 
-type AddCategoryProps = {
-  onSuccess?: () => void;
-} | void;
+type AddCategoryProps = {onSuccess?: () => void} | void;
 type AddCategoryInput = CategoryModel;
 type AddCategoryOutput = CategoryFirestoreModel;
 export const useAddCategoryRepo = (props: AddCategoryProps) => {

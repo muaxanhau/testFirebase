@@ -1,8 +1,8 @@
-import {StyleSheet} from 'react-native';
-import React, {FC, useEffect} from 'react';
+import {StyleSheet, View} from 'react-native';
+import React, {FC, useEffect, useState} from 'react';
 import {ComponentBaseModel} from 'models';
 import {TextComponent} from './text.component';
-import {colors, valueStyles} from 'values';
+import {colors, commonStyles, valueStyles} from 'values';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import Animated, {
   interpolateColor,
@@ -12,6 +12,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
+import {ActivityIndicatorComponent} from 'components/loader';
 
 type TypeType = 'default' | 'outline';
 type ColorType = 'default' | 'success' | 'warning' | 'fail';
@@ -78,6 +79,7 @@ type ButtonProps = ComponentBaseModel<{
   type?: TypeType;
   color?: ColorType;
   disabled?: boolean;
+  isLoading?: boolean;
 }>;
 export const ButtonComponent: FC<ButtonProps> = ({
   style,
@@ -86,17 +88,18 @@ export const ButtonComponent: FC<ButtonProps> = ({
   type = 'default',
   color = 'default',
   disabled = false,
+  isLoading = false,
 }) => {
   const disabledValue = useSharedValue(0);
   const isActive = useSharedValue(false);
   const {background, text} = colorObj[color][type];
   const {border} = colorObj[color];
-  const titleColor = disabled ? colors.neutral : text;
+  const titleColor = disabled || isLoading ? colors.neutral : text;
 
   const gesture = Gesture.Tap()
     .maxDuration(3000)
     .onBegin(() => (isActive.value = true))
-    .onEnd(() => !disabled && runOnJS(onPress)())
+    .onEnd(() => !disabled && !isLoading && runOnJS(onPress)())
     .onFinalize(() => (isActive.value = false));
 
   const layoutStyle = useAnimatedStyle(() => ({
@@ -117,14 +120,29 @@ export const ButtonComponent: FC<ButtonProps> = ({
   }));
 
   useEffect(() => {
-    disabledValue.value = withTiming(disabled ? 1 : 0);
-  }, [disabled]);
+    disabledValue.value = withTiming(disabled || isLoading ? 1 : 0);
+  }, [disabled, isLoading]);
 
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View
         style={[styles.container, style, layoutStyle, disabledStyle]}>
-        <TextComponent style={{color: titleColor}}>{title}</TextComponent>
+        <View>
+          <TextComponent style={{color: titleColor}}>
+            {` `}
+            {title}
+            {` `}
+          </TextComponent>
+          {isLoading && (
+            <ActivityIndicatorComponent
+              size={commonStyles.textDefault.lineHeight}
+              style={{
+                ...styles.loader,
+                right: -commonStyles.textDefault.lineHeight!,
+              }}
+            />
+          )}
+        </View>
       </Animated.View>
     </GestureDetector>
   );
@@ -132,9 +150,15 @@ export const ButtonComponent: FC<ButtonProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    padding: valueStyles.padding2,
+    paddingVertical: valueStyles.padding2,
+    paddingHorizontal:
+      valueStyles.padding2 + commonStyles.textDefault.lineHeight!,
     borderRadius: valueStyles.borderRadius10,
     alignItems: 'center',
     borderWidth: valueStyles.line2,
+  },
+  loader: {
+    position: 'absolute',
+    top: 0,
   },
 });

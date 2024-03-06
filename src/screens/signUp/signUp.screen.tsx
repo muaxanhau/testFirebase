@@ -13,7 +13,7 @@ import {useSignUpRepo} from 'repositories';
 export const SignUpScreen: FC = () => {
   const goBack = useGoBackScreen();
   const {control, handleSubmit} = useHookForm({schema: loginFormSchema});
-  const {signUp} = useSignUpRepo({
+  const {signUp, isPending} = useSignUpRepo({
     onSuccess: () => {
       Alert.alert('Alert', 'Sign up successful');
       goBack();
@@ -43,7 +43,11 @@ export const SignUpScreen: FC = () => {
           secureTextEntry
         />
 
-        <ButtonComponent title="Sign up" onPress={onPressSignUp} />
+        <ButtonComponent
+          title="Sign up"
+          onPress={onPressSignUp}
+          isLoading={isPending}
+        />
       </KeyboardAvoidingView>
     </ScreenLayoutComponent>
   );

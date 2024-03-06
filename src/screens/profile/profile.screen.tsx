@@ -8,7 +8,7 @@ import {useLogoutRepo} from 'repositories';
 export const ProfileScreen: FC<ScreenBaseModel> = () => {
   const navigation = useMainStackNavigation();
   const resetMainStackNavigation = useResetMainStackNavigation();
-  const {logout} = useLogoutRepo({
+  const {logout, isPending} = useLogoutRepo({
     onSuccess: () => {
       Alert.alert('Alert', 'Logout successful');
       resetMainStackNavigation('Login');
@@ -24,7 +24,12 @@ export const ProfileScreen: FC<ScreenBaseModel> = () => {
       />
       <ButtonComponent title="Map" onPress={() => navigation.navigate('Map')} />
 
-      <ButtonComponent title="Logout" color="fail" onPress={logout} />
+      <ButtonComponent
+        title="Logout"
+        color="fail"
+        onPress={logout}
+        isLoading={isPending}
+      />
     </ScreenLayoutComponent>
   );
 };

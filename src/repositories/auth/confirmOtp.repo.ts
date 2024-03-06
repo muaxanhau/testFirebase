@@ -1,9 +1,7 @@
 import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {KeyService, useApiMutation} from 'repositories/services';
 
-type ConfirmOtpProps = {
-  onSuccess?: () => void;
-} | void;
+type ConfirmOtpProps = {onSuccess?: () => void} | void;
 type ConfirmOtpInput = {
   confirmation: FirebaseAuthTypes.ConfirmationResult;
   otp: string;

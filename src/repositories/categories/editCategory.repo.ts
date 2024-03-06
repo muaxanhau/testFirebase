@@ -8,9 +8,7 @@ import {CategoryFirestoreModel, CategoryModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
 import {GetAllCategoriesOutput} from './getAllCategoris.repo';
 
-type EditCategoryProps = {
-  onSuccess: () => void;
-} | void;
+type EditCategoryProps = {onSuccess: () => void} | void;
 type EditCategoryInput = {id: string} & CategoryModel;
 type EditCategoryOutput = void;
 export const useEditCategoryRepo = (props: EditCategoryProps) => {

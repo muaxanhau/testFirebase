@@ -21,7 +21,7 @@ export const LoginScreen: FC = () => {
   const resetMainStackNavigation = useResetMainStackNavigation();
   const {control, handleSubmit} = useHookForm({schema: loginFormSchema});
   const refLoginPhoneModal = useRef<ModalRefProps>(null);
-  const {login} = useLoginRepo({
+  const {login, isPending} = useLoginRepo({
     onSuccess: () => {
       Alert.alert('Alert', 'Login successful');
       resetMainStackNavigation('Home');
@@ -56,7 +56,11 @@ export const LoginScreen: FC = () => {
             secureTextEntry
           />
 
-          <ButtonComponent title="Login" onPress={onPressLogin} />
+          <ButtonComponent
+            title="Login"
+            onPress={onPressLogin}
+            isLoading={isPending}
+          />
         </KeyboardAvoidingView>
 
         <ButtonComponent

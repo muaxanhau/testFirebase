@@ -54,7 +54,7 @@ export const LoginPhoneModalComponent = forwardRef<
           <ButtonComponent
             title={'Send OTP'}
             onPress={onPress}
-            disabled={isPending}
+            isLoading={isPending}
           />
         </View>
       </ModalComponent>

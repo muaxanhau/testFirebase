@@ -53,17 +53,13 @@ export const ListUserComponent: FC<ListUserProps> = () => {
         <ButtonComponent
           title="Prev"
           disabled={page === 1}
-          onPress={() => {
-            setPage(page - 1);
-          }}
+          onPress={() => setPage(page - 1)}
         />
         <TextComponent type="h1">{page}</TextComponent>
         <ButtonComponent
           title="Next"
           disabled={users?.totalPages === page}
-          onPress={() => {
-            setPage(page + 1);
-          }}
+          onPress={() => setPage(page + 1)}
         />
       </View>
     </>

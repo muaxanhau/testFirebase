@@ -21,7 +21,7 @@ export const EditCategoryScreen: FC<ScreenBaseModel> = () => {
   const {id} = params;
   const navigation = useMainStackNavigation();
   const {category} = useGetCategoryRepo({id});
-  const {editCategory} = useEditCategoryRepo({
+  const {editCategory, isPending} = useEditCategoryRepo({
     onSuccess: () => navigation.navigate('ListCategories'),
   });
   const {control, handleSubmit} = useHookForm({
@@ -56,7 +56,11 @@ export const EditCategoryScreen: FC<ScreenBaseModel> = () => {
           placeholder="Aa..."
         />
 
-        <ButtonComponent title="Submit" onPress={onPress} />
+        <ButtonComponent
+          title="Submit"
+          onPress={onPress}
+          isLoading={isPending}
+        />
       </KeyboardAvoidingView>
     </ScreenLayoutComponent>
   );
