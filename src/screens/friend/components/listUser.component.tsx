@@ -1,15 +1,13 @@
-import {
-  Button,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
 import {colors, valueStyles} from 'values';
 import {ComponentBaseModel, UserModel} from 'models';
 import {EnteringAnimationEnum, ExitingAnimationEnum} from 'models';
-import {TextComponent, ViewAnimationComponent} from 'components';
+import {
+  ButtonComponent,
+  TextComponent,
+  ViewAnimationComponent,
+} from 'components';
 import {usePreviousState} from 'utils';
 import {useGetUsersRepo} from 'repositories';
 
@@ -52,7 +50,7 @@ export const ListUserComponent: FC<ListUserProps> = () => {
       />
 
       <View style={styles.buttonContainer}>
-        <Button
+        <ButtonComponent
           title="Prev"
           disabled={page === 1}
           onPress={() => {
@@ -60,7 +58,7 @@ export const ListUserComponent: FC<ListUserProps> = () => {
           }}
         />
         <TextComponent type="h1">{page}</TextComponent>
-        <Button
+        <ButtonComponent
           title="Next"
           disabled={users?.totalPages === page}
           onPress={() => {

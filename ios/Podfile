@@ -35,6 +35,7 @@ target 'testFirebase' do
       end
     end
   end
+  
   config = use_native_modules!
 
   use_frameworks! :linkage => :static
