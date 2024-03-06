@@ -1,4 +1,5 @@
 import {
+  Easing,
   FlatList,
   FlatListProps as FlatListRootProps,
   LayoutChangeEvent,
@@ -9,6 +10,7 @@ import React, {useRef, useState} from 'react';
 import {ComponentBaseModel} from 'models';
 import {ActivityIndicatorComponent, TextComponent} from 'components';
 import {useIsLoading} from 'utils';
+import Animated, {LinearTransition} from 'react-native-reanimated';
 
 type FlatListProps<T> = ComponentBaseModel<FlatListRootProps<T>>;
 
@@ -31,10 +33,11 @@ export const FlatListComponent = <T extends {}>({
   };
 
   return (
-    <FlatList
+    <Animated.FlatList
       {...rest}
       data={data}
       onLayout={onLayout}
+      itemLayoutAnimation={LinearTransition.stiffness(200)}
       ListFooterComponent={
         <View style={{height: height * (data?.length ? 0.5 : 1)}} />
       }

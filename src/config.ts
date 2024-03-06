@@ -47,5 +47,5 @@ export const devToolConfig: DevToolConfigModel = {
   enable: false,
   method: 'ALL',
   url: null,
-  delayFetching: 3000,
+  delayFetching: 0,
 };

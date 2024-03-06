@@ -95,7 +95,7 @@ const CategoryComponent = forwardRef<CategoryRefProps, CategoryProps>(
           <ViewAnimationComponent
             style={styles.itemContainer}
             entering={EnteringAnimationEnum.FADE_IN_RIGHT}
-            exiting={ExitingAnimationEnum.FADE_OUT_RIGHT}
+            exiting={ExitingAnimationEnum.FADE_OUT}
             delay={index * 100}>
             <TextComponent>{name}</TextComponent>
 
