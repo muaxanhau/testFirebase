@@ -8,7 +8,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [GMSServices provideAPIKey:@"AIzaSyDyYpEpCJUaL11gsenAD4jAQrqyXs0FgZM"]
+  [GMSServices provideAPIKey:@"AIzaSyDyYpEpCJUaL11gsenAD4jAQrqyXs0FgZM"];
   [FIRApp configure];
 
   self.moduleName = @"testFirebase";
