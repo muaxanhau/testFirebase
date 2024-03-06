@@ -7,6 +7,8 @@ import firestore from '@react-native-firebase/firestore';
 import {CategoryFirestoreModel, CategoryModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
 import {GetAllCategoriesOutput} from './getAllCategoris.repo';
+import {utils} from 'utils';
+import {devToolConfig} from 'config';
 
 type EditCategoryProps = {onSuccess: () => void} | void;
 type EditCategoryInput = {id: string} & CategoryModel;
@@ -20,6 +22,7 @@ export const useEditCategoryRepo = (props: EditCategoryProps) => {
   >({
     mutationKey: [KeyService.EDIT_CATEGORY],
     mutationFn: async ({id, name, description, image}) => {
+      await utils.sleep(devToolConfig.delayFetching);
       queryClient.setQueryData<GetAllCategoriesOutput>(
         [KeyService.GET_ALL_CATEGORIES],
         oldData => {

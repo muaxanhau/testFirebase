@@ -1,6 +1,7 @@
 import {PaginationModel, SupportModel, UserModel} from 'models';
 import {KeyService, clientService, useApiQuery} from '../services';
-import {Prettify} from 'utils';
+import {Prettify, utils} from 'utils';
+import {devToolConfig} from 'config';
 
 export type GetUsersProps = {
   page: number;
@@ -14,7 +15,9 @@ export type GetUsersResponse = Prettify<
 export const useGetUsersRepo = ({page = 0}: GetUsersProps) => {
   const {data} = useApiQuery<GetUsersResponse>({
     queryKey: [KeyService.LIST_USERS, page],
-    queryFn: () => {
+    queryFn: async () => {
+      await utils.sleep(devToolConfig.delayFetching);
+
       const url = 'api/users';
       const params = {
         page,

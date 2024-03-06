@@ -1,5 +1,7 @@
 import {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {devToolConfig} from 'config';
 import {KeyService, useApiMutation} from 'repositories/services';
+import {utils} from 'utils';
 
 type ConfirmOtpProps = {onSuccess?: () => void} | void;
 type ConfirmOtpInput = {
@@ -14,6 +16,7 @@ export const useConfirmOtpRepo = (props: ConfirmOtpProps) => {
   >({
     mutationKey: [KeyService.CONFIRM_OTP],
     mutationFn: async ({confirmation, otp}) => {
+      await utils.sleep(devToolConfig.delayFetching);
       const user = await confirmation.confirm(otp);
       return user;
     },

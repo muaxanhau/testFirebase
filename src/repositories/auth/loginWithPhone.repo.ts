@@ -1,5 +1,7 @@
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {devToolConfig} from 'config';
 import {KeyService, useApiMutation} from 'repositories/services';
+import {utils} from 'utils';
 
 type LoginWithPhoneProps = {
   onSuccess?: (data: LoginWithPhoneOutput) => void;
@@ -13,6 +15,7 @@ export const useLoginWithPhoneRepo = (props: LoginWithPhoneProps) => {
   >({
     mutationKey: [KeyService.LOGIN_WITH_PHONE],
     mutationFn: async ({phone}) => {
+      await utils.sleep(devToolConfig.delayFetching);
       const confirmation = await auth().signInWithPhoneNumber(phone);
       return confirmation;
     },

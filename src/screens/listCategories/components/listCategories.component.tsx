@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {FC, forwardRef, useImperativeHandle, useRef} from 'react';
 import {
   ComponentBaseModel,
@@ -8,8 +8,8 @@ import {
 import {useDeleteCategoryRepo, useGetAllCategoriesRepo} from 'repositories';
 import {
   ButtonComponent,
+  FlatListComponent,
   ImageSharedComponent,
-  ListFooterComponent,
   TextComponent,
   ViewAnimationComponent,
 } from 'components';
@@ -26,11 +26,13 @@ export const ListCategoriesComponent: FC<ComponentBaseModel> = () => {
   };
 
   return (
-    <FlatList
+    <FlatListComponent
       data={categories}
       onScrollBeginDrag={onScrollBeginDrag}
+      contentContainerStyle={styles.container}
       renderItem={({item, index}) => {
         const {name, image} = item.data()!;
+
         return (
           <CategoryComponent
             key={item.id}
@@ -42,8 +44,6 @@ export const ListCategoriesComponent: FC<ComponentBaseModel> = () => {
           />
         );
       }}
-      contentContainerStyle={styles.container}
-      ListFooterComponent={<ListFooterComponent />}
     />
   );
 };

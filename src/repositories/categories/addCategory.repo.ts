@@ -7,6 +7,8 @@ import firestore from '@react-native-firebase/firestore';
 import {CategoryFirestoreModel, CategoryModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
 import {GetAllCategoriesOutput} from './getAllCategoris.repo';
+import {utils} from 'utils';
+import {devToolConfig} from 'config';
 
 type AddCategoryProps = {onSuccess?: () => void} | void;
 type AddCategoryInput = CategoryModel;
@@ -20,6 +22,7 @@ export const useAddCategoryRepo = (props: AddCategoryProps) => {
   >({
     mutationKey: [KeyService.ADD_CATEGORY],
     mutationFn: async data => {
+      await utils.sleep(devToolConfig.delayFetching);
       const response = await firestore()
         .collection<CategoryModel>(FirestoreCollectionService.CATEGORIES)
         .add(data);

@@ -18,4 +18,5 @@ export type DevToolConfigModel = {
   enable: boolean;
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'ALL';
   url: string | null;
+  delayFetching: number;
 };
