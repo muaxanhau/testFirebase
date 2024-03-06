@@ -20,9 +20,7 @@ export const LoginPhoneModalComponent = forwardRef<
 >(({}, ref) => {
   const {control, handleSubmit, reset} = useHookForm({
     schema: phoneFormSchema,
-    defaultValues: {
-      phone: '+84386734587',
-    },
+    defaultValues: {phone: '+84386734587'},
   });
   const {loginWithPhone, isPending} = useLoginWithPhoneRepo({
     onSuccess: confirmation => {

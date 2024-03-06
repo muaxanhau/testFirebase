@@ -8,6 +8,7 @@ export enum KeyService {
   SIGN_UP = 'SIGN_UP',
   LOGOUT = 'LOGOUT',
   LOGIN_WITH_PHONE = 'LOGIN_WITH_PHONE',
+  CONFIRM_OTP = 'CONFIRM_OTP',
 
   // categories
   GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES',

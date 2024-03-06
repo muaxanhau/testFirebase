@@ -12,6 +12,7 @@ import {
 import {commonStyles} from 'values';
 import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {useResetMainStackNavigation} from 'utils';
+import {useConfirmOtpRepo} from 'repositories';
 
 export type OtpModalRefProps = {
   open: (confirmation: FirebaseAuthTypes.ConfirmationResult) => void;
@@ -23,28 +24,25 @@ export const OtpModalComponent = forwardRef<OtpModalRefProps, OtpModalProps>(
     const resetMainStackNavigation = useResetMainStackNavigation();
     const refOtp = useRef<InputOTPRefProps>(null);
     const refModal = useRef<ModalRefProps>(null);
-    const refConfirmation = useRef<FirebaseAuthTypes.ConfirmationResult | null>(
-      null,
-    );
+    const refConfirmation = useRef<FirebaseAuthTypes.ConfirmationResult>();
+    const {confirmOtp, isPending} = useConfirmOtpRepo({
+      onSuccess: () => {
+        close();
+        resetMainStackNavigation('Home');
+      },
+    });
 
     const open = (confirmation: FirebaseAuthTypes.ConfirmationResult) => {
       refConfirmation.current = confirmation;
       refModal.current?.open();
     };
     const close = () => {
-      refConfirmation.current = null;
+      refConfirmation.current = undefined;
       refModal.current?.close();
     };
-    const verifyOtp = async (otp: string) => {
-      try {
-        await refConfirmation.current?.confirm(otp);
-        close();
-        Alert.alert('Alert', 'Login successful');
-        resetMainStackNavigation('Home');
-      } catch (e) {
-        Alert.alert('Warning', 'Invalid OTP. Please try again');
-      }
-    };
+    const verifyOtp = async (otp: string) =>
+      refConfirmation.current &&
+      confirmOtp({confirmation: refConfirmation.current, otp});
 
     const onPress = () => {
       const otp = refOtp.current?.getValue();
@@ -55,11 +53,7 @@ export const OtpModalComponent = forwardRef<OtpModalRefProps, OtpModalProps>(
 
       verifyOtp(otp);
     };
-    const onShow = () => {
-      setTimeout(() => {
-        refOtp.current?.focus();
-      }, 100);
-    };
+    const onShow = () => setTimeout(() => refOtp.current?.focus(), 100);
     const onDismiss = () => refOtp.current?.clearValue();
 
     useImperativeHandle(ref, () => ({open, close}), []);
@@ -71,7 +65,11 @@ export const OtpModalComponent = forwardRef<OtpModalRefProps, OtpModalProps>(
 
           <InputOTPComponent ref={refOtp} onFullOtp={verifyOtp} />
 
-          <ButtonComponent title={'Confirm OTP'} onPress={onPress} />
+          <ButtonComponent
+            title={'Confirm OTP'}
+            onPress={onPress}
+            disabled={isPending}
+          />
         </View>
       </ModalComponent>
     );
