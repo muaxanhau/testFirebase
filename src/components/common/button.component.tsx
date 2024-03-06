@@ -1,10 +1,11 @@
 import {StyleSheet} from 'react-native';
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import {ComponentBaseModel} from 'models';
 import {TextComponent} from './text.component';
 import {colors, valueStyles} from 'values';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import Animated, {
+  interpolateColor,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
@@ -86,34 +87,43 @@ export const ButtonComponent: FC<ButtonProps> = ({
   color = 'default',
   disabled = false,
 }) => {
+  const disabledValue = useSharedValue(0);
+  const isActive = useSharedValue(false);
   const {background, text} = colorObj[color][type];
   const {border} = colorObj[color];
-  const backgroundColor = disabled ? colors.neutral100 : background;
-  const borderColor = disabled ? colors.neutral700 : border;
   const titleColor = disabled ? colors.neutral : text;
-
-  const isActive = useSharedValue(false);
 
   const gesture = Gesture.Tap()
     .maxDuration(3000)
     .onBegin(() => (isActive.value = true))
-    .onEnd(() => runOnJS(onPress)())
+    .onEnd(() => !disabled && runOnJS(onPress)())
     .onFinalize(() => (isActive.value = false));
 
-  const rStyle = useAnimatedStyle(() => ({
+  const layoutStyle = useAnimatedStyle(() => ({
     opacity: withTiming(isActive.value ? 0.5 : 1),
     transform: [{scale: withSpring(isActive.value ? 0.9 : 1)}],
   }));
+  const disabledStyle = useAnimatedStyle(() => ({
+    backgroundColor: interpolateColor(
+      disabledValue.value,
+      [0, 1],
+      [background, colors.neutral100],
+    ),
+    borderColor: interpolateColor(
+      disabledValue.value,
+      [0, 1],
+      [border, colors.neutral700],
+    ),
+  }));
+
+  useEffect(() => {
+    disabledValue.value = withTiming(disabled ? 1 : 0);
+  }, [disabled]);
 
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View
-        style={[
-          styles.container,
-          style,
-          {backgroundColor, borderColor},
-          rStyle,
-        ]}>
+        style={[styles.container, style, layoutStyle, disabledStyle]}>
         <TextComponent style={{color: titleColor}}>{title}</TextComponent>
       </Animated.View>
     </GestureDetector>
