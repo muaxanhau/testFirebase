@@ -24,7 +24,7 @@ export const LoginPhoneModalComponent = forwardRef<
       phone: '+84386734587',
     },
   });
-  const {loginWithPhone} = useLoginWithPhoneRepo({
+  const {loginWithPhone, isPending} = useLoginWithPhoneRepo({
     onSuccess: confirmation => {
       close();
       refOtpModal.current?.open(confirmation);
@@ -53,7 +53,11 @@ export const LoginPhoneModalComponent = forwardRef<
             placeholder="0123..."
           />
 
-          <ButtonComponent title={'Send OTP'} onPress={onPress} />
+          <ButtonComponent
+            title={'Send OTP'}
+            onPress={onPress}
+            disabled={isPending}
+          />
         </View>
       </ModalComponent>
 
