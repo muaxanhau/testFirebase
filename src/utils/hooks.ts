@@ -12,7 +12,11 @@ import {MainStackNavigationModel} from 'models';
 import {StorageEnum} from 'models';
 import {utils} from './utils';
 import NetInfo, {useNetInfo} from '@react-native-community/netinfo';
-import {onlineManager} from '@tanstack/react-query';
+import {
+  onlineManager,
+  useIsFetching,
+  useIsMutating,
+} from '@tanstack/react-query';
 import {z} from 'zod';
 import {storageUtil} from './storage.util';
 import auth from '@react-native-firebase/auth';
@@ -256,4 +260,16 @@ export const usePreviousState = <T>(value: T): [T, T, (state: T) => void] => {
   };
 
   return [currState, refPrevState.current, setState];
+};
+
+/**
+ * detect when fetch api/firebase
+ * @returns isLoading
+ */
+export const useIsLoading = () => {
+  const isFetching = useIsFetching();
+  const isMutating = useIsMutating();
+  const isLoading = !!isFetching || !!isMutating;
+
+  return isLoading;
 };

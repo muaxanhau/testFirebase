@@ -1,15 +1,9 @@
-import {
-  Modal,
-  StyleSheet,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import {Modal, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {forwardRef, useImperativeHandle, useState} from 'react';
 import {ComponentWithChildBaseModel} from 'models';
-import {utils} from 'utils';
 import {colors} from 'values';
 import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {utils} from 'utils';
 
 export type ModalRefProps = {
   open: () => void;
@@ -32,8 +26,6 @@ export const ModalComponent = forwardRef<ModalRefProps, ModalProps>(
     const open = () => setVisible(true);
     const close = () => setVisible(false);
 
-    useImperativeHandle(ref, () => ({open, close}), []);
-
     const ModalWithGestureHandler = gestureHandlerRootHOC(() => (
       <View style={styles.container}>
         <TouchableOpacity
@@ -45,6 +37,8 @@ export const ModalComponent = forwardRef<ModalRefProps, ModalProps>(
         {children}
       </View>
     ));
+
+    useImperativeHandle(ref, () => ({open, close}), []);
 
     return (
       <Modal

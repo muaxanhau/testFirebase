@@ -1,16 +1,13 @@
 import React, {FC} from 'react';
 import {ComponentBaseModel} from 'models';
-import {useIsFetching, useIsMutating} from '@tanstack/react-query';
 import {ActivityIndicatorComponent} from './activityIndicator.component';
 import {Modal, StyleSheet, View} from 'react-native';
-import {utils} from 'utils';
+import {useIsLoading, utils} from 'utils';
 import {colors} from 'values';
 
 type LoaderProps = ComponentBaseModel;
 export const LoaderComponent: FC<LoaderProps> = () => {
-  const isFetching = useIsFetching();
-  const isMutating = useIsMutating();
-  const isLoading = !!isFetching || !!isMutating;
+  const isLoading = useIsLoading();
 
   return (
     <Modal visible={isLoading} transparent>
