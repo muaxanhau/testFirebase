@@ -13,7 +13,8 @@ export const App: FC = withProvider(() => {
     <>
       <StatusBar hidden translucent />
 
-      <LoaderComponent />
+      {/* don't need use global loader anymore */}
+      {/* <LoaderComponent /> */}
 
       <MainStackNavigation />
     </>
