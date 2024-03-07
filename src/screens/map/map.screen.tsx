@@ -2,7 +2,6 @@ import {StyleSheet, Text, View} from 'react-native';
 import React, {FC} from 'react';
 import {ScreenBaseModel} from 'models';
 import {ScreenLayoutComponent} from 'components';
-import {LatLng, LeafletView} from 'react-native-leaflet-view';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 
 export const MapScreen: FC<ScreenBaseModel> = () => {
@@ -18,17 +17,6 @@ export const MapScreen: FC<ScreenBaseModel> = () => {
           longitudeDelta: 0.0121,
         }}></MapView>
     </View>
-  );
-  return (
-    <ScreenLayoutComponent disablePaddingTop>
-      <LeafletView
-        onMessageReceived={e => {
-          console.log('=======================');
-          console.log(e.payload);
-        }}
-        mapCenterPosition={[10, 10]}
-      />
-    </ScreenLayoutComponent>
   );
 };
 
