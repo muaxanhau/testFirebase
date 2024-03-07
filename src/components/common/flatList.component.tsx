@@ -1,27 +1,33 @@
 import {
-  Easing,
-  FlatList,
   FlatListProps as FlatListRootProps,
   LayoutChangeEvent,
   StyleSheet,
   View,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
-import {ComponentBaseModel} from 'models';
-import {ActivityIndicatorComponent, TextComponent} from 'components';
+import {
+  ComponentBaseModel,
+  EnteringAnimationEnum,
+  ExitingAnimationEnum,
+} from 'models';
+import {
+  ActivityIndicatorComponent,
+  TextComponent,
+  ViewAnimationComponent,
+} from 'components';
 import {useIsLoading} from 'utils';
 import Animated, {LinearTransition} from 'react-native-reanimated';
 
 type FlatListProps<T> = ComponentBaseModel<FlatListRootProps<T>>;
-
 export const FlatListComponent = <T extends {}>({
   data,
+  renderItem,
   ...rest
 }: FlatListProps<T>) => {
   const isLoading = useIsLoading();
   const [height, setHeight] = useState(0);
-
   const refFirstSetHeight = useRef(false);
+
   const onLayout = (e: LayoutChangeEvent) => {
     if (refFirstSetHeight.current) return;
 
@@ -39,6 +45,7 @@ export const FlatListComponent = <T extends {}>({
       onLayout={onLayout}
       itemLayoutAnimation={LinearTransition.stiffness(200)}
       ListFooterComponent={
+        // fix issue on android to show ActivityIndicatorComponent when fetch data
         <View style={{height: height * (data?.length ? 0.5 : 1)}} />
       }
       ListEmptyComponent={
@@ -50,6 +57,14 @@ export const FlatListComponent = <T extends {}>({
           )}
         </View>
       }
+      renderItem={data => (
+        <ViewAnimationComponent
+          entering={EnteringAnimationEnum.FADE_IN_RIGHT}
+          exiting={ExitingAnimationEnum.FADE_OUT}
+          delay={data.index * 100}>
+          {renderItem?.(data)}
+        </ViewAnimationComponent>
+      )}
     />
   );
 };

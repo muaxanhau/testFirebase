@@ -1,17 +1,12 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {FC, forwardRef, useImperativeHandle, useRef} from 'react';
-import {
-  ComponentBaseModel,
-  EnteringAnimationEnum,
-  ExitingAnimationEnum,
-} from 'models';
+import {ComponentBaseModel} from 'models';
 import {useDeleteCategoryRepo, useGetAllCategoriesRepo} from 'repositories';
 import {
   ButtonComponent,
   FlatListComponent,
   ImageSharedComponent,
   TextComponent,
-  ViewAnimationComponent,
 } from 'components';
 import {colors, valueStyles} from 'values';
 import {useMainStackNavigation, utils} from 'utils';
@@ -22,7 +17,7 @@ export const ListCategoriesComponent: FC<ComponentBaseModel> = () => {
   const refCategoriesList = useRef<CategoryRefProps[]>([]);
 
   const onScrollBeginDrag = () => {
-    refCategoriesList.current.forEach(item => item.closeRightAction());
+    refCategoriesList.current.forEach(item => item.closeRightActions());
   };
 
   return (
@@ -37,7 +32,6 @@ export const ListCategoriesComponent: FC<ComponentBaseModel> = () => {
           <CategoryComponent
             key={item.id}
             ref={ref => ref && (refCategoriesList.current[index] = ref)}
-            index={index}
             id={item.id}
             name={name}
             image={image}
@@ -49,54 +43,39 @@ export const ListCategoriesComponent: FC<ComponentBaseModel> = () => {
 };
 
 type CategoryRefProps = {
-  closeRightAction: () => void;
+  closeRightActions: () => void;
 };
 type CategoryProps = ComponentBaseModel<{
-  index: number;
   id: string;
   name: string;
   image?: string;
 }>;
 const CategoryComponent = forwardRef<CategoryRefProps, CategoryProps>(
-  ({index, id, name, image}, ref) => {
+  ({id, name, image}, ref) => {
     const navigation = useMainStackNavigation();
     const {deleteCategory, isPending} = useDeleteCategoryRepo();
     const refSwipeable = useRef<Swipeable>(null);
 
-    const closeRightAction = () => refSwipeable.current?.close();
+    const closeRightActions = () => refSwipeable.current?.close();
 
     const onPress = () => navigation.navigate('DetailCategory', {id});
     const onPressEdit = () => navigation.navigate('EditCategory', {id});
     const onPressDelete = () => deleteCategory({id});
 
-    useImperativeHandle(ref, () => ({closeRightAction}), []);
+    useImperativeHandle(ref, () => ({closeRightActions}), []);
 
     return (
       <Swipeable
         ref={refSwipeable}
         renderRightActions={() => (
-          <View style={styles.buttonContainer}>
-            <ButtonComponent
-              title="Edit"
-              color="warning"
-              type="outline"
-              onPress={onPressEdit}
-            />
-            <ButtonComponent
-              title="Delete"
-              color="fail"
-              type="outline"
-              onPress={onPressDelete}
-              isLoading={isPending}
-            />
-          </View>
+          <RightActionsComponent
+            onPressEdit={onPressEdit}
+            onPressDelete={onPressDelete}
+            isLoadingDelete={isPending}
+          />
         )}>
         <TouchableOpacity onPress={onPress}>
-          <ViewAnimationComponent
-            style={styles.itemContainer}
-            entering={EnteringAnimationEnum.FADE_IN_RIGHT}
-            exiting={ExitingAnimationEnum.FADE_OUT}
-            delay={index * 100}>
+          <View style={styles.itemContainer}>
             <TextComponent>{name}</TextComponent>
 
             <ImageSharedComponent
@@ -104,12 +83,41 @@ const CategoryComponent = forwardRef<CategoryRefProps, CategoryProps>(
               url={image}
               style={styles.itemImage}
             />
-          </ViewAnimationComponent>
+          </View>
         </TouchableOpacity>
       </Swipeable>
     );
   },
 );
+
+type RightActions = ComponentBaseModel<{
+  onPressEdit: () => void;
+  onPressDelete: () => void;
+  isLoadingDelete: boolean;
+}>;
+const RightActionsComponent: FC<RightActions> = ({
+  onPressEdit,
+  onPressDelete,
+  isLoadingDelete,
+}) => {
+  return (
+    <View style={styles.buttonContainer}>
+      <ButtonComponent
+        title="Edit"
+        color="warning"
+        type="outline"
+        onPress={onPressEdit}
+      />
+      <ButtonComponent
+        title="Delete"
+        color="fail"
+        type="outline"
+        onPress={onPressDelete}
+        isLoading={isLoadingDelete}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
