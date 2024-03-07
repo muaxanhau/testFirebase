@@ -9,35 +9,33 @@ import {
   TextComponent,
 } from 'components';
 import {colors, valueStyles} from 'values';
-import {useMainStackNavigation, utils} from 'utils';
+import {useMainStackNavigation, useScreenFocusedEffect, utils} from 'utils';
 import {Swipeable} from 'react-native-gesture-handler';
 
 export const ListCategoriesComponent: FC<ComponentBaseModel> = () => {
   const {categories} = useGetAllCategoriesRepo();
   const refCategoriesList = useRef<CategoryRefProps[]>([]);
 
-  const onScrollBeginDrag = () => {
+  const closeAllRightActions = () => {
     refCategoriesList.current.forEach(item => item.closeRightActions());
   };
+
+  useScreenFocusedEffect(closeAllRightActions, 'afterFirstTime');
 
   return (
     <FlatListComponent
       data={categories}
-      onScrollBeginDrag={onScrollBeginDrag}
+      onScrollBeginDrag={closeAllRightActions}
       contentContainerStyle={styles.container}
-      renderItem={({item, index}) => {
-        const {name, image} = item.data()!;
-
-        return (
-          <CategoryComponent
-            key={item.id}
-            ref={ref => ref && (refCategoriesList.current[index] = ref)}
-            id={item.id}
-            name={name}
-            image={image}
-          />
-        );
-      }}
+      renderItem={({item, index}) => (
+        <CategoryComponent
+          key={item.id}
+          ref={ref => ref && (refCategoriesList.current[index] = ref)}
+          id={item.id}
+          name={item.name}
+          image={item.image}
+        />
+      )}
     />
   );
 };

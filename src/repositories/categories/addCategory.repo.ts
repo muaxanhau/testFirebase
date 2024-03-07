@@ -26,7 +26,12 @@ export const useAddCategoryRepo = (props: AddCategoryProps) => {
       const response = await firestore()
         .collection<CategoryModel>(FirestoreCollectionService.CATEGORIES)
         .add(data);
-      const category = await response.get();
+      const rawCategory = await response.get();
+
+      const category: CategoryFirestoreModel = {
+        id: rawCategory.id,
+        ...rawCategory.data()!,
+      };
 
       queryClient.setQueryData<GetAllCategoriesOutput>(
         [KeyService.GET_ALL_CATEGORIES],

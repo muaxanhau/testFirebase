@@ -16,16 +16,15 @@ export const DetailCategoryScreen: FC<ScreenBaseModel> = () => {
     useRoute<RouteProp<MainStackNavigationModel, 'DetailCategory'>>();
   const {id} = params;
   const {category} = useGetCategoryRepo({id});
-  const data = category?.data();
 
   return (
     <ScreenLayoutComponent gap paddingHorizontal>
-      <TextComponent>{data?.name}</TextComponent>
-      <TextComponent>{data?.description}</TextComponent>
+      <TextComponent>{category?.name}</TextComponent>
+      <TextComponent>{category?.description}</TextComponent>
 
       <ImageSharedComponent
         sharedTransitionTag={id}
-        url={data?.image}
+        url={category?.image}
         style={styles.image}
       />
     </ScreenLayoutComponent>

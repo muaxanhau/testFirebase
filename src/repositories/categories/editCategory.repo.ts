@@ -4,7 +4,7 @@ import {
   useApiMutation,
 } from 'repositories/services';
 import firestore from '@react-native-firebase/firestore';
-import {CategoryFirestoreModel, CategoryModel} from 'models';
+import {CategoryModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
 import {GetAllCategoriesOutput} from './getAllCategoris.repo';
 import {utils} from 'utils';
@@ -28,18 +28,18 @@ export const useEditCategoryRepo = (props: EditCategoryProps) => {
         oldData => {
           if (!oldData) return oldData;
 
-          const editedItemCategories = oldData.map(category => {
-            if (category.id !== id) return category;
+          const editedItemCategories: GetAllCategoriesOutput = oldData.map(
+            category => {
+              if (category.id !== id) return category;
 
-            return {
-              ...category,
-              data: () => ({
+              return {
+                ...category,
                 name,
                 description,
                 image,
-              }),
-            };
-          });
+              };
+            },
+          );
           return editedItemCategories;
         },
       );

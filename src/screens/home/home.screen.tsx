@@ -15,6 +15,7 @@ export const HomeScreen: FC<ScreenBaseModel> = () => {
   const refBottomSheet = useRef<BottomSheetRefProps>(null);
 
   const onPressProfile = () => navigation.navigate('Profile');
+  const onPressItems = () => navigation.navigate('Profile');
   const onPressCategories = () => navigation.navigate('ListCategories');
 
   return (
@@ -26,9 +27,12 @@ export const HomeScreen: FC<ScreenBaseModel> = () => {
       <ScreenLayoutComponent paddingHorizontal gap scrollable>
         <ButtonComponent title="Profile" onPress={onPressProfile} />
 
+        <ButtonComponent title="Items" color="success" onPress={onPressItems} />
+
         <ButtonComponent
           title="Categories"
           color="success"
+          type="outline"
           onPress={onPressCategories}
         />
 

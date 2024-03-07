@@ -29,7 +29,6 @@ export type ActionStoreBaseModel<TAction> = Readonly<
 >;
 
 /**
- * collection for firebase model
+ * client collection for firebase model
  */
-export type FirestoreBaseModel<T extends {}> =
-  FirebaseFirestoreTypes.DocumentSnapshot<T>;
+export type ClientFirestoreBaseModel<T> = {id: string} & T;

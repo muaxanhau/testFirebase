@@ -27,9 +27,9 @@ export const EditCategoryScreen: FC<ScreenBaseModel> = () => {
   const {control, handleSubmit} = useHookForm({
     schema: editCategoryFormSchema,
     defaultValues: {
-      name: category?.data()?.name,
-      description: category?.data()?.description,
-      image: category?.data()?.image,
+      name: category?.name,
+      description: category?.description,
+      image: category?.image,
     },
   });
 

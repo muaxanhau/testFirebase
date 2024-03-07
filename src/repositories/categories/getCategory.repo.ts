@@ -22,12 +22,15 @@ export const useGetCategoryRepo = ({id}: GetCategoryProps) => {
     queryKey: [KeyService.GET_CATEGORY, id],
     queryFn: async () => {
       await utils.sleep(devToolConfig.delayFetching);
-      const currentCategory = await firestore()
+      const rawCategory = await firestore()
         .collection<CategoryModel>(FirestoreCollectionService.CATEGORIES)
         .doc(id)
         .get();
 
-      return currentCategory;
+      return {
+        id: rawCategory.id,
+        ...rawCategory.data()!,
+      };
     },
     initialData: localCategory,
   });

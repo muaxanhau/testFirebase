@@ -14,12 +14,14 @@ export const useGetAllCategoriesRepo = () => {
     queryKey: [KeyService.GET_ALL_CATEGORIES],
     queryFn: async () => {
       await utils.sleep(devToolConfig.delayFetching);
-      const data = await firestore()
+      const rawCategories = await firestore()
         .collection<CategoryModel>(FirestoreCollectionService.CATEGORIES)
         .get();
 
       const categories: CategoryFirestoreModel[] = [];
-      data.forEach(category => categories.push(category));
+      rawCategories.forEach(category =>
+        categories.push({id: category.id, ...category.data()}),
+      );
 
       return categories;
     },
