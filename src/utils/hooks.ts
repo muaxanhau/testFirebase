@@ -45,10 +45,12 @@ export const useFirstSetupApp = () =>
 export const useFirstCheckNavigation = () => {
   const resetMainStackNavigation = useResetMainStackNavigation();
 
-  useEffect(() => {
+  const navigate = () => {
     const isAuthorized = auth().currentUser !== null;
     resetMainStackNavigation(isAuthorized ? 'Home' : 'Login');
-  }, []);
+  };
+
+  return navigate;
 };
 
 /**
