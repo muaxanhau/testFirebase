@@ -12,7 +12,7 @@ export const ListCategoriesScreen: FC<ScreenBaseModel> = () => {
   const onPress = () => navigation.navigate('AddCategory');
 
   return (
-    <ScreenLayoutComponent disablePaddingTop title="Categories">
+    <ScreenLayoutComponent disablePaddingTop title="Swipe to edit/delete">
       <ListCategoriesComponent />
 
       <ButtonComponent
