@@ -15,7 +15,7 @@ export const HomeScreen: FC<ScreenBaseModel> = () => {
   const refBottomSheet = useRef<BottomSheetRefProps>(null);
 
   const onPressProfile = () => navigation.navigate('Profile');
-  const onPressItems = () => navigation.navigate('Profile');
+  const onPressItems = () => navigation.navigate('ListItems');
   const onPressCategories = () => navigation.navigate('ListCategories');
 
   return (
@@ -30,7 +30,7 @@ export const HomeScreen: FC<ScreenBaseModel> = () => {
         <ButtonComponent title="Items" color="success" onPress={onPressItems} />
 
         <ButtonComponent
-          title="Categories"
+          title="CRUD Categories"
           color="success"
           type="outline"
           onPress={onPressCategories}

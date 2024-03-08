@@ -16,6 +16,7 @@ export const useLoginWithPhoneRepo = (props: LoginWithPhoneProps) => {
     mutationKey: [KeyService.LOGIN_WITH_PHONE],
     mutationFn: async ({phone}) => {
       await utils.sleep(devToolConfig.delayFetching);
+
       const confirmation = await auth().signInWithPhoneNumber(phone);
       return confirmation;
     },

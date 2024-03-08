@@ -10,6 +10,7 @@ export const useLogoutRepo = (props: LogoutProps) => {
     mutationKey: [KeyService.LOGOUT],
     mutationFn: async () => {
       await utils.sleep(devToolConfig.delayFetching);
+
       await auth().signOut();
     },
     ...props,

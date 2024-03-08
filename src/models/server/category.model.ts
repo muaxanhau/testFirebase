@@ -5,4 +5,4 @@ export type CategoryModel = {
   image?: string;
   description?: string;
 };
-export type CategoryFirestoreModel = ClientFirestoreBaseModel<CategoryModel>;
+export type CategoryIdModel = ClientFirestoreBaseModel<CategoryModel>;

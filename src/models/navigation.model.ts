@@ -14,4 +14,5 @@ export type MainStackNavigationModel = {
     id: string;
   };
   Map: undefined;
+  ListItems: undefined;
 };

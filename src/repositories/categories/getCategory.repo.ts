@@ -1,17 +1,16 @@
 import {
-  FirestoreCollectionService,
   KeyService,
+  categoriesCollectionService,
   useApiQuery,
 } from 'repositories/services';
-import firestore from '@react-native-firebase/firestore';
-import {CategoryFirestoreModel, CategoryModel} from 'models';
+import {CategoryIdModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
-import {GetAllCategoriesOutput} from './getAllCategoris.repo';
+import {GetAllCategoriesOutput} from './getAllCategories.repo';
 import {utils} from 'utils';
 import {devToolConfig} from 'config';
 
 export type GetCategoryProps = {id: string};
-export type GetCategoryOutput = CategoryFirestoreModel;
+export type GetCategoryOutput = CategoryIdModel;
 export const useGetCategoryRepo = ({id}: GetCategoryProps) => {
   const queryClient = useQueryClient();
   const localCategory = queryClient
@@ -22,15 +21,13 @@ export const useGetCategoryRepo = ({id}: GetCategoryProps) => {
     queryKey: [KeyService.GET_CATEGORY, id],
     queryFn: async () => {
       await utils.sleep(devToolConfig.delayFetching);
-      const rawCategory = await firestore()
-        .collection<CategoryModel>(FirestoreCollectionService.CATEGORIES)
-        .doc(id)
-        .get();
 
-      return {
+      const rawCategory = await categoriesCollectionService.doc(id).get();
+      const category: CategoryIdModel = {
         id: rawCategory.id,
         ...rawCategory.data()!,
       };
+      return category;
     },
     initialData: localCategory,
   });

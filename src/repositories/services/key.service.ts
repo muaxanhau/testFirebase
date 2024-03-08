@@ -1,5 +1,6 @@
-export enum FirestoreCollectionService {
+export enum CollectionService {
   CATEGORIES = 'categories',
+  ITEMS = 'items',
 }
 
 export enum KeyService {
@@ -10,13 +11,17 @@ export enum KeyService {
   LOGIN_WITH_PHONE = 'LOGIN_WITH_PHONE',
   CONFIRM_OTP = 'CONFIRM_OTP',
 
+  // users
+  LIST_USERS = 'LIST_USERS',
+
   // categories
   GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES',
+  GET_ALL_CATEGORIES_WITH_ITEMS = 'GET_ALL_CATEGORIES_WITH_ITEMS',
   ADD_CATEGORY = 'ADD_CATEGORY',
   DELETE_CATEGORY = 'DELETE_CATEGORY',
   EDIT_CATEGORY = 'EDIT_CATEGORY',
   GET_CATEGORY = 'GET_CATEGORY',
 
-  // users
-  LIST_USERS = 'LIST_USERS',
+  // items
+  GET_ALL_ITEMS = 'GET_ALL_ITEMS',
 }

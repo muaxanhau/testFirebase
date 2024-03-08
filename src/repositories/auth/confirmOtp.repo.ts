@@ -17,6 +17,7 @@ export const useConfirmOtpRepo = (props: ConfirmOtpProps) => {
     mutationKey: [KeyService.CONFIRM_OTP],
     mutationFn: async ({confirmation, otp}) => {
       await utils.sleep(devToolConfig.delayFetching);
+
       const user = await confirmation.confirm(otp);
       return user;
     },

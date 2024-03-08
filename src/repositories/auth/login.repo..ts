@@ -11,6 +11,7 @@ export const useLoginRepo = (props: LoginProps) => {
     mutationKey: [KeyService.LOGIN],
     mutationFn: async ({email, password}) => {
       await utils.sleep(devToolConfig.delayFetching);
+
       const user = await auth().signInWithEmailAndPassword(email, password);
       return user;
     },

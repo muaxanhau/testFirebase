@@ -1,12 +1,10 @@
 import {
-  FirestoreCollectionService,
   KeyService,
+  categoriesCollectionService,
   useApiMutation,
 } from 'repositories/services';
-import firestore from '@react-native-firebase/firestore';
-import {CategoryModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
-import {GetAllCategoriesOutput} from './getAllCategoris.repo';
+import {GetAllCategoriesOutput} from './getAllCategories.repo';
 import {utils} from 'utils';
 import {devToolConfig} from 'config';
 
@@ -22,6 +20,7 @@ export const useDeleteCategoryRepo = () => {
     mutationKey: [KeyService.DELETE_CATEGORY],
     mutationFn: async ({id}) => {
       await utils.sleep(devToolConfig.delayFetching);
+
       queryClient.setQueryData<GetAllCategoriesOutput>(
         [KeyService.GET_ALL_CATEGORIES],
         oldData => {
@@ -34,10 +33,7 @@ export const useDeleteCategoryRepo = () => {
         },
       );
 
-      await firestore()
-        .collection<CategoryModel>(FirestoreCollectionService.CATEGORIES)
-        .doc(id)
-        .delete();
+      await categoriesCollectionService.doc(id).delete();
 
       queryClient.invalidateQueries({
         queryKey: [KeyService.GET_ALL_CATEGORIES],
