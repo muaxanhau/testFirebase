@@ -26,16 +26,13 @@ export const HomeScreen: FC<ScreenBaseModel> = () => {
 
       <ScreenLayoutComponent paddingHorizontal gap scrollable>
         <ButtonComponent title="Profile" onPress={onPressProfile} />
-
-        <ButtonComponent title="Items" color="success" onPress={onPressItems} />
-
         <ButtonComponent
           title="CRUD Categories"
           color="success"
           type="outline"
           onPress={onPressCategories}
         />
-
+        <ButtonComponent title="Items" color="success" onPress={onPressItems} />
         <ButtonComponent
           title="Open BS"
           type="outline"

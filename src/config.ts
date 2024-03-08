@@ -47,5 +47,5 @@ export const devToolConfig: DevToolConfigModel = {
   enable: false,
   method: 'ALL',
   url: null,
-  delayFetching: 2000, // delay fetch data from server
+  delayFetching: 0, // delay fetch data from server
 };
