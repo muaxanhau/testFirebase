@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     width: utils.wp(10),
     aspectRatio: 1,
     backgroundColor: colors.neutral100,
-    borderRadius: valueStyles.borderRadius10,
+    borderRadius: valueStyles.borderRadius2,
     borderWidth: valueStyles.line3,
     justifyContent: 'center',
     alignItems: 'center',

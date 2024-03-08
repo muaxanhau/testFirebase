@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary100,
     borderWidth: valueStyles.line,
     borderColor: colors.green700,
-    borderRadius: valueStyles.borderRadius10,
+    borderRadius: valueStyles.borderRadius2,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     width: utils.wp(40),
     aspectRatio: 3 / 2,
-    borderRadius: valueStyles.borderRadius10,
+    borderRadius: valueStyles.borderRadius2,
   },
   buttonContainer: {
     marginRight: valueStyles.margin2,

@@ -12,7 +12,7 @@ export const valueStyles = {
   margin: 24,
   margin2: 16,
   margin3: 8,
-  borderRadius10: 10,
+  borderRadius2: 10,
   borderRadius: 24,
   gap: 16,
   gap2: 9,
@@ -79,7 +79,7 @@ const fullParent: ViewStyle = {
 };
 const modalContainer: ViewStyle = {
   backgroundColor: colors.white,
-  borderRadius: valueStyles.borderRadius10,
+  borderRadius: valueStyles.borderRadius2,
   padding: valueStyles.padding,
   width: valueStyles.width - valueStyles.padding2 * 2,
   gap: valueStyles.gap,

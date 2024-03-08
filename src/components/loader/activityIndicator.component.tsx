@@ -92,6 +92,6 @@ const styles = StyleSheet.create({
   box: {
     width: `${50 - values.gap / 2}%`,
     aspectRatio: 1,
-    borderRadius: valueStyles.borderRadius10,
+    borderRadius: valueStyles.borderRadius2,
   },
 });

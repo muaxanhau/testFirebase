@@ -22,6 +22,7 @@ type FlatListProps<T> = ComponentBaseModel<FlatListRootProps<T>>;
 export const FlatListComponent = <T extends {}>({
   data,
   renderItem,
+  horizontal,
   ...rest
 }: FlatListProps<T>) => {
   const isLoading = useIsLoading();
@@ -40,22 +41,24 @@ export const FlatListComponent = <T extends {}>({
 
   return (
     <Animated.FlatList
-      {...rest}
       data={data}
       onLayout={onLayout}
       itemLayoutAnimation={LinearTransition.stiffness(200)}
+      horizontal={horizontal}
       ListFooterComponent={
         // fix issue on android to show ActivityIndicatorComponent when fetch data
         <View style={{height: height * (data?.length ? 0.5 : 1)}} />
       }
       ListEmptyComponent={
-        <View style={[styles.emptyContainer, {height}]}>
-          {isLoading ? (
-            <ActivityIndicatorComponent />
-          ) : (
-            <TextComponent>Empty</TextComponent>
-          )}
-        </View>
+        !horizontal ? (
+          <View style={[styles.emptyContainer, {height}]}>
+            {isLoading ? (
+              <ActivityIndicatorComponent />
+            ) : (
+              <TextComponent>Empty</TextComponent>
+            )}
+          </View>
+        ) : null
       }
       renderItem={data => (
         <ViewAnimationComponent
@@ -65,6 +68,7 @@ export const FlatListComponent = <T extends {}>({
           {renderItem?.(data)}
         </ViewAnimationComponent>
       )}
+      {...rest}
     />
   );
 };

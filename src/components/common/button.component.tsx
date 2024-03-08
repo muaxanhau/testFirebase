@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     paddingVertical: valueStyles.padding2,
     paddingHorizontal:
       valueStyles.padding2 + commonStyles.textDefault.lineHeight!,
-    borderRadius: valueStyles.borderRadius10,
+    borderRadius: valueStyles.borderRadius2,
     alignItems: 'center',
     borderWidth: valueStyles.line2,
   },

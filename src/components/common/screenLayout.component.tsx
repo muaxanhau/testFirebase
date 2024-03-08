@@ -73,6 +73,9 @@ const TopBarComponent: FC<TopBarProps> = ({hideTopBar, title}) => {
   const navigation = useNavigation();
   const [canGoBack, setCanGoBack] = useState(true);
   const insets = useSafeAreaInsets();
+  const hasTitle = !!title?.length;
+  const limitTitle =
+    hasTitle && title.length > 20 ? title.substring(20) + '...' : title;
 
   useEffect(() => {
     const canGoBack = navigation.canGoBack();
@@ -94,9 +97,9 @@ const TopBarComponent: FC<TopBarProps> = ({hideTopBar, title}) => {
           <Image source={images.chevronLeft} style={styles.buttonBack} />
         </TouchableOpacity>
 
-        {!!title?.length && (
+        {hasTitle && (
           <View style={styles.titleContainer}>
-            <TextComponent>{title}</TextComponent>
+            <TextComponent>{limitTitle}</TextComponent>
           </View>
         )}
       </View>
