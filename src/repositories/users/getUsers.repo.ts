@@ -13,7 +13,7 @@ export type GetUsersResponse = Prettify<
   } & PaginationModel
 >;
 export const useGetUsersRepo = ({page = 0}: GetUsersProps) => {
-  const {data} = useApiQuery<GetUsersResponse>({
+  const {data, ...rest} = useApiQuery<GetUsersResponse>({
     queryKey: [KeyService.LIST_USERS, page],
     queryFn: async () => {
       await utils.sleep(devToolConfig.delayFetching);
@@ -40,5 +40,6 @@ export const useGetUsersRepo = ({page = 0}: GetUsersProps) => {
 
   return {
     users: data!,
+    ...rest,
   };
 };
