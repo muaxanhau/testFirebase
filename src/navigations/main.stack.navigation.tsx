@@ -5,7 +5,6 @@ import {
   AddCategoryScreen,
   DetailCategoryScreen,
   EditCategoryScreen,
-  FriendScreen,
   HomeScreen,
   ListCategoriesScreen,
   ListItemsScreen,
@@ -28,7 +27,6 @@ export const MainStackNavigation: FC = () => (
     <Stack.Screen name={'Login'} component={LoginScreen} />
     <Stack.Screen name={'SignUp'} component={SignUpScreen} />
     <Stack.Screen name={'Home'} component={HomeScreen} />
-    <Stack.Screen name={'Friend'} component={FriendScreen} />
     <Stack.Screen name={'Profile'} component={ProfileScreen} />
     <Stack.Screen name={'ListCategories'} component={ListCategoriesScreen} />
     <Stack.Screen name={'AddCategory'} component={AddCategoryScreen} />

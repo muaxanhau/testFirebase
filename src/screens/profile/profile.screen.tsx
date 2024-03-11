@@ -17,11 +17,6 @@ export const ProfileScreen: FC<ScreenBaseModel> = () => {
 
   return (
     <ScreenLayoutComponent paddingHorizontal gap scrollable>
-      <ButtonComponent
-        title="Friend"
-        color="warning"
-        onPress={() => navigation.navigate('Friend')}
-      />
       <ButtonComponent title="Map" onPress={() => navigation.navigate('Map')} />
 
       <ButtonComponent

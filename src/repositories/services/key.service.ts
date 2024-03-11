@@ -1,4 +1,5 @@
 export enum CollectionService {
+  USERS = 'users',
   CATEGORIES = 'categories',
   ITEMS = 'items',
 }
@@ -12,7 +13,7 @@ export enum KeyService {
   CONFIRM_OTP = 'CONFIRM_OTP',
 
   // users
-  LIST_USERS = 'LIST_USERS',
+  CREATE_USER = 'CREATE_USER',
 
   // categories
   GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES',

@@ -1,1 +1,1 @@
-export * from './getAllItems';
+export * from './getAllItems.repo';

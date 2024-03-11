@@ -3,4 +3,4 @@ export * from './addCategory.repo';
 export * from './deleteCategory.repo';
 export * from './editCategory.repo';
 export * from './getCategory.repo';
-export * from './getAllCategoriesWithItems';
+export * from './getAllCategoriesWithItems.repo';

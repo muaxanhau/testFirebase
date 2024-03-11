@@ -1,4 +1,3 @@
-export * from './friend';
 export * from './home';
 export * from './splash';
 export * from './login';
