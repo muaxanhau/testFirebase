@@ -3,16 +3,19 @@ import {
   categoriesCollectionService,
   useApiMutation,
 } from 'repositories/services';
-import {CategoryModel} from 'models';
+import {CategoryIdModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
 import {GetAllCategoriesOutput} from './getAllCategories.repo';
 import {utils} from 'utils';
 import {devToolConfig} from 'config';
 
 type EditCategoryProps = {onSuccess: () => void} | void;
-type EditCategoryInput = {id: string} & CategoryModel;
+type EditCategoryInput = CategoryIdModel;
 type EditCategoryOutput = void;
 export const useEditCategoryRepo = (props: EditCategoryProps) => {
+  if (typeof props !== 'undefined') {
+    props.onSuccess;
+  }
   const queryClient = useQueryClient();
 
   const {mutate: editCategory, ...rest} = useApiMutation<
@@ -23,6 +26,11 @@ export const useEditCategoryRepo = (props: EditCategoryProps) => {
     mutationFn: async ({id, name, description, image}) => {
       await utils.sleep(devToolConfig.delayFetching);
 
+      await categoriesCollectionService
+        .doc(id)
+        .update({name, description, image});
+    },
+    onMutate: ({id, name, description, image}) => {
       queryClient.setQueryData<GetAllCategoriesOutput>(
         [KeyService.GET_ALL_CATEGORIES],
         oldData => {
@@ -43,11 +51,8 @@ export const useEditCategoryRepo = (props: EditCategoryProps) => {
           return editedItemCategories;
         },
       );
-
-      await categoriesCollectionService
-        .doc(id)
-        .update({name, description, image});
-
+    },
+    onSettled: (_1, _2, {id}) => {
       queryClient.invalidateQueries({
         queryKey: [KeyService.GET_ALL_CATEGORIES],
       });

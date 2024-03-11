@@ -1,5 +1,6 @@
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {devToolConfig} from 'config';
+import {RoleEnum} from 'models';
 import {KeyService, useApiMutation} from 'repositories/services';
 import {useCreateUserRepo} from 'repositories/users';
 import {utils} from 'utils';
@@ -17,11 +18,15 @@ export const useSignUpRepo = (props: LoginProps) => {
 
       const user = await auth().createUserWithEmailAndPassword(email, password);
 
-      createUser({id: user.user.uid});
-
       return user;
     },
-    ...props,
+    onSuccess: data => {
+      createUser({id: data.user.uid, role: RoleEnum.ADMIN});
+
+      if (typeof props === 'undefined') return;
+
+      props.onSuccess?.();
+    },
   });
 
   return {signUp, ...rest};

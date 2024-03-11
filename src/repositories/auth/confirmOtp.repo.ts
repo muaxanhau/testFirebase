@@ -22,13 +22,17 @@ export const useConfirmOtpRepo = (props: ConfirmOtpProps) => {
       await utils.sleep(devToolConfig.delayFetching);
 
       const user = await confirmation.confirm(otp);
-
-      user &&
-        createUser({id: user.user.uid, phone: user.user.phoneNumber || ''});
-
       return user;
     },
-    ...props,
+    onSuccess: data => {
+      if (!data) return;
+
+      const {uid} = data.user;
+      data && createUser({id: uid});
+
+      if (typeof props === 'undefined') return;
+      props.onSuccess?.();
+    },
   });
 
   return {confirmOtp, ...rest};

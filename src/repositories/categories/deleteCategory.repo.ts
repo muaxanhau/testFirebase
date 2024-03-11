@@ -21,20 +21,20 @@ export const useDeleteCategoryRepo = () => {
     mutationFn: async ({id}) => {
       await utils.sleep(devToolConfig.delayFetching);
 
+      await categoriesCollectionService.doc(id).delete();
+    },
+    onMutate: ({id}) => {
       queryClient.setQueryData<GetAllCategoriesOutput>(
         [KeyService.GET_ALL_CATEGORIES],
         oldData => {
-          if (!oldData) return oldData;
-
-          const deletedItemCategories = oldData.filter(
+          const deletedCategories = oldData?.filter(
             category => category.id !== id,
           );
-          return deletedItemCategories;
+          return deletedCategories;
         },
       );
-
-      await categoriesCollectionService.doc(id).delete();
-
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: [KeyService.GET_ALL_CATEGORIES],
       });

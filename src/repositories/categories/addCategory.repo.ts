@@ -31,18 +31,22 @@ export const useAddCategoryRepo = (props: AddCategoryProps) => {
         ...rawCategory.data()!,
       };
 
+      return category;
+    },
+    onSuccess: category => {
       queryClient.setQueryData<GetAllCategoriesOutput>(
         [KeyService.GET_ALL_CATEGORIES],
         oldData => (oldData ? [category, ...oldData] : oldData),
       );
 
+      if (typeof props === 'undefined') return;
+      props.onSuccess?.();
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: [KeyService.GET_ALL_CATEGORIES],
       });
-
-      return category;
     },
-    ...props,
   });
   return {addCategory, ...rest};
 };
