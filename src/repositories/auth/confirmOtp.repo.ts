@@ -28,7 +28,7 @@ export const useConfirmOtpRepo = (props: ConfirmOtpProps) => {
       if (!data) return;
 
       const {uid} = data.user;
-      data && createUser({id: uid});
+      uid && createUser({id: uid});
 
       if (typeof props === 'undefined') return;
       props.onSuccess?.();

@@ -30,4 +30,5 @@ export enum KeyService {
 
   // cart
   ADD_CART = 'ADD_CART',
+  GET_ALL_USER_CARTS = 'GET_ALL_USER_CARTS',
 }

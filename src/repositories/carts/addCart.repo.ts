@@ -1,10 +1,9 @@
 import {
   KeyService,
   cartsCollectionService,
-  categoriesCollectionService,
   useApiMutation,
 } from 'repositories/services';
-import {CartIdModel, CartModel, CategoryIdModel, CategoryModel} from 'models';
+import {CartIdModel, CartModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
 import {utils} from 'utils';
 import {devToolConfig} from 'config';

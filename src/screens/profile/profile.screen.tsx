@@ -16,7 +16,7 @@ export const ProfileScreen: FC<ScreenBaseModel> = () => {
     },
   });
 
-  const title = user?.role.toUpperCase();
+  const title = user?.role?.toUpperCase();
 
   return (
     <ScreenLayoutComponent paddingHorizontal gap scrollable title={title}>

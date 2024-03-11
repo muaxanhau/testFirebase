@@ -1,4 +1,5 @@
 import auth from '@react-native-firebase/auth';
+import {useQueryClient} from '@tanstack/react-query';
 import {devToolConfig} from 'config';
 import {KeyService, useApiMutation} from 'repositories/services';
 import {utils} from 'utils';
@@ -6,6 +7,8 @@ import {utils} from 'utils';
 type LogoutProps = {onSuccess?: () => void} | void;
 type LogoutOutput = void;
 export const useLogoutRepo = (props: LogoutProps) => {
+  const queryClient = useQueryClient();
+
   const {mutate: logout, ...rest} = useApiMutation<LogoutOutput>({
     mutationKey: [KeyService.LOGOUT],
     mutationFn: async () => {
@@ -13,7 +16,12 @@ export const useLogoutRepo = (props: LogoutProps) => {
 
       await auth().signOut();
     },
-    ...props,
+    onSuccess: () => {
+      queryClient.clear();
+
+      if (typeof props === 'undefined') return;
+      props.onSuccess?.();
+    },
   });
 
   return {logout, ...rest};
