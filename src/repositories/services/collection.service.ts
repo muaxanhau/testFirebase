@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-import {CategoryModel, ItemModel, UserModel} from 'models';
+import {CartModel, CategoryModel, ItemModel, UserModel} from 'models';
 import {CollectionService} from './key.service';
 
 export const categoriesCollectionService =
@@ -11,4 +11,8 @@ export const itemsCollectionService = firestore().collection<ItemModel>(
 
 export const usersCollectionService = firestore().collection<UserModel>(
   CollectionService.USERS,
+);
+
+export const cartsCollectionService = firestore().collection<CartModel>(
+  CollectionService.CARTS,
 );

@@ -3,11 +3,12 @@ import React, {FC} from 'react';
 import {ScreenBaseModel} from 'models';
 import {ButtonComponent, ScreenLayoutComponent} from 'components';
 import {useMainStackNavigation, useResetMainStackNavigation} from 'utils';
-import {useLogoutRepo} from 'repositories';
+import {useGetUserRepo, useLogoutRepo} from 'repositories';
 
 export const ProfileScreen: FC<ScreenBaseModel> = () => {
   const navigation = useMainStackNavigation();
   const resetMainStackNavigation = useResetMainStackNavigation();
+  const {user} = useGetUserRepo();
   const {logout, isPending} = useLogoutRepo({
     onSuccess: () => {
       Alert.alert('Alert', 'Logout successful');
@@ -15,8 +16,10 @@ export const ProfileScreen: FC<ScreenBaseModel> = () => {
     },
   });
 
+  const title = user?.role.toUpperCase();
+
   return (
-    <ScreenLayoutComponent paddingHorizontal gap scrollable>
+    <ScreenLayoutComponent paddingHorizontal gap scrollable title={title}>
       <ButtonComponent title="Map" onPress={() => navigation.navigate('Map')} />
 
       <ButtonComponent

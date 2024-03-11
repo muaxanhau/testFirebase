@@ -2,6 +2,7 @@ export enum CollectionService {
   USERS = 'users',
   CATEGORIES = 'categories',
   ITEMS = 'items',
+  CARTS = 'carts',
 }
 
 export enum KeyService {
@@ -13,6 +14,7 @@ export enum KeyService {
   CONFIRM_OTP = 'CONFIRM_OTP',
 
   // users
+  GET_USER = 'GET_USER',
   CREATE_USER = 'CREATE_USER',
 
   // categories
@@ -25,4 +27,7 @@ export enum KeyService {
 
   // items
   GET_ALL_ITEMS = 'GET_ALL_ITEMS',
+
+  // cart
+  ADD_CART = 'ADD_CART',
 }

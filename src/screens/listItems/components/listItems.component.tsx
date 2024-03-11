@@ -1,9 +1,14 @@
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Alert, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
 import {ComponentBaseModel, ItemIdModel} from 'models';
-import {useGetAllCategoriesAndItemsRepo} from 'repositories';
+import {
+  itemsCollectionService,
+  useAddCartRepo,
+  useGetAllCategoriesAndItemsRepo,
+} from 'repositories';
 import {FlatListComponent, TextComponent} from 'components';
 import {colors, valueStyles} from 'values';
+import {dateUtil} from 'utils';
 
 export const ListItemsComponent: FC<ComponentBaseModel> = () => {
   const {categoriesWithItems} = useGetAllCategoriesAndItemsRepo();
@@ -53,8 +58,18 @@ type ItemProps = ComponentBaseModel<{
   name: string;
 }>;
 const ItemComponent: FC<ItemProps> = ({id, name}) => {
+  const {addCart} = useAddCartRepo({
+    onSuccess: () => Alert.alert('Alert', 'Item is added to your cart'),
+  });
+
+  const onPress = () => {
+    const refItem = itemsCollectionService.doc(id);
+    const date = dateUtil.now();
+    addCart({itemId: refItem, date});
+  };
+
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <View style={styles.itemContainer}>
         <TextComponent>{name}</TextComponent>
       </View>
