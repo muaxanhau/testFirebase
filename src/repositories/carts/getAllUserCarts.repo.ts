@@ -1,9 +1,9 @@
 import {
   KeyService,
-  categoriesCollectionService,
+  cartsCollectionService,
   useApiQuery,
 } from 'repositories/services';
-import {CartIdModel, CategoryIdModel} from 'models';
+import {CartIdModel} from 'models';
 import {utils} from 'utils';
 import {devToolConfig} from 'config';
 
@@ -14,16 +14,14 @@ export const useGetAllUserCartsRepo = () => {
     queryFn: async () => {
       await utils.sleep(devToolConfig.delayFetching);
 
-      // const rawCategories = await categoriesCollectionService.get();
+      const rawCarts = await cartsCollectionService.get();
 
-      // const categories: CategoryIdModel[] = rawCategories.docs.map(
-      //   rawCategory => ({
-      //     id: rawCategory.id,
-      //     ...rawCategory.data(),
-      //   }),
-      // );
+      const carts: CartIdModel[] = rawCarts.docs.map(cart => ({
+        id: cart.id,
+        ...cart.data(),
+      }));
 
-      // return categories;
+      return carts;
     },
   });
 
