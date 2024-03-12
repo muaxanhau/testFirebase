@@ -1,8 +1,4 @@
-import {
-  KeyService,
-  categoriesCollectionService,
-  useApiQuery,
-} from 'repositories/services';
+import {KeyService, clientService, useApiQuery} from 'repositories/services';
 import {CategoryIdModel} from 'models';
 import {utils} from 'utils';
 import {devToolConfig} from 'config';
@@ -14,14 +10,10 @@ export const useGetAllCategoriesRepo = () => {
     queryFn: async () => {
       await utils.sleep(devToolConfig.delayFetching);
 
-      const rawCategories = await categoriesCollectionService.get();
-
-      const categories: CategoryIdModel[] = rawCategories.docs.map(
-        rawCategory => ({
-          id: rawCategory.id,
-          ...rawCategory.data(),
-        }),
+      const response = await clientService.get<GetAllCategoriesOutput>(
+        'categories',
       );
+      const categories = response.data;
 
       return categories;
     },

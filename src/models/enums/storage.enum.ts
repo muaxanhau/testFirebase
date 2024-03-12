@@ -1,3 +1,3 @@
 export enum StorageEnum {
-  AUTH = 'AUTH',
+  EXAMPLE = 'EXAMPLE',
 }

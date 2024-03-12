@@ -1,2 +1,1 @@
-export * from './setting.store';
-export * from './system.store';
+export * from './auth.store';

@@ -2,20 +2,16 @@ import {ActionStoreBaseModel} from 'models';
 import {create} from 'zustand';
 
 type State = {
-  volume: number;
+  token?: string;
 };
 type Action = ActionStoreBaseModel<{
-  setVolume: (volume: number) => void;
+  setAuth: (input: State) => void;
 }>;
 const initialState: State = {
-  volume: 10,
+  token: undefined,
 };
-export const useSettingStore = create<State & Action>(set => ({
+export const useAuthStore = create<State & Action>(set => ({
   ...initialState,
   reset: () => set(() => initialState),
-  setVolume: volume =>
-    set(state => ({
-      ...state,
-      volume,
-    })),
+  setAuth: input => set(state => ({...state, ...input})),
 }));

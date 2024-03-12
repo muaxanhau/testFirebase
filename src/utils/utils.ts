@@ -218,36 +218,29 @@ const log = (
     return;
   }
 };
-
 const logResponse = (
-  response: unknown,
-  m: string | undefined,
-  u: string | undefined,
+  type: 'success' | 'error',
+  method: string,
+  url: string,
+  headers: Object,
+  params: Object,
+  body: Object,
+  response: Object | string,
 ) => {
-  if (!config.enableLog) {
-    return;
-  }
+  if (!devToolConfig.enableLog) return;
 
-  const {enable, method, url} = devToolConfig;
-  if (!enable) {
-    return;
-  }
-
-  const hasMethod = method !== 'ALL';
-  const hasUrl = !!url;
-
-  const validUrl = hasUrl ? u?.toLowerCase().includes(url.toLowerCase()) : true;
-  const validMethod = hasMethod
-    ? method.toLowerCase() === m?.toLowerCase()
-    : true;
-
-  if (!validUrl || !validMethod) {
-    return;
-  }
-
-  console.warn(`=> log from utils/devTools.logResponse: ${url || ''}`);
-  console.warn(response);
+  console.log(
+    `==> ${method?.toUpperCase()} <=====================================================
+        \n\t- url: ${url}\n\t- header: ${JSON.stringify(
+      headers,
+    )}\n\t- params: ${JSON.stringify(params)}\n\t- body: ${JSON.stringify(
+      body,
+    )}\n\n\t=> ${type === 'success' ? 'RESPONSE' : 'ERROR'}: ${
+      type === 'success' ? JSON.stringify(response) : response
+    }\n_`,
+  );
 };
+
 /**
  * Sleep is a function that takes a number of milliseconds and returns a promise that resolves after
  * that number of milliseconds.
@@ -371,16 +364,13 @@ export const utils = {
   deepCompare,
   deepClone,
   log,
+  logResponse,
   sleep,
   getResponsiveSize,
   wp,
   hp,
   opacityColor,
   imageUrl,
-};
-
-export const devTools = {
-  logResponse,
 };
 
 export type {Prettify, TransformSchemaToModel};

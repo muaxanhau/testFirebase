@@ -10,13 +10,10 @@ export type EnvironmentsConfigModel = Record<
       build: number;
     };
     baseUrl: string;
-    tokenType: string;
   }
 >;
 
 export type DevToolConfigModel = {
-  enable: boolean;
-  method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'ALL';
-  url: string | null;
+  enableLog: boolean;
   delayFetching: number;
 };

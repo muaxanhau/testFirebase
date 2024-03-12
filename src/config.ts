@@ -8,8 +8,7 @@ const environments: EnvironmentsConfigModel = {
       release: 0,
       build: 0,
     },
-    baseUrl: 'https://reqres.in/',
-    tokenType: 'Bearer',
+    baseUrl: 'http://localhost:3000/v1/api/',
   },
   STAGING: {
     enableLog: true,
@@ -19,7 +18,6 @@ const environments: EnvironmentsConfigModel = {
       build: 0,
     },
     baseUrl: 'https://reqres.in/',
-    tokenType: 'Bearer',
   },
   PRODUCTION: {
     enableLog: false,
@@ -29,7 +27,6 @@ const environments: EnvironmentsConfigModel = {
       build: 0,
     },
     baseUrl: 'https://reqres.in/',
-    tokenType: 'Bearer',
   },
 };
 
@@ -44,8 +41,6 @@ export const config = environments.DEVELOPMENT;
  * debug log for response api
  */
 export const devToolConfig: DevToolConfigModel = {
-  enable: false,
-  method: 'ALL',
-  url: null,
+  enableLog: true, // should disable or remove on prod mode
   delayFetching: 0, // delay fetch data from server
 };

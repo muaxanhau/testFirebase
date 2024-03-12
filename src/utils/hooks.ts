@@ -20,15 +20,29 @@ import {
 import {z} from 'zod';
 import {storageUtil} from './storage.util';
 import auth from '@react-native-firebase/auth';
+import {useAuthStore} from 'stores';
 
-export const useFirstSetupApp = () =>
+export const useFirstSetupApp = () => {
+  const {setAuth} = useAuthStore();
+  const resetMainStackNavigation = useResetMainStackNavigation();
+
+  const checkNavigation = () => {
+    const isAuthorized = auth().currentUser !== null;
+    resetMainStackNavigation(isAuthorized ? 'Home' : 'Login');
+  };
+  const setToken = async () => {
+    const {currentUser} = auth();
+    if (!currentUser) return;
+
+    const token = await currentUser.getIdToken();
+    setAuth({token});
+  };
+  const runAsyncFunc = async () => {
+    await setToken();
+    checkNavigation();
+  };
+
   useLayoutEffect(() => {
-    utils.log(
-      '======= setup =======',
-      "call from useFirstSetupApp - 'hooks'",
-      'highlight',
-    );
-
     LogBox.ignoreAllLogs();
 
     // event for re-online => refetch data
@@ -36,11 +50,9 @@ export const useFirstSetupApp = () =>
       NetInfo.addEventListener(state => setOnline(!!state.isConnected)),
     );
 
-    storageUtil.store(StorageEnum.AUTH, {
-      token: 'token123456789',
-      refreshToken: '',
-    });
+    runAsyncFunc();
   }, []);
+};
 
 export const useFirstCheckNavigation = () => {
   const resetMainStackNavigation = useResetMainStackNavigation();

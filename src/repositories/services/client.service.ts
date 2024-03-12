@@ -4,8 +4,8 @@ import axios, {
   AxiosError,
 } from 'axios';
 import {config} from 'config';
-import {AuthStorageModel, StorageEnum} from 'models';
-import {utils, storageUtil, devTools} from 'utils';
+import {useAuthStore} from 'stores';
+import {utils} from 'utils';
 
 const clientService = axios.create({
   baseURL: config.baseUrl,
@@ -15,29 +15,40 @@ const clientService = axios.create({
 });
 
 const handleRequest = (requestConfig: InternalAxiosRequestConfig) => {
-  const auth = storageUtil.retrieve<AuthStorageModel>(StorageEnum.AUTH);
-  requestConfig.headers['Authorization'] = `${config.tokenType} ${auth?.token}`;
-
-  const {method, baseURL, url} = requestConfig;
-  utils.log(
-    method + ' - ' + baseURL + url,
-    "call from 'client.service.ts'",
-    'warning',
-  );
-
+  const {token} = useAuthStore.getState();
+  requestConfig.headers['firebase-token'] = token;
   return requestConfig;
 };
 const handleResponse = (response: AxiosResponse) => {
-  const {
+  const {data, config} = response;
+  const {method, baseURL, url, headers, params, data: body} = config;
+
+  utils.logResponse(
+    'success',
+    method?.toUpperCase() || 'GET',
+    `${baseURL}${url}`,
+    headers,
+    params,
+    body,
     data,
-    config: {method, url},
-  } = response;
+  );
 
-  devTools.logResponse(data, method, url);
-
-  return Promise.resolve(utils.keysToCamel(data));
+  return Promise.resolve(response);
 };
 const handleError = (e: AxiosError) => {
+  const {config} = e;
+  const {method, baseURL, url, headers, params, data: body} = config!;
+
+  utils.logResponse(
+    'error',
+    method?.toUpperCase() || 'GET',
+    `${baseURL}${url}`,
+    headers,
+    params,
+    body,
+    e.message,
+  );
+
   return Promise.reject(e.response?.data);
 };
 
