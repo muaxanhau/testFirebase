@@ -9,6 +9,7 @@ const environments: EnvironmentsConfigModel = {
       build: 0,
     },
     baseUrl: 'http://localhost:3000/v1/api/',
+    staleTime: 1000 * 30,
   },
   STAGING: {
     enableLog: true,
@@ -18,6 +19,7 @@ const environments: EnvironmentsConfigModel = {
       build: 0,
     },
     baseUrl: 'https://reqres.in/',
+    staleTime: 1000 * 30,
   },
   PRODUCTION: {
     enableLog: false,
@@ -27,6 +29,7 @@ const environments: EnvironmentsConfigModel = {
       build: 0,
     },
     baseUrl: 'https://reqres.in/',
+    staleTime: 1000 * 30,
   },
 };
 

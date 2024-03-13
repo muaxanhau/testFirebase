@@ -5,6 +5,7 @@ import {
   useMutation,
   useQuery,
 } from '@tanstack/react-query';
+import {config} from 'config';
 import {ResponseErrorModel} from 'models';
 import {useEffect} from 'react';
 import {Alert} from 'react-native';
@@ -24,7 +25,10 @@ type ApiQueryProps<Output> = UseQueryOptions<
   QueryKey
 >;
 export const useApiQuery = <Output>(props: ApiQueryProps<Output>) => {
-  const {error, ...rest} = useQuery<Output, ResponseErrorModel>(props);
+  const {error, ...rest} = useQuery<Output, ResponseErrorModel>({
+    ...props,
+    staleTime: config.staleTime,
+  });
 
   useErrorEffect(error);
 

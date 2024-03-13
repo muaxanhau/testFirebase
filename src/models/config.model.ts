@@ -10,6 +10,7 @@ export type EnvironmentsConfigModel = Record<
       build: number;
     };
     baseUrl: string;
+    staleTime: number; // for react query
   }
 >;
 
