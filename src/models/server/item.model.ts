@@ -1,9 +1,8 @@
-import {CategoryModel, FirestoreIdBaseModel} from 'models';
-import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
+import {FirestoreIdBaseModel} from 'models';
 
 export type ItemModel = {
+  id: string;
   name: string;
   color: string;
-  categoryId: FirebaseFirestoreTypes.DocumentReference<CategoryModel>;
 };
 export type ItemIdModel = FirestoreIdBaseModel<ItemModel>;

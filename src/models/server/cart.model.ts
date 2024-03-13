@@ -1,8 +1,6 @@
-import {FirestoreIdBaseModel, ItemModel} from 'models';
-import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
+import {FirestoreIdBaseModel} from 'models';
 
 export type CartModel = {
-  itemId: FirebaseFirestoreTypes.DocumentReference<ItemModel>;
   date: Date;
 };
 export type CartIdModel = FirestoreIdBaseModel<CartModel>;

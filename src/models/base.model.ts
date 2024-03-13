@@ -1,6 +1,6 @@
-import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
 import {PropsWithChildren} from 'react';
 import {ViewStyle} from 'react-native';
+import {Prettify} from 'utils';
 
 /**
  * screen
@@ -31,4 +31,4 @@ export type ActionStoreBaseModel<TAction> = Readonly<
 /**
  * client collection for firebase model
  */
-export type FirestoreIdBaseModel<T> = {id: string} & T;
+export type FirestoreIdBaseModel<T> = Prettify<{id: string} & T>;

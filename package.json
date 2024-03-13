@@ -14,7 +14,6 @@
     "@react-native-community/netinfo": "^11.3.1",
     "@react-native-firebase/app": "^19.0.0",
     "@react-native-firebase/auth": "^19.0.0",
-    "@react-native-firebase/firestore": "^19.0.0",
     "@react-navigation/native": "^6.1.14",
     "@react-navigation/native-stack": "^6.9.22",
     "@tanstack/react-query": "^5.24.1",
