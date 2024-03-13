@@ -23,9 +23,7 @@ export const useAddCategoryRepo = (props: AddCategoryProps) => {
         'categories',
         data,
       );
-      const category = response.data;
-
-      return category;
+      return response.data.data;
     },
     onSuccess: category => {
       queryClient.setQueryData<GetAllCategoriesOutput>(

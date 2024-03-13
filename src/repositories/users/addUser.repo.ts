@@ -4,7 +4,7 @@ import {devToolConfig} from 'config';
 import {UserIdModel, UserModel} from 'models';
 
 export type AddUserInput = {data: UserIdModel};
-export type AddUserOutput = void;
+export type AddUserOutput = null;
 export const useAddUserRepo = () => {
   const {mutate: addUser, ...rest} = useApiMutation<
     AddUserOutput,
@@ -14,7 +14,11 @@ export const useAddUserRepo = () => {
     mutationFn: async ({data}) => {
       await utils.sleep(devToolConfig.delayFetching);
 
-      await service.post<void, UserModel>('users', data);
+      const response = await service.post<AddUserOutput, UserModel>(
+        'users',
+        data,
+      );
+      return response.data.data;
     },
   });
 

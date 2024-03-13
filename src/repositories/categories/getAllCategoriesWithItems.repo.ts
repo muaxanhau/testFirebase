@@ -16,9 +16,7 @@ export const useGetAllCategoriesAndItemsRepo = () => {
         const response = await service.get<GetAllCategoriesWithItemsOutput>(
           'categories/items',
         );
-        const categoriesWithItems = response.data;
-
-        return categoriesWithItems;
+        return response.data.data;
       },
     });
 

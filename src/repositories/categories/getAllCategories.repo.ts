@@ -11,9 +11,7 @@ export const useGetAllCategoriesRepo = () => {
       await utils.sleep(devToolConfig.delayFetching);
 
       const response = await service.get<GetAllCategoriesOutput>('categories');
-      const categories = response.data;
-
-      return categories;
+      return response.data.data;
     },
   });
 

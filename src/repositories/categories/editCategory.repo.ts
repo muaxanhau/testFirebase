@@ -7,7 +7,7 @@ import {devToolConfig} from 'config';
 
 type EditCategoryProps = {onSuccess: () => void} | void;
 type EditCategoryInput = CategoryIdModel;
-type EditCategoryOutput = void;
+type EditCategoryOutput = null;
 export const useEditCategoryRepo = (props: EditCategoryProps) => {
   const queryClient = useQueryClient();
 
@@ -19,11 +19,15 @@ export const useEditCategoryRepo = (props: EditCategoryProps) => {
     mutationFn: async ({id, name, description, image}) => {
       await utils.sleep(devToolConfig.delayFetching);
 
-      await service.put<void, CategoryModel>(`categories/${id}`, {
-        name,
-        description,
-        image,
-      });
+      const response = await service.put<EditCategoryOutput, CategoryModel>(
+        `categories/${id}`,
+        {
+          name,
+          description,
+          image,
+        },
+      );
+      return response.data.data;
     },
     onMutate: ({id, name, description, image}) => {
       queryClient.setQueryData<GetAllCategoriesOutput>(

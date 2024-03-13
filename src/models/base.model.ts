@@ -34,12 +34,15 @@ export type ActionStoreBaseModel<TAction> = Readonly<
 export type FirestoreIdBaseModel<T> = Prettify<{id: string} & T>;
 
 /**
- *
+ * response from server
  */
-export type ErrorResponseBaseModel = {
+type ResponseBaseModel<T> = {
   statusCode: number;
   method: 'GET' | 'POST' | 'PUT' | 'DELETE';
   path: string;
   timestamp: Date;
   message: string[];
+  data: T;
 };
+export type SuccessResponseBaseModel<T = null> = ResponseBaseModel<T>;
+export type ErrorResponseBaseModel = ResponseBaseModel<null>;

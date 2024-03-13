@@ -1,5 +1,5 @@
 import {KeyService, service, useApiQuery} from 'repositories/services';
-import {CategoryIdModel} from 'models';
+import {CategoryIdModel, SuccessResponseBaseModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
 import {GetAllCategoriesOutput} from './getAllCategories.repo';
 import {utils} from 'utils';
@@ -19,8 +19,7 @@ export const useGetCategoryRepo = ({id}: GetCategoryProps) => {
       await utils.sleep(devToolConfig.delayFetching);
 
       const response = await service.get<CategoryIdModel>(`categories/${id}`);
-      const category = response.data;
-      return category;
+      return response.data.data;
     },
     initialData: localCategory,
   });

@@ -6,13 +6,12 @@ import {UserIdModel} from 'models';
 export type GetUserOutput = UserIdModel;
 export const useGetUserSelfRepo = () => {
   const {data: user, ...rest} = useApiQuery<GetUserOutput>({
-    queryKey: [KeyService.GET_USER],
+    queryKey: [KeyService.GET_USER_SELF],
     queryFn: async () => {
       await utils.sleep(devToolConfig.delayFetching);
 
       const response = await service.get<GetUserOutput>('users/self');
-      const user = response.data;
-      return user;
+      return response.data.data;
     },
   });
 

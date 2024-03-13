@@ -7,7 +7,7 @@ export enum KeyService {
   CONFIRM_OTP = 'CONFIRM_OTP',
 
   // users
-  GET_USER = 'GET_USER',
+  GET_USER_SELF = 'GET_USER_SELF',
   CREATE_USER = 'CREATE_USER',
 
   // categories

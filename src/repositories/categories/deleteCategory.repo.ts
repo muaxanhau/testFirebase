@@ -5,7 +5,7 @@ import {utils} from 'utils';
 import {devToolConfig} from 'config';
 
 type DeleteCategoryInput = {id: string};
-type DeleteCategoryOutput = void;
+type DeleteCategoryOutput = null;
 export const useDeleteCategoryRepo = () => {
   const queryClient = useQueryClient();
 
@@ -17,7 +17,8 @@ export const useDeleteCategoryRepo = () => {
     mutationFn: async ({id}) => {
       await utils.sleep(devToolConfig.delayFetching);
 
-      await service.delete(`categories/${id}`);
+      const response = await service.delete(`categories/${id}`);
+      return response.data;
     },
     onMutate: ({id}) => {
       queryClient.setQueryData<GetAllCategoriesOutput>(

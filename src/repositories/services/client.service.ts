@@ -5,7 +5,7 @@ import axios, {
   AxiosRequestConfig,
 } from 'axios';
 import {config} from 'config';
-import {ErrorResponseBaseModel} from 'models';
+import {ErrorResponseBaseModel, SuccessResponseBaseModel} from 'models';
 import {useAuthStore} from 'stores';
 import {utils} from 'utils';
 
@@ -52,7 +52,7 @@ const handleError = (e: AxiosError<ErrorResponseBaseModel>) => {
     message || e.message,
   );
 
-  return Promise.reject(e.response?.data);
+  return Promise.reject(message);
 };
 
 axiosClient.interceptors.request.use(handleRequest, handleError);
@@ -60,15 +60,23 @@ axiosClient.interceptors.response.use(handleResponse, handleError);
 
 export const service = {
   get: <Output>(url: string, config?: AxiosRequestConfig) =>
-    axiosClient.get<Output>(url, config),
+    axiosClient.get<SuccessResponseBaseModel<Output>>(url, config),
   post: <Output, Input>(
     url: string,
     data: Input,
     config?: AxiosRequestConfig,
   ) =>
-    axiosClient.post<Output, AxiosResponse<Output>, Input>(url, data, config),
+    axiosClient.post<
+      SuccessResponseBaseModel<Output>,
+      AxiosResponse<SuccessResponseBaseModel<Output>>,
+      Input
+    >(url, data, config),
   delete: (url: string, config?: AxiosRequestConfig) =>
     axiosClient.delete(url, config),
   put: <Output, Input>(url: string, data: Input, config?: AxiosRequestConfig) =>
-    axiosClient.put<Output, AxiosResponse<Output>, Input>(url, data, config),
+    axiosClient.put<
+      SuccessResponseBaseModel<Output>,
+      AxiosResponse<SuccessResponseBaseModel<Output>>,
+      Input
+    >(url, data, config),
 };
