@@ -1,7 +1,8 @@
 import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {devToolConfig} from 'config';
+import {RoleEnum} from 'models';
 import {KeyService, useApiMutation} from 'repositories/services';
-import {useCreateUserRepo} from 'repositories/users';
+import {useAddUserRepo} from 'repositories/users';
 import {utils} from 'utils';
 
 type ConfirmOtpProps = {onSuccess?: () => void} | void;
@@ -11,7 +12,7 @@ type ConfirmOtpInput = {
 };
 type ConfirmOtpOutput = FirebaseAuthTypes.UserCredential | null;
 export const useConfirmOtpRepo = (props: ConfirmOtpProps) => {
-  const {createUser} = useCreateUserRepo();
+  const {addUser} = useAddUserRepo();
 
   const {mutate: confirmOtp, ...rest} = useApiMutation<
     ConfirmOtpOutput,
@@ -28,7 +29,7 @@ export const useConfirmOtpRepo = (props: ConfirmOtpProps) => {
       if (!data) return;
 
       const {uid} = data.user;
-      uid && createUser({id: uid});
+      uid && addUser({data: {id: uid, role: RoleEnum.USER}});
 
       if (typeof props === 'undefined') return;
       props.onSuccess?.();

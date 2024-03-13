@@ -4,7 +4,7 @@ import {StatusBar} from 'react-native';
 import {MainStackNavigation} from 'navigations';
 import {useFirstSetupApp, withProvider} from 'utils';
 
-export const App: FC = withProvider(() => {
+export const Main: FC = withProvider(() => {
   useFirstSetupApp();
 
   return (

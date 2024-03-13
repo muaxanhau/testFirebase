@@ -1,8 +1,4 @@
-import {
-  KeyService,
-  categoriesCollectionService,
-  useApiMutation,
-} from 'repositories/services';
+import {KeyService, service, useApiMutation} from 'repositories/services';
 import {useQueryClient} from '@tanstack/react-query';
 import {GetAllCategoriesOutput} from './getAllCategories.repo';
 import {utils} from 'utils';
@@ -21,7 +17,7 @@ export const useDeleteCategoryRepo = () => {
     mutationFn: async ({id}) => {
       await utils.sleep(devToolConfig.delayFetching);
 
-      await categoriesCollectionService.doc(id).delete();
+      await service.delete(`categories/${id}`);
     },
     onMutate: ({id}) => {
       queryClient.setQueryData<GetAllCategoriesOutput>(

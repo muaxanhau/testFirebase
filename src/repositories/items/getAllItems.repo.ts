@@ -1,8 +1,4 @@
-import {
-  KeyService,
-  itemsCollectionService,
-  useApiQuery,
-} from 'repositories/services';
+import {KeyService, service, useApiQuery} from 'repositories/services';
 import {ItemIdModel} from 'models';
 import {utils} from 'utils';
 import {devToolConfig} from 'config';
@@ -14,11 +10,8 @@ export const useGetAllItemsRepo = () => {
     queryFn: async () => {
       await utils.sleep(devToolConfig.delayFetching);
 
-      const rawItems = await itemsCollectionService.get();
-      const items: ItemIdModel[] = rawItems.docs.map(rawItem => ({
-        id: rawItem.id,
-        ...rawItem.data(),
-      }));
+      const response = await service.get<GetAllItemsOutput>('items');
+      const items = response.data;
 
       return items;
     },

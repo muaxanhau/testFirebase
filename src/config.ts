@@ -41,6 +41,5 @@ export const config = environments.DEVELOPMENT;
  * debug log for response api
  */
 export const devToolConfig: DevToolConfigModel = {
-  enableLog: true, // should disable or remove on prod mode
   delayFetching: 0, // delay fetch data from server
 };

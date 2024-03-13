@@ -1,8 +1,4 @@
-import {
-  KeyService,
-  categoriesCollectionService,
-  useApiMutation,
-} from 'repositories/services';
+import {KeyService, service, useApiMutation} from 'repositories/services';
 import {CategoryIdModel, CategoryModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
 import {GetAllCategoriesOutput} from './getAllCategories.repo';
@@ -23,13 +19,11 @@ export const useAddCategoryRepo = (props: AddCategoryProps) => {
     mutationFn: async data => {
       await utils.sleep(devToolConfig.delayFetching);
 
-      const response = await categoriesCollectionService.add(data);
-      const rawCategory = await response.get();
-
-      const category: CategoryIdModel = {
-        id: rawCategory.id,
-        ...rawCategory.data()!,
-      };
+      const response = await service.post<AddCategoryOutput, AddCategoryInput>(
+        'categories',
+        data,
+      );
+      const category = response.data;
 
       return category;
     },

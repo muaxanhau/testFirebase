@@ -30,17 +30,6 @@ export const useFirstSetupApp = () => {
     const isAuthorized = auth().currentUser !== null;
     resetMainStackNavigation(isAuthorized ? 'Home' : 'Login');
   };
-  const setToken = async () => {
-    const {currentUser} = auth();
-    if (!currentUser) return;
-
-    const token = await currentUser.getIdToken();
-    setAuth({token});
-  };
-  const runAsyncFunc = async () => {
-    await setToken();
-    checkNavigation();
-  };
 
   useLayoutEffect(() => {
     LogBox.ignoreAllLogs();
@@ -50,8 +39,20 @@ export const useFirstSetupApp = () => {
       NetInfo.addEventListener(state => setOnline(!!state.isConnected)),
     );
 
-    runAsyncFunc();
+    const tokenListener = auth().onIdTokenChanged(async user => {
+      if (!user) {
+        setAuth({token: undefined});
+        return;
+      }
+
+      const token = await user.getIdToken();
+      setAuth({token});
+    });
+
+    return () => tokenListener();
   }, []);
+
+  useEffect(checkNavigation, []);
 };
 
 export const useFirstCheckNavigation = () => {

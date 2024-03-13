@@ -2,12 +2,13 @@ import axios, {
   InternalAxiosRequestConfig,
   AxiosResponse,
   AxiosError,
+  AxiosRequestConfig,
 } from 'axios';
 import {config} from 'config';
 import {useAuthStore} from 'stores';
 import {utils} from 'utils';
 
-const clientService = axios.create({
+const axiosClient = axios.create({
   baseURL: config.baseUrl,
   headers: {
     'Content-Type': 'application/json',
@@ -52,7 +53,20 @@ const handleError = (e: AxiosError) => {
   return Promise.reject(e.response?.data);
 };
 
-clientService.interceptors.request.use(handleRequest, handleError);
-clientService.interceptors.response.use(handleResponse, handleError);
+axiosClient.interceptors.request.use(handleRequest, handleError);
+axiosClient.interceptors.response.use(handleResponse, handleError);
 
-export {clientService};
+export const service = {
+  get: <Output>(url: string, config?: AxiosRequestConfig) =>
+    axiosClient.get<Output>(url, config),
+  post: <Output, Input>(
+    url: string,
+    data: Input,
+    config?: AxiosRequestConfig,
+  ) =>
+    axiosClient.post<Output, AxiosResponse<Output>, Input>(url, data, config),
+  delete: (url: string, config?: AxiosRequestConfig) =>
+    axiosClient.delete(url, config),
+  put: <Output, Input>(url: string, data: Input, config?: AxiosRequestConfig) =>
+    axiosClient.put<Output, AxiosResponse<Output>, Input>(url, data, config),
+};

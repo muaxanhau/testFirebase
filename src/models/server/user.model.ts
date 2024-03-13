@@ -1,7 +1,7 @@
 import {RoleEnum} from 'models/enums';
-import {ClientFirestoreBaseModel} from 'models';
+import {FirestoreIdBaseModel} from 'models';
 
 export type UserModel = {
   role: RoleEnum;
 };
-export type UserIdModel = ClientFirestoreBaseModel<UserModel>;
+export type UserIdModel = FirestoreIdBaseModel<UserModel>;

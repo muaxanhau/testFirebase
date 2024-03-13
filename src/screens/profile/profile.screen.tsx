@@ -3,12 +3,12 @@ import React, {FC} from 'react';
 import {ScreenBaseModel} from 'models';
 import {ButtonComponent, ScreenLayoutComponent} from 'components';
 import {useMainStackNavigation, useResetMainStackNavigation} from 'utils';
-import {useGetUserRepo, useLogoutRepo} from 'repositories';
+import {useGetUserSelfRepo, useLogoutRepo} from 'repositories';
 
 export const ProfileScreen: FC<ScreenBaseModel> = () => {
   const navigation = useMainStackNavigation();
   const resetMainStackNavigation = useResetMainStackNavigation();
-  const {user} = useGetUserRepo();
+  const {user} = useGetUserSelfRepo();
   const {logout, isPending} = useLogoutRepo({
     onSuccess: () => {
       Alert.alert('Alert', 'Logout successful');

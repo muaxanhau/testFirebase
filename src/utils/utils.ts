@@ -1,4 +1,4 @@
-import {config, devToolConfig} from 'config';
+import {config} from 'config';
 import {Platform} from 'react-native';
 import {z} from 'zod';
 import {images, valueStyles} from 'values';
@@ -227,7 +227,7 @@ const logResponse = (
   body: Object,
   response: Object | string,
 ) => {
-  if (!devToolConfig.enableLog) return;
+  if (!config.enableLog) return;
 
   console.log(
     `==> ${method?.toUpperCase()} <=====================================================

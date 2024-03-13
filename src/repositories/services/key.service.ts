@@ -1,10 +1,3 @@
-export enum CollectionService {
-  USERS = 'users',
-  CATEGORIES = 'categories',
-  ITEMS = 'items',
-  CARTS = 'carts',
-}
-
 export enum KeyService {
   // auth
   LOGIN = 'LOGIN',

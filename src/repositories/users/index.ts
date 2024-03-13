@@ -1,2 +1,2 @@
-export * from './createUser.repo';
+export * from './addUser.repo';
 export * from './getUser.repo';

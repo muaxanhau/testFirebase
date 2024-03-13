@@ -1,8 +1,4 @@
-import {
-  KeyService,
-  categoriesCollectionService,
-  useApiQuery,
-} from 'repositories/services';
+import {KeyService, service, useApiQuery} from 'repositories/services';
 import {CategoryIdModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
 import {GetAllCategoriesOutput} from './getAllCategories.repo';
@@ -22,11 +18,8 @@ export const useGetCategoryRepo = ({id}: GetCategoryProps) => {
     queryFn: async () => {
       await utils.sleep(devToolConfig.delayFetching);
 
-      const rawCategory = await categoriesCollectionService.doc(id).get();
-      const category: CategoryIdModel = {
-        id: rawCategory.id,
-        ...rawCategory.data()!,
-      };
+      const response = await service.get<CategoryIdModel>(`categories/${id}`);
+      const category = response.data;
       return category;
     },
     initialData: localCategory,

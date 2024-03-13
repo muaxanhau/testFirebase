@@ -14,6 +14,5 @@ export type EnvironmentsConfigModel = Record<
 >;
 
 export type DevToolConfigModel = {
-  enableLog: boolean;
   delayFetching: number;
 };

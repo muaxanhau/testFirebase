@@ -1,11 +1,7 @@
 import {Alert, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
 import {ComponentBaseModel, ItemIdModel} from 'models';
-import {
-  itemsCollectionService,
-  useAddCartRepo,
-  useGetAllCategoriesAndItemsRepo,
-} from 'repositories';
+import {useAddCartRepo, useGetAllCategoriesAndItemsRepo} from 'repositories';
 import {FlatListComponent, TextComponent} from 'components';
 import {colors, valueStyles} from 'values';
 import {dateUtil} from 'utils';
@@ -63,9 +59,8 @@ const ItemComponent: FC<ItemProps> = ({id, name}) => {
   });
 
   const onPress = () => {
-    const refItem = itemsCollectionService.doc(id);
-    const date = dateUtil.now();
-    addCart({itemId: refItem, date});
+    // const date = dateUtil.now();
+    // addCart({itemId: refItem, date});
   };
 
   return (

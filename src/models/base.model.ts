@@ -31,4 +31,4 @@ export type ActionStoreBaseModel<TAction> = Readonly<
 /**
  * client collection for firebase model
  */
-export type ClientFirestoreBaseModel<T> = {id: string} & T;
+export type FirestoreIdBaseModel<T> = {id: string} & T;
