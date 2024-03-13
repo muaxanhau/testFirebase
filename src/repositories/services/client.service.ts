@@ -5,6 +5,7 @@ import axios, {
   AxiosRequestConfig,
 } from 'axios';
 import {config} from 'config';
+import {ErrorResponseBaseModel} from 'models';
 import {useAuthStore} from 'stores';
 import {utils} from 'utils';
 
@@ -36,9 +37,10 @@ const handleResponse = (response: AxiosResponse) => {
 
   return Promise.resolve(response);
 };
-const handleError = (e: AxiosError) => {
-  const {config} = e;
+const handleError = (e: AxiosError<ErrorResponseBaseModel>) => {
+  const {config, response} = e;
   const {method, baseURL, url, headers, params, data: body} = config!;
+  const message = response?.data.message.join('. ');
 
   utils.logResponse(
     'error',
@@ -47,7 +49,7 @@ const handleError = (e: AxiosError) => {
     headers,
     params,
     body,
-    e.message,
+    message || e.message,
   );
 
   return Promise.reject(e.response?.data);
