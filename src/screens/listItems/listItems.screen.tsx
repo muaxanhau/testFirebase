@@ -12,15 +12,15 @@ export const ListItemsScreen: FC<ScreenBaseModel> = () => {
   const onPress = () => navigation.navigate('ListCarts');
 
   return (
-    <ScreenLayoutComponent title="Items">
+    <ScreenLayoutComponent title="Items" disablePaddingTop>
+      <ListItemsComponent />
+
       <ButtonComponent
         title="Cart"
         onPress={onPress}
         type="outline"
         style={styles.button}
       />
-
-      <ListItemsComponent />
     </ScreenLayoutComponent>
   );
 };

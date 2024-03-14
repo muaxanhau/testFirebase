@@ -1,6 +1,9 @@
 import {FirestoreIdBaseModel} from 'models';
 
 export type CartModel = {
-  date: Date;
+  userId: string;
+  itemId: string;
+  createdAt: Date;
+  paidAt?: Date;
 };
 export type CartIdModel = FirestoreIdBaseModel<CartModel>;

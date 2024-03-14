@@ -1,11 +1,11 @@
-import {KeyService, useApiMutation} from 'repositories/services';
+import {KeyService, service, useApiMutation} from 'repositories/services';
 import {CartIdModel, CartModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
 import {utils} from 'utils';
 import {devToolConfig} from 'config';
 
 type AddCartProps = {onSuccess?: () => void} | void;
-type AddCartInput = CartModel;
+type AddCartInput = {itemId: string};
 type AddCartOutput = CartIdModel;
 export const useAddCartRepo = (props: AddCartProps) => {
   const queryClient = useQueryClient();
@@ -15,18 +15,15 @@ export const useAddCartRepo = (props: AddCartProps) => {
     AddCartInput
   >({
     mutationKey: [KeyService.ADD_CART],
-    mutationFn: async data => {
+    mutationFn: async ({itemId}) => {
       await utils.sleep(devToolConfig.delayFetching);
 
-      // const response = await cartsCollectionService.add(data);
-      // const rawCart = await response.get();
+      const response = await service.post<AddCartOutput, AddCartInput>(
+        'carts',
+        {itemId},
+      );
 
-      // const cart: CartIdModel = {
-      //   id: rawCart.id,
-      //   ...rawCart.data()!,
-      // };
-
-      // return cart;
+      return response.data;
     },
     onSuccess: cart => {
       // queryClient.setQueryData<GetAllCategoriesOutput>(

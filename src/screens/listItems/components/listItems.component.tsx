@@ -4,7 +4,6 @@ import {ComponentBaseModel, ItemIdModel} from 'models';
 import {useAddCartRepo, useGetAllCategoriesAndItemsRepo} from 'repositories';
 import {FlatListComponent, TextComponent} from 'components';
 import {colors, valueStyles} from 'values';
-import {dateUtil} from 'utils';
 
 export const ListItemsComponent: FC<ComponentBaseModel> = () => {
   const {categoriesWithItems} = useGetAllCategoriesAndItemsRepo();
@@ -58,10 +57,7 @@ const ItemComponent: FC<ItemProps> = ({id, name}) => {
     onSuccess: () => Alert.alert('Alert', 'Item is added to your cart'),
   });
 
-  const onPress = () => {
-    // const date = dateUtil.now();
-    // addCart({itemId: refItem, date});
-  };
+  const onPress = () => addCart({itemId: id});
 
   return (
     <TouchableOpacity onPress={onPress}>
