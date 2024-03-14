@@ -3,6 +3,8 @@ import {Platform} from 'react-native';
 import {z} from 'zod';
 import {images, valueStyles} from 'values';
 import {validationUtil} from './validation.util';
+import {AxiosError, AxiosResponse} from 'axios';
+import {ErrorResponseBaseModel} from 'models';
 
 const isIos = () => Platform.OS === 'ios';
 const isAndroid = () => Platform.OS === 'android';
@@ -219,25 +221,29 @@ const log = (
   }
 };
 const logResponse = (
-  type: 'success' | 'error',
-  method: string,
-  url: string,
-  headers: Object,
-  params: Object,
-  body: Object,
-  response: Object | string,
+  res: AxiosResponse | AxiosError<ErrorResponseBaseModel>,
 ) => {
-  if (!config.enableLog) return;
+  const {config} = res;
+  const {method, baseURL, url, headers, params, data: body} = config!;
+
+  let result = '';
+  if (res instanceof AxiosError) {
+    const {response} = res;
+    result = `ERROR: ${response?.data.message.join('. ') || res.message}`;
+  } else {
+    const {data} = res;
+    result = `RESPONSE: ${JSON.stringify(data)}`;
+  }
 
   console.log(
-    `==> ${method?.toUpperCase()} <=====================================================
-        \n\t- url: ${url}\n\t- header: ${JSON.stringify(
+    `==> ${
+      method?.toUpperCase() || 'GET'
+    } <=====================================================
+        \n\t- url: ${baseURL}${url}\n\t- header: ${JSON.stringify(
       headers,
     )}\n\t- params: ${JSON.stringify(params)}\n\t- body: ${JSON.stringify(
       body,
-    )}\n\n\t=> ${type === 'success' ? 'RESPONSE' : 'ERROR'}: ${
-      type === 'success' ? JSON.stringify(response) : response
-    }\n_`,
+    )}\n\n\t=> ${result}\n_`,
   );
 };
 

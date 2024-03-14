@@ -30,14 +30,12 @@ export const useAddCategoryRepo = (props: AddCategoryProps) => {
         [KeyService.GET_ALL_CATEGORIES],
         oldData => (oldData ? [category, ...oldData] : oldData),
       );
-
-      if (typeof props === 'undefined') return;
-      props.onSuccess?.();
-    },
-    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: [KeyService.GET_ALL_CATEGORIES],
       });
+
+      if (typeof props === 'undefined') return;
+      props.onSuccess?.();
     },
   });
   return {addCategory, ...rest};

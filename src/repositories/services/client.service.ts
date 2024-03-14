@@ -22,37 +22,17 @@ const handleRequest = (requestConfig: InternalAxiosRequestConfig) => {
   return requestConfig;
 };
 const handleResponse = (response: AxiosResponse) => {
-  const {data, config} = response;
-  const {method, baseURL, url, headers, params, data: body} = config;
-
-  utils.logResponse(
-    'success',
-    method?.toUpperCase() || 'GET',
-    `${baseURL}${url}`,
-    headers,
-    params,
-    body,
-    data,
-  );
+  utils.logResponse(response);
 
   return Promise.resolve(response);
 };
 const handleError = (e: AxiosError<ErrorResponseBaseModel>) => {
-  const {config, response} = e;
-  const {method, baseURL, url, headers, params, data: body} = config!;
-  const message = response?.data.message.join('. ');
+  const {response} = e;
+  const error = response?.data.message.join('. ') || e.message;
 
-  utils.logResponse(
-    'error',
-    method?.toUpperCase() || 'GET',
-    `${baseURL}${url}`,
-    headers,
-    params,
-    body,
-    message || e.message,
-  );
+  utils.logResponse(e);
 
-  return Promise.reject(message);
+  return Promise.reject(error);
 };
 
 axiosClient.interceptors.request.use(handleRequest, handleError);
