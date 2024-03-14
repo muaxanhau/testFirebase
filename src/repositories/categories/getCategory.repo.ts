@@ -1,5 +1,5 @@
 import {KeyService, service, useApiQuery} from 'repositories/services';
-import {CategoryIdModel, SuccessResponseBaseModel} from 'models';
+import {CategoryIdModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
 import {GetAllCategoriesOutput} from './getAllCategories.repo';
 import {utils} from 'utils';

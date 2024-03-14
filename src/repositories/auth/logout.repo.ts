@@ -2,6 +2,7 @@ import auth from '@react-native-firebase/auth';
 import {useQueryClient} from '@tanstack/react-query';
 import {devToolConfig} from 'config';
 import {KeyService, useApiMutation} from 'repositories/services';
+import {resetAllStores} from 'stores';
 import {utils} from 'utils';
 
 type LogoutProps = {onSuccess?: () => void} | void;
@@ -17,6 +18,7 @@ export const useLogoutRepo = (props: LogoutProps) => {
       await auth().signOut();
     },
     onSuccess: () => {
+      resetAllStores();
       queryClient.clear();
 
       if (typeof props === 'undefined') return;

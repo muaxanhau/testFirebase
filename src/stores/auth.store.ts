@@ -12,6 +12,6 @@ const initialState: State = {
 };
 export const useAuthStore = create<State & Action>(set => ({
   ...initialState,
-  reset: () => set(() => initialState),
+  reset: () => set(initialState),
   setAuth: input => set(state => ({...state, ...input})),
 }));
