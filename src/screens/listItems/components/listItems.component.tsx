@@ -57,7 +57,7 @@ const ItemComponent: FC<ItemProps> = ({id, name}) => {
     onSuccess: () => Alert.alert('Alert', 'Item is added to your cart'),
   });
 
-  const onPress = () => addCart({itemId: id});
+  const onPress = () => addCart({itemId: id, quantity: 1});
 
   return (
     <TouchableOpacity onPress={onPress}>

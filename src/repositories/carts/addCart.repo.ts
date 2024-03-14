@@ -5,7 +5,7 @@ import {utils} from 'utils';
 import {devToolConfig} from 'config';
 
 type AddCartProps = {onSuccess?: () => void} | void;
-type AddCartInput = {itemId: string};
+type AddCartInput = {itemId: string; quantity: number};
 type AddCartOutput = CartIdModel;
 export const useAddCartRepo = (props: AddCartProps) => {
   const queryClient = useQueryClient();
@@ -15,12 +15,12 @@ export const useAddCartRepo = (props: AddCartProps) => {
     AddCartInput
   >({
     mutationKey: [KeyService.ADD_CART],
-    mutationFn: async ({itemId}) => {
+    mutationFn: async data => {
       await utils.sleep(devToolConfig.delayFetching);
 
       const response = await service.post<AddCartOutput, AddCartInput>(
         'carts',
-        {itemId},
+        data,
       );
 
       return response.data;

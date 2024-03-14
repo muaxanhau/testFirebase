@@ -3,6 +3,7 @@ import {FirestoreIdBaseModel} from 'models';
 export type CartModel = {
   userId: string;
   itemId: string;
+  quantity: number;
   createdAt: Date;
   paidAt?: Date;
 };

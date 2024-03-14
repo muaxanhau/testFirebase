@@ -230,9 +230,7 @@ const logResponse = (
   let result = '';
   if (res instanceof AxiosError) {
     const {response} = res;
-    result = `ERROR: ${
-      response?.data.message.join('. ').trim() || res.message
-    }`;
+    result = `ERROR: ${response?.data.message.join('\n') || res.message}`;
   } else {
     const {data} = res;
     result = `RESPONSE: ${JSON.stringify(data)}`;
