@@ -26,13 +26,13 @@ const handleResponse = (response: AxiosResponse) => {
 
   return Promise.resolve(response);
 };
-const handleError = (e: AxiosError<ErrorResponseBaseModel>) => {
-  const {response} = e;
-  const error = response?.data.message.join('. ') || e.message;
+const handleError = (error: AxiosError<ErrorResponseBaseModel>) => {
+  const {response} = error;
+  const message = response?.data.message.join('. ').trim() || error.message;
 
-  utils.logResponse(e);
+  utils.logResponse(error);
 
-  return Promise.reject(error);
+  return Promise.reject(message);
 };
 
 axiosClient.interceptors.request.use(handleRequest, handleError);
@@ -40,23 +40,31 @@ axiosClient.interceptors.response.use(handleResponse, handleError);
 
 export const service = {
   get: <Output>(url: string, config?: AxiosRequestConfig) =>
-    axiosClient.get<SuccessResponseBaseModel<Output>>(url, config),
+    axiosClient
+      .get<SuccessResponseBaseModel<Output>>(url, config)
+      .then(res => res.data),
   post: <Output, Input>(
     url: string,
     data: Input,
     config?: AxiosRequestConfig,
   ) =>
-    axiosClient.post<
-      SuccessResponseBaseModel<Output>,
-      AxiosResponse<SuccessResponseBaseModel<Output>>,
-      Input
-    >(url, data, config),
-  delete: (url: string, config?: AxiosRequestConfig) =>
-    axiosClient.delete(url, config),
+    axiosClient
+      .post<
+        SuccessResponseBaseModel<Output>,
+        AxiosResponse<SuccessResponseBaseModel<Output>>,
+        Input
+      >(url, data, config)
+      .then(res => res.data),
+  delete: <Output = null>(url: string, config?: AxiosRequestConfig) =>
+    axiosClient
+      .delete<SuccessResponseBaseModel<Output>>(url, config)
+      .then(res => res.data),
   put: <Output, Input>(url: string, data: Input, config?: AxiosRequestConfig) =>
-    axiosClient.put<
-      SuccessResponseBaseModel<Output>,
-      AxiosResponse<SuccessResponseBaseModel<Output>>,
-      Input
-    >(url, data, config),
+    axiosClient
+      .put<
+        SuccessResponseBaseModel<Output>,
+        AxiosResponse<SuccessResponseBaseModel<Output>>,
+        Input
+      >(url, data, config)
+      .then(res => res.data),
 };

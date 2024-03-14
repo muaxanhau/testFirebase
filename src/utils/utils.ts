@@ -5,6 +5,7 @@ import {images, valueStyles} from 'values';
 import {validationUtil} from './validation.util';
 import {AxiosError, AxiosResponse} from 'axios';
 import {ErrorResponseBaseModel} from 'models';
+import {convertToRGBA} from 'react-native-reanimated';
 
 const isIos = () => Platform.OS === 'ios';
 const isAndroid = () => Platform.OS === 'android';
@@ -229,7 +230,9 @@ const logResponse = (
   let result = '';
   if (res instanceof AxiosError) {
     const {response} = res;
-    result = `ERROR: ${response?.data.message.join('. ') || res.message}`;
+    result = `ERROR: ${
+      response?.data.message.join('. ').trim() || res.message
+    }`;
   } else {
     const {data} = res;
     result = `RESPONSE: ${JSON.stringify(data)}`;
@@ -310,12 +313,11 @@ const hp = (percent: number) => {
  * @param opacity 0 <= opacity <=1
  * @returns
  */
-const opacityColor = (hexColorString: string, opacity = 1) => {
-  const hex = hexColorString.substring(1);
-
-  const r = parseInt(hex.substring(0, 2), 16);
-  const g = parseInt(hex.substring(2, 4), 16);
-  const b = parseInt(hex.substring(4, 6), 16);
+const opacityColor = (color: unknown, opacity = 1) => {
+  const rgba = convertToRGBA(color);
+  const r = rgba[0];
+  const g = rgba[1];
+  const b = rgba[2];
 
   const clr = `rgba(${r},${g},${b},${opacity})`;
   return clr;

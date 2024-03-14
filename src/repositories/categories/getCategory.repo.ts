@@ -19,7 +19,7 @@ export const useGetCategoryRepo = ({id}: GetCategoryProps) => {
       await utils.sleep(devToolConfig.delayFetching);
 
       const response = await service.get<CategoryIdModel>(`categories/${id}`);
-      return response.data.data;
+      return response.data;
     },
     initialData: localCategory,
   });

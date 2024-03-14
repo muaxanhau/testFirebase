@@ -27,7 +27,7 @@ export const useEditCategoryRepo = (props: EditCategoryProps) => {
           image,
         },
       );
-      return response.data.data;
+      return response.data;
     },
     onMutate: ({id, name, description, image}) => {
       queryClient.setQueryData<GetAllCategoriesOutput>(

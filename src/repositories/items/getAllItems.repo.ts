@@ -11,7 +11,7 @@ export const useGetAllItemsRepo = () => {
       await utils.sleep(devToolConfig.delayFetching);
 
       const response = await service.get<GetAllItemsOutput>('items');
-      return response.data.data;
+      return response.data;
     },
   });
 

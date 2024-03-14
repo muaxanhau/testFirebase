@@ -9,18 +9,26 @@ import {config} from 'config';
 import {useEffect} from 'react';
 import {Alert} from 'react-native';
 
-const useErrorEffect = (error?: string | null) => {
+const useErrorEffect = (error: unknown) => {
   useEffect(() => {
     if (!error) return;
 
-    // do something here
-    Alert.alert('Warning', error);
+    // do something else here
+
+    if (typeof error === 'string') {
+      Alert.alert('Warning', error);
+      return;
+    }
+
+    // for firebase exception
+    const e = error as {message: string; code: string};
+    Alert.alert('Warning', e.message);
   }, [error]);
 };
 
-type ApiQueryProps<Output> = UseQueryOptions<Output, string, Output, QueryKey>;
+type ApiQueryProps<Output> = UseQueryOptions<Output, unknown, Output, QueryKey>;
 export const useApiQuery = <Output>(props: ApiQueryProps<Output>) => {
-  const {error, ...rest} = useQuery<Output, string>({
+  const {error, ...rest} = useQuery<Output, unknown>({
     ...props,
     staleTime: config.staleTime,
   });
@@ -35,13 +43,13 @@ export const useApiQuery = <Output>(props: ApiQueryProps<Output>) => {
 
 type ApiMutationProps<Output, Input> = UseMutationOptions<
   Output,
-  string,
+  unknown,
   Input
 >;
 export const useApiMutation = <Output, Input = void>(
   props: ApiMutationProps<Output, Input>,
 ) => {
-  const {error, ...rest} = useMutation<Output, string, Input>(props);
+  const {error, ...rest} = useMutation<Output, unknown, Input>(props);
 
   useErrorEffect(error);
 

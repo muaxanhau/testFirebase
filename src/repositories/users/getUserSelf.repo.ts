@@ -11,7 +11,7 @@ export const useGetUserSelfRepo = () => {
       await utils.sleep(devToolConfig.delayFetching);
 
       const response = await service.get<GetUserOutput>('users/self');
-      return response.data.data;
+      return response.data;
     },
   });
 

@@ -16,13 +16,15 @@ import {
   onlineManager,
   useIsFetching,
   useIsMutating,
+  useQueryClient,
 } from '@tanstack/react-query';
 import {z} from 'zod';
 import {storageUtil} from './storage.util';
 import auth from '@react-native-firebase/auth';
-import {useAuthStore} from 'stores';
+import {resetAllStores, useAuthStore} from 'stores';
 
 export const useFirstSetupApp = () => {
+  const queryClient = useQueryClient();
   const {setAuth} = useAuthStore();
   const resetMainStackNavigation = useResetMainStackNavigation();
 
@@ -41,7 +43,8 @@ export const useFirstSetupApp = () => {
 
     const tokenListener = auth().onIdTokenChanged(async user => {
       if (!user) {
-        setAuth({token: undefined});
+        resetAllStores();
+        queryClient.clear();
         return;
       }
 
