@@ -55,18 +55,7 @@ export const useFirstSetupApp = () => {
     return () => tokenListener();
   }, []);
 
-  useEffect(checkNavigation, []);
-};
-
-export const useFirstCheckNavigation = () => {
-  const resetMainStackNavigation = useResetMainStackNavigation();
-
-  const navigate = () => {
-    const isAuthorized = auth().currentUser !== null;
-    resetMainStackNavigation(isAuthorized ? 'Home' : 'Login');
-  };
-
-  return navigate;
+  useTimeout(checkNavigation, 1000);
 };
 
 /**

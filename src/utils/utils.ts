@@ -10,41 +10,6 @@ import {convertToRGBA} from 'react-native-reanimated';
 const isIos = () => Platform.OS === 'ios';
 const isAndroid = () => Platform.OS === 'android';
 
-/**
- * make any string styles to camel string
- * @param str
- * @returns camel string
- */
-const toCamel = (str: string): string =>
-  str.replace(/([-_][a-z])/gi, (oriStr: string) =>
-    oriStr.toUpperCase().replace('-', '').replace('_', ''),
-  );
-
-/**
- * convert object with free-styled-keys to object with camelKeys
- * @param data
- * @returns data with keys as camel key
- */
-const keysToCamel = (data: any): any => {
-  if (validationUtil.isObject(data)) {
-    let n = {};
-
-    Object.keys(data).forEach(k => {
-      n = {
-        ...n,
-        [toCamel(k)]: keysToCamel(data[k]),
-      };
-    });
-
-    return n;
-  }
-  if (validationUtil.isArray(data)) {
-    return data.map((i: any) => keysToCamel(i));
-  }
-
-  return data;
-};
-
 function* generatorIncreaseIndex() {
   let i = 0;
   while (true) {
@@ -357,8 +322,6 @@ type TransformSchemaToModel<T extends z.Schema> = Prettify<z.infer<T>>;
 export const utils = {
   isIos,
   isAndroid,
-  toCamel,
-  keysToCamel,
   getUniqueKey,
   random,
   clamp,
