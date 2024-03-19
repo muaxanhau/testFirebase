@@ -1,8 +1,8 @@
 import {FirestoreIdBaseModel} from 'models';
 
 export type ItemModel = {
-  id: string;
   name: string;
   color: string;
+  categoryId: string;
 };
 export type ItemIdModel = FirestoreIdBaseModel<ItemModel>;

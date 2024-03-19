@@ -4,6 +4,7 @@ import {ComponentBaseModel, ItemIdModel} from 'models';
 import {useAddCartRepo, useGetAllCategoriesAndItemsRepo} from 'repositories';
 import {FlatListComponent, TextComponent} from 'components';
 import {colors, valueStyles} from 'values';
+import {utils} from 'utils';
 
 export const ListItemsComponent: FC<ComponentBaseModel> = () => {
   const {categoriesWithItems} = useGetAllCategoriesAndItemsRepo();
@@ -12,12 +13,9 @@ export const ListItemsComponent: FC<ComponentBaseModel> = () => {
     <FlatListComponent
       data={categoriesWithItems}
       contentContainerStyle={styles.container}
+      keyExtractor={({id}) => id}
       renderItem={({item}) => (
-        <SectionCategoryComponent
-          key={item.id}
-          title={item.name}
-          items={item.items}
-        />
+        <SectionCategoryComponent title={item.name} items={item.items} />
       )}
     />
   );
@@ -39,6 +37,7 @@ const SectionCategoryComponent: FC<SectionCategoryProps> = ({title, items}) => {
         horizontal
         contentContainerStyle={styles.categoryWrapper}
         showsHorizontalScrollIndicator={false}
+        keyExtractor={({id}) => id}
         renderItem={({item}) => (
           <ItemComponent key={item.id} id={item.id} name={item.name} />
         )}
@@ -87,5 +86,7 @@ const styles = StyleSheet.create({
     borderRadius: valueStyles.borderRadius2,
     borderColor: colors.green,
     borderWidth: valueStyles.line2,
+    minWidth: utils.wp(38),
+    aspectRatio: 3 / 4,
   },
 });

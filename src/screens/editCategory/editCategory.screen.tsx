@@ -1,5 +1,5 @@
 import {KeyboardAvoidingView} from 'react-native';
-import React, {FC} from 'react';
+import React from 'react';
 import {
   MainStackNavigationModel,
   ScreenBaseModel,
@@ -15,7 +15,7 @@ import {
 } from 'components';
 import {useHookForm, useMainStackNavigation} from 'utils';
 
-export const EditCategoryScreen: FC<ScreenBaseModel> = () => {
+export const EditCategoryScreen: ScreenBaseModel = () => {
   const {params} =
     useRoute<RouteProp<MainStackNavigationModel, 'EditCategory'>>();
   const {id} = params;

@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React from 'react';
 import {MainStackNavigationModel, ScreenBaseModel} from 'models';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {useGetCategoryRepo} from 'repositories';
@@ -11,7 +11,7 @@ import {
 import {StyleSheet} from 'react-native';
 import {colors, valueStyles} from 'values';
 
-export const DetailCategoryScreen: FC<ScreenBaseModel> = () => {
+export const DetailCategoryScreen: ScreenBaseModel = () => {
   const {params} =
     useRoute<RouteProp<MainStackNavigationModel, 'DetailCategory'>>();
   const {id} = params;

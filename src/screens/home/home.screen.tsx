@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native';
-import React, {FC, useRef} from 'react';
+import React, {useRef} from 'react';
 import {ScreenBaseModel} from 'models';
 import {useMainStackNavigation} from 'utils';
 import {
@@ -10,7 +10,7 @@ import {
 } from 'components';
 import {colors} from 'values';
 
-export const HomeScreen: FC<ScreenBaseModel> = () => {
+export const HomeScreen: ScreenBaseModel = () => {
   const navigation = useMainStackNavigation();
   const refBottomSheet = useRef<BottomSheetRefProps>(null);
 

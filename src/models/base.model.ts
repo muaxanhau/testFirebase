@@ -1,14 +1,15 @@
-import {PropsWithChildren} from 'react';
+import {FC, PropsWithChildren} from 'react';
 import {ViewStyle} from 'react-native';
 import {Prettify} from 'utils';
 
 /**
  * screen
  */
-export type ScreenBaseModel<T = {}> = Readonly<T>;
+export type ScreenBaseModel<T = {}> = FC<T>;
 
 /**
  * component
+ * don't need to use as FC<T> because we can not use in forwardRef
  */
 export type ComponentBaseModel<T = {}> = Readonly<
   T & {

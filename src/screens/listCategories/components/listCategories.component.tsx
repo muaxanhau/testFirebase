@@ -27,9 +27,9 @@ export const ListCategoriesComponent: FC<ComponentBaseModel> = () => {
       data={categories}
       onScrollBeginDrag={closeAllRightActions}
       contentContainerStyle={styles.container}
+      keyExtractor={({id}) => id}
       renderItem={({item, index}) => (
         <CategoryComponent
-          key={item.id}
           ref={ref => ref && (refCategoriesList.current[index] = ref)}
           id={item.id}
           name={item.name}

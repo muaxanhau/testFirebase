@@ -1,12 +1,12 @@
 import {StyleSheet} from 'react-native';
-import React, {FC} from 'react';
+import React from 'react';
 import {ScreenBaseModel} from 'models';
 import {ButtonComponent, ScreenLayoutComponent} from 'components';
 import {ListItemsComponent} from './components';
 import {useMainStackNavigation} from 'utils';
 import {valueStyles} from 'values';
 
-export const ListItemsScreen: FC<ScreenBaseModel> = () => {
+export const ListItemsScreen: ScreenBaseModel = () => {
   const navigation = useMainStackNavigation();
 
   const onPress = () => navigation.navigate('ListCarts');

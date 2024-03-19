@@ -1,21 +1,12 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {FC, useEffect} from 'react';
+import React from 'react';
 import {ScreenBaseModel} from 'models';
 import {ScreenLayoutComponent} from 'components';
-import {useGetAllUserCartsRepo} from 'repositories/carts/getAllUserCarts.repo';
+import {ListCartsComponent} from './components';
 
-export const ListCartsScreen: FC<ScreenBaseModel> = () => {
-  const {carts} = useGetAllUserCartsRepo();
-
-  useEffect(() => {
-    console.log(carts);
-  }, [carts]);
-
+export const ListCartsScreen: ScreenBaseModel = () => {
   return (
-    <ScreenLayoutComponent>
-      <Text>ListCartsScreen</Text>
+    <ScreenLayoutComponent disablePaddingTop>
+      <ListCartsComponent />
     </ScreenLayoutComponent>
   );
 };
-
-const styles = StyleSheet.create({});

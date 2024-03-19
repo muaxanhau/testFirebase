@@ -1,10 +1,10 @@
 import {StyleSheet, View} from 'react-native';
-import React, {FC} from 'react';
+import React from 'react';
 import {ScreenBaseModel} from 'models';
 import {ScreenLayoutComponent} from 'components';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 
-export const MapScreen: FC<ScreenBaseModel> = () => {
+export const MapScreen: ScreenBaseModel = () => {
   return (
     <ScreenLayoutComponent title="Map" disablePaddingTop enableBottom>
       <View style={styles.container}>

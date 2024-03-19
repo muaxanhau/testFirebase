@@ -1,12 +1,12 @@
 import {StyleSheet} from 'react-native';
-import React, {FC} from 'react';
+import React from 'react';
 import {ScreenBaseModel} from 'models';
 import {valueStyles} from 'values';
 import {ListCategoriesComponent} from './components';
 import {ButtonComponent, ScreenLayoutComponent} from 'components';
 import {useMainStackNavigation} from 'utils';
 
-export const ListCategoriesScreen: FC<ScreenBaseModel> = () => {
+export const ListCategoriesScreen: ScreenBaseModel = () => {
   const navigation = useMainStackNavigation();
 
   const onPress = () => navigation.navigate('AddCategory');

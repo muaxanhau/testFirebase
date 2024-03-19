@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React from 'react';
 import {ScreenBaseModel, addCategoryFormSchema} from 'models';
 import {useHookForm, useMainStackNavigation} from 'utils';
 import {
@@ -10,7 +10,7 @@ import {
 import {useAddCategoryRepo} from 'repositories';
 import {KeyboardAvoidingView} from 'react-native';
 
-export const AddCategoryScreen: FC<ScreenBaseModel> = () => {
+export const AddCategoryScreen: ScreenBaseModel = () => {
   const navigation = useMainStackNavigation();
   const {control, handleSubmit} = useHookForm({schema: addCategoryFormSchema});
   const {addCategory, isPending} = useAddCategoryRepo({

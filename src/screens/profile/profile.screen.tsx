@@ -1,11 +1,11 @@
 import {Alert} from 'react-native';
-import React, {FC} from 'react';
+import React from 'react';
 import {ScreenBaseModel} from 'models';
 import {ButtonComponent, ScreenLayoutComponent} from 'components';
 import {useMainStackNavigation, useResetMainStackNavigation} from 'utils';
 import {useGetUserSelfRepo, useLogoutRepo} from 'repositories';
 
-export const ProfileScreen: FC<ScreenBaseModel> = () => {
+export const ProfileScreen: ScreenBaseModel = () => {
   const navigation = useMainStackNavigation();
   const resetMainStackNavigation = useResetMainStackNavigation();
   const {user} = useGetUserSelfRepo();
