@@ -18,7 +18,7 @@ const axiosClient = axios.create({
 
 const handleRequest = (requestConfig: InternalAxiosRequestConfig) => {
   const {token} = useAuthStore.getState();
-  requestConfig.headers['firebase-token'] = token;
+  requestConfig.headers[config.tokenName] = token;
   return requestConfig;
 };
 const handleResponse = (response: AxiosResponse) => {

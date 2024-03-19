@@ -1,11 +1,9 @@
 import {StyleSheet, View} from 'react-native';
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {ComponentBaseModel} from 'models';
 import {useGetAllUserCartsRepo} from 'repositories';
 import {FlatListComponent, TextComponent} from 'components';
-import {dateUtil, utils} from 'utils';
-import dayjs from 'dayjs';
-import {Timestamp} from 'react-native-reanimated/lib/typescript/reanimated2/commonTypes';
+import {dateUtil} from 'utils';
 import {colors, valueStyles} from 'values';
 
 type ListCartsProps = ComponentBaseModel<{}>;

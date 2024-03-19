@@ -10,6 +10,7 @@ const environments: EnvironmentsConfigModel = {
     },
     baseUrl: 'http://localhost:3000/v1/api/',
     staleTime: 1000 * 15,
+    tokenName: 'firebase-token',
   },
   STAGING: {
     enableLog: true,
@@ -20,6 +21,7 @@ const environments: EnvironmentsConfigModel = {
     },
     baseUrl: 'https://reqres.in/',
     staleTime: 1000 * 15,
+    tokenName: 'firebase-token',
   },
   PRODUCTION: {
     enableLog: false,
@@ -30,8 +32,9 @@ const environments: EnvironmentsConfigModel = {
     },
     baseUrl: 'https://reqres.in/',
     staleTime: 1000 * 15,
+    tokenName: 'firebase-token',
   },
-};
+} as const;
 
 /**
  * *******************************
