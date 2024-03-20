@@ -6,6 +6,6 @@ export const addCategoryFormSchema = z.object({
     .trim()
     .min(1, 'name is required'),
   description: z.string().trim().default('Empty...'),
-  image: z.string().url('must be url').default(''),
+  image: z.string().default(''),
 });
 export const editCategoryFormSchema = addCategoryFormSchema;
