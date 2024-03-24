@@ -41,9 +41,9 @@ type CartProps = ComponentBaseModel<{
 const CartComponent: FC<CartProps> = ({name, color, quantity, createdAt}) => {
   return (
     <View style={styles.wrapper}>
-      <TextComponent>{name}</TextComponent>
-      <TextComponent>Colors: {color}</TextComponent>
-      <TextComponent>Quantity: {quantity}</TextComponent>
+      <TextComponent>Name: {name}</TextComponent>
+      <TextComponent>Color: {color}</TextComponent>
+      {/* <TextComponent>Quantity: {quantity}</TextComponent> */}
       <TextComponent>Date: {dateUtil.getDayTime(createdAt)}</TextComponent>
     </View>
   );
