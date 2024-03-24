@@ -6,8 +6,7 @@ import {FlatListComponent, TextComponent} from 'components';
 import {dateUtil} from 'utils';
 import {colors, valueStyles} from 'values';
 
-type ListCartsProps = ComponentBaseModel<{}>;
-export const ListCartsComponent: FC<ListCartsProps> = () => {
+export const ListCartsComponent: FC<ComponentBaseModel> = () => {
   const {carts} = useGetAllUserCartsRepo();
 
   return (
@@ -43,9 +42,9 @@ const CartComponent: FC<CartProps> = ({name, color, quantity, createdAt}) => {
   return (
     <View style={styles.wrapper}>
       <TextComponent>{name}</TextComponent>
-      <TextComponent>{color}</TextComponent>
-      <TextComponent>{quantity}</TextComponent>
-      <TextComponent>{dateUtil.getDayTime(createdAt)}</TextComponent>
+      <TextComponent>Colors: {color}</TextComponent>
+      <TextComponent>Quantity: {quantity}</TextComponent>
+      <TextComponent>Date: {dateUtil.getDayTime(createdAt)}</TextComponent>
     </View>
   );
 };

@@ -5,7 +5,7 @@ import {ListCartsComponent} from './components';
 
 export const ListCartsScreen: ScreenBaseModel = () => {
   return (
-    <ScreenLayoutComponent disablePaddingTop>
+    <ScreenLayoutComponent disablePaddingTop title="Cart">
       <ListCartsComponent />
     </ScreenLayoutComponent>
   );
