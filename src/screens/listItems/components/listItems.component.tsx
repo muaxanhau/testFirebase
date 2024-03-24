@@ -38,8 +38,8 @@ const SectionCategoryComponent: FC<SectionCategoryProps> = ({title, items}) => {
         contentContainerStyle={styles.categoryWrapper}
         showsHorizontalScrollIndicator={false}
         keyExtractor={({id}) => id}
-        renderItem={({item}) => (
-          <ItemComponent key={item.id} id={item.id} name={item.name} />
+        renderItem={({item: {name, id, color}}) => (
+          <ItemComponent id={id} name={name} color={color} />
         )}
         ListEmptyComponent={<TextComponent>Empty...</TextComponent>}
       />
@@ -50,8 +50,9 @@ const SectionCategoryComponent: FC<SectionCategoryProps> = ({title, items}) => {
 type ItemProps = ComponentBaseModel<{
   id: string;
   name: string;
+  color: string;
 }>;
-const ItemComponent: FC<ItemProps> = ({id, name}) => {
+const ItemComponent: FC<ItemProps> = ({id, name, color}) => {
   const {addCart} = useAddCartRepo({
     onSuccess: () => Alert.alert('Alert', 'Item is added to your cart'),
   });
@@ -61,7 +62,8 @@ const ItemComponent: FC<ItemProps> = ({id, name}) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.itemContainer}>
-        <TextComponent>{name}</TextComponent>
+        <TextComponent style={styles.itemTitle}>{name}</TextComponent>
+        <TextComponent>({color})</TextComponent>
       </View>
     </TouchableOpacity>
   );
@@ -81,12 +83,16 @@ const styles = StyleSheet.create({
     paddingLeft: valueStyles.padding2,
   },
   itemContainer: {
-    padding: valueStyles.padding2,
     backgroundColor: colors.green100,
     borderRadius: valueStyles.borderRadius2,
     borderColor: colors.green,
     borderWidth: valueStyles.line2,
     minWidth: utils.wp(38),
     aspectRatio: 3 / 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  itemTitle: {
+    fontWeight: 'bold',
   },
 });
