@@ -1,3 +1,4 @@
+import {useResetMainStackNavigation} from 'utils';
 import {
   QueryKey,
   UseMutationOptions,
@@ -10,6 +11,7 @@ import {useEffect} from 'react';
 import {Alert} from 'react-native';
 
 const useErrorEffect = (error: unknown) => {
+  const reset = useResetMainStackNavigation();
   useEffect(() => {
     if (!error) return;
 
@@ -17,6 +19,8 @@ const useErrorEffect = (error: unknown) => {
 
     if (typeof error === 'string') {
       Alert.alert('Warning', error);
+
+      error.includes('Unauthorized') && reset('Login');
       return;
     }
 
