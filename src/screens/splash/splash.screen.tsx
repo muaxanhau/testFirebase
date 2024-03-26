@@ -6,7 +6,7 @@ import {ScreenLayoutComponent, TextComponent} from 'components';
 export const SplashScreen: ScreenBaseModel = () => {
   return (
     <ScreenLayoutComponent style={styles.container}>
-      <TextComponent type="h1">Splash</TextComponent>
+      <TextComponent type="h1">Logo</TextComponent>
     </ScreenLayoutComponent>
   );
 };
