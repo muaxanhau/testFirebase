@@ -1,13 +1,13 @@
 import {Alert, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
 import {ComponentBaseModel, ItemIdModel} from 'models';
-import {useAddCartRepo, useGetAllCategoriesAndItemsRepo} from 'repositories';
+import {useAddCartRepo, useGetAllCategoriesWithItemsRepo} from 'repositories';
 import {FlatListComponent, TextComponent} from 'components';
 import {colors, valueStyles} from 'values';
 import {utils} from 'utils';
 
 export const ListItemsComponent: FC<ComponentBaseModel> = () => {
-  const {categoriesWithItems} = useGetAllCategoriesAndItemsRepo();
+  const {categoriesWithItems} = useGetAllCategoriesWithItemsRepo();
 
   return (
     <FlatListComponent
