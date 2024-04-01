@@ -1,19 +1,20 @@
 import {StyleSheet, View} from 'react-native';
 import React, {FC} from 'react';
 import {ComponentBaseModel} from 'models';
-import {useGetAllUserCartsRepo} from 'repositories';
+import {useGetUserCartsSelfRepo} from 'repositories';
 import {FlatListComponent, TextComponent} from 'components';
 import {dateUtil} from 'utils';
 import {colors, valueStyles} from 'values';
 
 export const ListCartsComponent: FC<ComponentBaseModel> = () => {
-  const {carts} = useGetAllUserCartsRepo();
+  const {carts, refetch} = useGetUserCartsSelfRepo();
 
   return (
     <FlatListComponent
       data={carts}
       keyExtractor={({id}) => id}
       contentContainerStyle={styles.container}
+      onRefresh={refetch}
       renderItem={({
         item: {
           item: {name, color},

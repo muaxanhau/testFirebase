@@ -1,2 +1,2 @@
 export * from './addCart.repo';
-export * from './getAllUserCarts.repo';
+export * from './getUserCartsSelf.repo';

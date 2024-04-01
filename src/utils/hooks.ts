@@ -1,7 +1,7 @@
 import {DefaultValues, FieldValues, useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
-import {AppState, LogBox} from 'react-native';
+import {AppState, LayoutChangeEvent, LogBox} from 'react-native';
 import {
   NavigationProp,
   useIsFocused,
@@ -279,4 +279,27 @@ export const useIsLoading = () => {
   const isLoading = !!isFetching || !!isMutating;
 
   return isLoading;
+};
+
+export const useLayout = () => {
+  const [measure, setMeasure] = useState({width: 0, height: 0, x: 0, y: 0});
+  const refFirstSetHeight = useRef(false);
+
+  const onLayout = (event: LayoutChangeEvent) => {
+    if (refFirstSetHeight.current) return;
+
+    const {height, width} = event.nativeEvent.layout;
+    if (width === 0 || height === 0) return;
+
+    refFirstSetHeight.current = true;
+    setMeasure(event.nativeEvent.layout);
+  };
+
+  return {
+    x: measure.x,
+    y: measure.y,
+    width: measure.width,
+    height: measure.height,
+    onLayout,
+  };
 };

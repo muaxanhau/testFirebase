@@ -1,7 +1,11 @@
 import React from 'react';
 import {ScreenBaseModel} from 'models';
 import {useMainStackNavigation} from 'utils';
-import {ButtonComponent, ScreenLayoutComponent} from 'components';
+import {
+  ButtonComponent,
+  ScreenLayoutComponent,
+  TextComponent,
+} from 'components';
 
 export const HomeScreen: ScreenBaseModel = () => {
   const navigation = useMainStackNavigation();
@@ -13,13 +17,15 @@ export const HomeScreen: ScreenBaseModel = () => {
   return (
     <ScreenLayoutComponent paddingHorizontal gap scrollable>
       <ButtonComponent title="Profile" onPress={onPressProfile} />
+
+      <ButtonComponent title="Items" color="success" onPress={onPressItems} />
+
       <ButtonComponent
         title="CRUD Categories"
         color="success"
         type="outline"
         onPress={onPressCategories}
       />
-      <ButtonComponent title="Items" color="success" onPress={onPressItems} />
     </ScreenLayoutComponent>
   );
 };

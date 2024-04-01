@@ -3,8 +3,11 @@ import {
   QueryKey,
   UseMutationOptions,
   UseQueryOptions,
+  UseInfiniteQueryOptions,
+  useInfiniteQuery,
   useMutation,
   useQuery,
+  InfiniteData,
 } from '@tanstack/react-query';
 import {config} from 'config';
 import {useEffect} from 'react';
@@ -54,6 +57,33 @@ export const useApiMutation = <Output, Input = void>(
   props: ApiMutationProps<Output, Input>,
 ) => {
   const {error, ...rest} = useMutation<Output, unknown, Input>(props);
+
+  useErrorEffect(error);
+
+  return {
+    error,
+    ...rest,
+  };
+};
+
+type ApiInfiniteQueryProps<Output> = UseInfiniteQueryOptions<
+  Output,
+  unknown,
+  InfiniteData<Output, unknown>,
+  Output,
+  QueryKey,
+  number
+>;
+export const useApiInfiniteQuery = <Output>(
+  props: ApiInfiniteQueryProps<Output>,
+) => {
+  const {error, ...rest} = useInfiniteQuery<
+    Output,
+    unknown,
+    InfiniteData<Output>,
+    QueryKey,
+    number
+  >({...props, staleTime: config.staleTime});
 
   useErrorEffect(error);
 

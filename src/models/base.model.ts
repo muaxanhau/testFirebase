@@ -47,3 +47,9 @@ type ResponseBaseModel<T> = {
 };
 export type SuccessResponseBaseModel<T = null> = ResponseBaseModel<T>;
 export type ErrorResponseBaseModel = ResponseBaseModel<null>;
+
+export type PaginationResponseBaseModel<T> = {
+  totalPage: number;
+  nextPage: number;
+  prevPage: number;
+} & T;

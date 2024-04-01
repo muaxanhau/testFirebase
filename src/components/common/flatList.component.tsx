@@ -1,10 +1,9 @@
 import {
   FlatListProps as FlatListRootProps,
-  LayoutChangeEvent,
   StyleSheet,
   View,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {
   ComponentBaseModel,
   EnteringAnimationEnum,
@@ -15,28 +14,32 @@ import {
   TextComponent,
   ViewAnimationComponent,
 } from 'components';
-import {useIsLoading} from 'utils';
+import {useIsLoading, useLayout} from 'utils';
 import Animated, {LinearTransition} from 'react-native-reanimated';
 
-type FlatListProps<T> = ComponentBaseModel<FlatListRootProps<T>>;
+type FlatListProps<T> = ComponentBaseModel<
+  Omit<FlatListRootProps<T>, 'onRefresh'> & {
+    // onRefresh wont work if "horizontal" = true
+    onRefresh?: () => Promise<unknown>;
+  }
+>;
 export const FlatListComponent = <T extends {}>({
   data,
   renderItem,
   horizontal,
+  onRefresh,
   ...rest
 }: FlatListProps<T>) => {
   const isLoading = useIsLoading();
-  const [height, setHeight] = useState(0);
-  const refFirstSetHeight = useRef(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const {onLayout, height} = useLayout();
 
-  const onLayout = (e: LayoutChangeEvent) => {
-    if (refFirstSetHeight.current) return;
+  const onRefreshData = async () => {
+    if (!onRefresh) return;
 
-    const currenHeight = e.nativeEvent.layout.height;
-    if (currenHeight === 0) return;
-
-    refFirstSetHeight.current = true;
-    setHeight(currenHeight);
+    setRefreshing(true);
+    await onRefresh();
+    setRefreshing(false);
   };
 
   return (
@@ -45,9 +48,16 @@ export const FlatListComponent = <T extends {}>({
       onLayout={onLayout}
       itemLayoutAnimation={LinearTransition.stiffness(200)}
       horizontal={horizontal}
+      refreshing={refreshing}
+      onRefresh={horizontal ? undefined : onRefreshData}
+      scrollEventThrottle={16}
+      initialNumToRender={10}
+      maxToRenderPerBatch={5}
       ListFooterComponent={
         // fix issue on android to show ActivityIndicatorComponent when fetch data
-        <View style={{height: height * (data?.length ? 0.5 : 1)}} />
+        horizontal ? null : (
+          <View style={{height: height * (data?.length ? 0.5 : 1)}} />
+        )
       }
       ListEmptyComponent={
         horizontal ? null : (

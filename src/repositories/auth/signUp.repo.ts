@@ -21,7 +21,7 @@ export const useSignUpRepo = (props: LoginProps) => {
       return user;
     },
     onSuccess: data => {
-      addUser({data: {id: data.user.uid, role: RoleEnum.ADMIN}});
+      addUser({data: {id: data.user.uid, role: RoleEnum.USER}});
 
       if (typeof props === 'undefined') return;
       props.onSuccess?.();

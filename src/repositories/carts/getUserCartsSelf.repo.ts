@@ -3,18 +3,18 @@ import {CartIdModel, ItemIdModel} from 'models';
 import {Prettify, utils} from 'utils';
 import {devToolConfig} from 'config';
 
-export type GetAllUserCartsOutput = Prettify<
+export type GetUserCartsSelfOutput = Prettify<
   Omit<CartIdModel, 'userId' | 'itemId'> & {
     item: ItemIdModel;
   }
 >[];
-export const useGetAllUserCartsRepo = () => {
-  const {data: carts, ...rest} = useApiQuery<GetAllUserCartsOutput>({
-    queryKey: [KeyService.GET_ALL_USER_CARTS],
+export const useGetUserCartsSelfRepo = () => {
+  const {data: carts, ...rest} = useApiQuery<GetUserCartsSelfOutput>({
+    queryKey: [KeyService.GET_USER_CARTS_SELF],
     queryFn: async () => {
       await utils.sleep(devToolConfig.delayFetching);
 
-      const response = await service.get<GetAllUserCartsOutput>('carts');
+      const response = await service.get<GetUserCartsSelfOutput>('carts');
 
       return response.data;
     },

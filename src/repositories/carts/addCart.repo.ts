@@ -3,10 +3,11 @@ import {CartIdModel, CartModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
 import {utils} from 'utils';
 import {devToolConfig} from 'config';
+import {GetUserCartsSelfOutput} from './getUserCartsSelf.repo';
 
-type AddCartProps = {onSuccess?: () => void} | void;
-type AddCartInput = {itemId: string; quantity: number};
-type AddCartOutput = CartIdModel;
+export type AddCartProps = {onSuccess?: () => void} | void;
+export type AddCartInput = {itemId: string; quantity: number};
+export type AddCartOutput = CartIdModel;
 export const useAddCartRepo = (props: AddCartProps) => {
   const queryClient = useQueryClient();
 
@@ -26,18 +27,18 @@ export const useAddCartRepo = (props: AddCartProps) => {
       return response.data;
     },
     onSuccess: cart => {
-      // queryClient.setQueryData<GetAllCategoriesOutput>(
-      //   [KeyService.GET_ALL_CATEGORIES],
-      //   oldData => (oldData ? [category, ...oldData] : oldData),
+      // queryClient.setQueryData<GetUserCartsSelfOutput>(
+      //   [KeyService.GET_USER_CARTS_SELF],
+      //   oldData => (oldData ? [cart, ...oldData] : oldData),
       // );
 
       if (typeof props === 'undefined') return;
       props.onSuccess?.();
     },
     onSettled: () => {
-      // queryClient.invalidateQueries({
-      //   queryKey: [KeyService.GET_ALL_CATEGORIES],
-      // });
+      queryClient.invalidateQueries({
+        queryKey: [KeyService.GET_USER_CARTS_SELF],
+      });
     },
   });
   return {addCart, ...rest};
