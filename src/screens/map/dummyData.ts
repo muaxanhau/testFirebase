@@ -8,11 +8,6 @@ export type Restaurant = {
   closeAt: string;
 };
 
-export const regionDelta = {
-  latitudeDelta: 0.015,
-  longitudeDelta: 0.0121,
-};
-
 export const dummyRestaurants: Restaurant[] = [
   {
     latitude: 10.776889,
@@ -199,4 +194,9 @@ export const dummyRestaurants: Restaurant[] = [
 export const currPosition = {
   latitude: 10.795889,
   longitude: 106.719806,
+};
+
+export const regionDelta = {
+  latitudeDelta: 0.015,
+  longitudeDelta: 0.0121,
 };
