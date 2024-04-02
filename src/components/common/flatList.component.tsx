@@ -49,10 +49,11 @@ export const FlatListComponent = <T extends {}>({
     setRefreshing(false);
   };
   const onEndReached = () => {
+    if (!onLoadMore) return;
     if (refLimitTimeoutOnEndReached.current) return;
     if (!hasData || isLoading) return;
 
-    onLoadMore?.();
+    onLoadMore();
   };
 
   useTimeout(() => {
