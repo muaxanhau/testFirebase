@@ -3,7 +3,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   ComponentBaseModel,
   EnteringAnimationEnum,
@@ -14,13 +14,14 @@ import {
   TextComponent,
   ViewAnimationComponent,
 } from 'components';
-import {useIsLoading, useLayout, utils} from 'utils';
+import {useIsLoading, useLayout, useTimeout, utils} from 'utils';
 import Animated, {LinearTransition} from 'react-native-reanimated';
 
 type FlatListProps<T> = ComponentBaseModel<
-  Omit<FlatListRootProps<T>, 'onRefresh'> & {
+  Omit<FlatListRootProps<T>, 'onRefresh' | 'onEndReached'> & {
     // onRefresh wont work if "horizontal" = true
     onRefresh?: () => Promise<unknown>;
+    onLoadMore?: () => void;
   }
 >;
 export const FlatListComponent = <T extends {}>({
@@ -28,16 +29,17 @@ export const FlatListComponent = <T extends {}>({
   renderItem,
   horizontal,
   onRefresh,
-  onEndReached,
+  onLoadMore,
   ...rest
 }: FlatListProps<T>) => {
   const isLoading = useIsLoading();
   const [refreshing, setRefreshing] = useState(false);
   const {onLayout, height} = useLayout();
+  const refLimitTimeoutOnEndReached = useRef(true);
 
   const hasData = !!data?.length;
   const showFooter = !horizontal && hasData;
-  const showLoadMore = !!onEndReached && isLoading && hasData && !refreshing;
+  const showLoadMore = !!onLoadMore && isLoading && hasData && !refreshing;
 
   const onRefreshData = async () => {
     if (!onRefresh) return;
@@ -46,6 +48,16 @@ export const FlatListComponent = <T extends {}>({
     await onRefresh();
     setRefreshing(false);
   };
+  const onEndReached = () => {
+    if (refLimitTimeoutOnEndReached.current) return;
+    if (!hasData || isLoading) return;
+
+    onLoadMore?.();
+  };
+
+  useTimeout(() => {
+    refLimitTimeoutOnEndReached.current = false;
+  }, 1000);
 
   return (
     <Animated.FlatList
@@ -58,7 +70,8 @@ export const FlatListComponent = <T extends {}>({
       scrollEventThrottle={16}
       initialNumToRender={10}
       maxToRenderPerBatch={5}
-      onEndReached={hasData ? onEndReached : undefined}
+      onEndReached={onEndReached}
+      onEndReachedThreshold={0.1}
       ListFooterComponent={
         showFooter ? (
           <View style={styles.footer}>

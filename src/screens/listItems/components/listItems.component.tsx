@@ -22,8 +22,7 @@ export const ListItemsComponent: FC<ListItemsProps> = ({id}) => {
       renderItem={({item}) => (
         <ItemComponent id={item.id} name={item.name} color={item.color} />
       )}
-      onEndReached={() => fetchNextPage()}
-      onEndReachedThreshold={0}
+      onLoadMore={() => fetchNextPage()}
     />
   );
 };
