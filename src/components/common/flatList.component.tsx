@@ -16,7 +16,6 @@ import {
 } from 'components';
 import {useIsLoading, useLayout, utils} from 'utils';
 import Animated, {LinearTransition} from 'react-native-reanimated';
-import {valueStyles} from 'values';
 
 type FlatListProps<T> = ComponentBaseModel<
   Omit<FlatListRootProps<T>, 'onRefresh'> & {

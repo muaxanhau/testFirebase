@@ -13,11 +13,17 @@ import {colors, valueStyles} from 'values';
 import {useLayout} from 'utils';
 import {FlatListComponent} from './flatList.component';
 
+type RendererType = 'all' | 'focused';
 type TabLayoutProps = ComponentBaseModel<{
   titles: string[];
   contents: ReactNode[];
+  rendererType?: RendererType;
 }>;
-export const TabLayoutComponent: FC<TabLayoutProps> = ({titles, contents}) => {
+export const TabLayoutComponent: FC<TabLayoutProps> = ({
+  titles,
+  contents,
+  rendererType = 'focused',
+}) => {
   const [index, setIndex] = useState(0);
   const {onLayout, width} = useLayout();
   const refContent = useRef<FlatList>(null);
@@ -81,6 +87,7 @@ export const TabLayoutComponent: FC<TabLayoutProps> = ({titles, contents}) => {
             selfIndex={selfIndex}
             currIndex={index}
             children={item}
+            rendererType={rendererType}
           />
         )}
       />
@@ -92,22 +99,29 @@ type ContentProps = ComponentWithChildBaseModel<{
   width: number;
   selfIndex: number;
   currIndex: number;
+  rendererType: RendererType;
 }>;
 const ContentComponent: FC<ContentProps> = ({
   children,
   width,
   selfIndex,
   currIndex,
+  rendererType,
 }) => {
   const [firstRender, setFirstRender] = useState(false);
 
   useEffect(() => {
+    if (rendererType === 'all') return;
     if (firstRender) return;
 
     selfIndex === currIndex && setFirstRender(true);
   }, [selfIndex, currIndex]);
 
-  return <View style={{width}}>{firstRender && children}</View>;
+  return (
+    <View style={{width}}>
+      {(firstRender || rendererType === 'all') && children}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
