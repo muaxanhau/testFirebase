@@ -18,8 +18,10 @@ import {useIsLoading, useLayout, useTimeout, utils} from 'utils';
 import Animated, {LinearTransition} from 'react-native-reanimated';
 
 type FlatListProps<T> = ComponentBaseModel<
-  Omit<FlatListRootProps<T>, 'onRefresh' | 'onEndReached'> & {
-    // onRefresh wont work if "horizontal" = true
+  Omit<
+    FlatListRootProps<T>,
+    'onRefresh' | 'onEndReached' | 'refreshing' | 'refreshControl'
+  > & {
     onRefresh?: () => Promise<unknown>;
     onLoadMore?: () => void;
   }
