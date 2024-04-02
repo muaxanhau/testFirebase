@@ -5,7 +5,6 @@ import {images, valueStyles} from 'values';
 import {validationUtil} from './validation.util';
 import {AxiosError, AxiosResponse} from 'axios';
 import {ErrorResponseBaseModel} from 'models';
-import {convertToRGBA} from 'react-native-reanimated';
 
 const isIos = () => Platform.OS === 'ios';
 const isAndroid = () => Platform.OS === 'android';
@@ -276,12 +275,10 @@ const hp = (percent: number) => {
  * @param opacity 0 <= opacity <=1
  * @returns
  */
-const opacityColor = (color: unknown, opacity = 1) => {
-  const rgba = convertToRGBA(color);
-  const r = rgba[0];
-  const g = rgba[1];
-  const b = rgba[2];
-
+const opacityColor = (hex: string, opacity = 1) => {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
   const clr = `rgba(${r},${g},${b},${opacity})`;
   return clr;
 };

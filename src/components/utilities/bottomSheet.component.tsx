@@ -30,6 +30,7 @@ type BottomSheetProps = ComponentBaseModel<{
   backgroundColor?: string;
   onOpen?: () => void;
   onClose?: () => void;
+  paddingHorizontal?: boolean;
 }>;
 export const BottomSheetComponent = forwardRef<
   BottomSheetRefProps,
@@ -42,6 +43,7 @@ export const BottomSheetComponent = forwardRef<
       backgroundColor = colors.white,
       onOpen = () => {},
       onClose = () => {},
+      paddingHorizontal = false,
     },
     ref,
   ) => {
@@ -131,6 +133,7 @@ export const BottomSheetComponent = forwardRef<
             <View
               style={{
                 height: height - (insets.bottom || 2 * valueStyles.gap),
+                paddingHorizontal: paddingHorizontal ? valueStyles.padding2 : 0,
               }}>
               <View style={styles.line} />
 
