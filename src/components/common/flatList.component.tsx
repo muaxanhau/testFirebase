@@ -59,6 +59,9 @@ export const FlatListComponent = <T extends {}>({
   };
 
   useTimeout(() => {
+    // at first time render, even we have data but UI have not rendered yet,
+    // so onEndReached would be trigger
+    // prevent this case by delay time to listen this event
     refLimitTimeoutOnEndReached.current = false;
   }, 1000);
 
