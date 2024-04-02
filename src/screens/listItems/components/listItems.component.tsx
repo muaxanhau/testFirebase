@@ -2,7 +2,11 @@ import {Alert, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
 import {ComponentBaseModel} from 'models';
 import {useAddCartRepo, useGetItemsByCategoryIdRepo} from 'repositories';
-import {FlatListComponent, TextComponent} from 'components';
+import {
+  ActivityIndicatorComponent,
+  FlatListComponent,
+  TextComponent,
+} from 'components';
 import {colors, valueStyles} from 'values';
 
 type ListItemsProps = ComponentBaseModel<{id: string}>;
@@ -19,6 +23,7 @@ export const ListItemsComponent: FC<ListItemsProps> = ({id}) => {
         <ItemComponent id={item.id} name={item.name} color={item.color} />
       )}
       onEndReached={() => fetchNextPage()}
+      onEndReachedThreshold={0}
     />
   );
 };
@@ -29,7 +34,7 @@ type ItemProps = ComponentBaseModel<{
   color: string;
 }>;
 const ItemComponent: FC<ItemProps> = ({id, name, color}) => {
-  const {addCart} = useAddCartRepo({
+  const {addCart, isPending} = useAddCartRepo({
     onSuccess: () => Alert.alert('Alert', 'Item is added to your cart'),
   });
 
@@ -40,6 +45,7 @@ const ItemComponent: FC<ItemProps> = ({id, name, color}) => {
       <View style={styles.itemContainer}>
         <TextComponent style={styles.itemTitle}>{name}</TextComponent>
         <TextComponent>({color})</TextComponent>
+        {isPending && <ActivityIndicatorComponent />}
       </View>
     </TouchableOpacity>
   );
@@ -59,6 +65,7 @@ const styles = StyleSheet.create({
     aspectRatio: 3 / 2,
     justifyContent: 'center',
     alignItems: 'center',
+    gap: valueStyles.gap,
   },
   itemTitle: {
     fontWeight: 'bold',

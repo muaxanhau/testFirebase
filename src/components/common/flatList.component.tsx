@@ -14,8 +14,9 @@ import {
   TextComponent,
   ViewAnimationComponent,
 } from 'components';
-import {useIsLoading, useLayout} from 'utils';
+import {useIsLoading, useLayout, utils} from 'utils';
 import Animated, {LinearTransition} from 'react-native-reanimated';
+import {valueStyles} from 'values';
 
 type FlatListProps<T> = ComponentBaseModel<
   Omit<FlatListRootProps<T>, 'onRefresh'> & {
@@ -28,11 +29,16 @@ export const FlatListComponent = <T extends {}>({
   renderItem,
   horizontal,
   onRefresh,
+  onEndReached,
   ...rest
 }: FlatListProps<T>) => {
   const isLoading = useIsLoading();
   const [refreshing, setRefreshing] = useState(false);
   const {onLayout, height} = useLayout();
+
+  const hasData = !!data?.length;
+  const showFooter = !horizontal && hasData;
+  const showLoadMore = !!onEndReached && isLoading && hasData && !refreshing;
 
   const onRefreshData = async () => {
     if (!onRefresh) return;
@@ -53,19 +59,21 @@ export const FlatListComponent = <T extends {}>({
       scrollEventThrottle={16}
       initialNumToRender={10}
       maxToRenderPerBatch={5}
+      onEndReached={hasData ? onEndReached : undefined}
       ListFooterComponent={
-        // fix issue on android to show ActivityIndicatorComponent when fetch data
-        horizontal ? null : (
-          <View style={{height: height * (data?.length ? 0.5 : 1)}} />
-        )
+        showFooter ? (
+          <View style={styles.footer}>
+            {showLoadMore && <ActivityIndicatorComponent />}
+          </View>
+        ) : null
       }
       ListEmptyComponent={
         horizontal ? null : (
-          <View style={[styles.emptyContainer, {height}]}>
+          <View style={[styles.empty, {height}]}>
             {isLoading ? (
               <ActivityIndicatorComponent />
             ) : (
-              <TextComponent>Empty</TextComponent>
+              <TextComponent>Empty...</TextComponent>
             )}
           </View>
         )
@@ -84,11 +92,12 @@ export const FlatListComponent = <T extends {}>({
 };
 
 const styles = StyleSheet.create({
-  emptyContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
+  empty: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  footer: {
+    height: utils.hp(30),
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -6,12 +6,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {FC, ReactNode, useRef, useState} from 'react';
-import {ComponentBaseModel} from 'models';
+import React, {FC, ReactNode, useEffect, useRef, useState} from 'react';
+import {ComponentBaseModel, ComponentWithChildBaseModel} from 'models';
 import {TextComponent} from './text.component';
 import {colors, valueStyles} from 'values';
 import {useLayout} from 'utils';
 import {FlatListComponent} from './flatList.component';
+
 type TabLayoutProps = ComponentBaseModel<{
   titles: string[];
   contents: ReactNode[];
@@ -73,14 +74,40 @@ export const TabLayoutComponent: FC<TabLayoutProps> = ({titles, contents}) => {
         scrollEventThrottle={32}
         onMomentumScrollEnd={onMomentumScrollEnd}
         data={contents}
-        renderItem={({item, index}) => (
-          <View key={index} style={{width}}>
-            {item}
-          </View>
+        renderItem={({item, index: selfIndex}) => (
+          <ContentComponent
+            key={selfIndex}
+            width={width}
+            selfIndex={selfIndex}
+            currIndex={index}
+            children={item}
+          />
         )}
       />
     </View>
   );
+};
+
+type ContentProps = ComponentWithChildBaseModel<{
+  width: number;
+  selfIndex: number;
+  currIndex: number;
+}>;
+const ContentComponent: FC<ContentProps> = ({
+  children,
+  width,
+  selfIndex,
+  currIndex,
+}) => {
+  const [firstRender, setFirstRender] = useState(false);
+
+  useEffect(() => {
+    if (firstRender) return;
+
+    selfIndex === currIndex && setFirstRender(true);
+  }, [selfIndex, currIndex]);
+
+  return <View style={{width}}>{firstRender && children}</View>;
 };
 
 const styles = StyleSheet.create({
@@ -96,11 +123,5 @@ const styles = StyleSheet.create({
   title: {
     paddingHorizontal: valueStyles.padding2,
     paddingBottom: valueStyles.padding3,
-  },
-  box: {
-    width: 30,
-    height: 50,
-    backgroundColor: 'orange',
-    flex: 1,
   },
 });

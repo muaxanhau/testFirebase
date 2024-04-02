@@ -9,7 +9,6 @@ import {
   useQuery,
   InfiniteData,
 } from '@tanstack/react-query';
-import {config} from 'config';
 import {useEffect} from 'react';
 import {Alert} from 'react-native';
 
@@ -35,10 +34,7 @@ const useErrorEffect = (error: unknown) => {
 
 type ApiQueryProps<Output> = UseQueryOptions<Output, unknown, Output, QueryKey>;
 export const useApiQuery = <Output>(props: ApiQueryProps<Output>) => {
-  const {error, ...rest} = useQuery<Output, unknown>({
-    ...props,
-    staleTime: config.staleTime,
-  });
+  const {error, ...rest} = useQuery<Output, unknown>(props);
 
   useErrorEffect(error);
 
@@ -83,7 +79,7 @@ export const useApiInfiniteQuery = <Output>(
     InfiniteData<Output>,
     QueryKey,
     number
-  >({...props, staleTime: config.staleTime});
+  >(props);
 
   useErrorEffect(error);
 
