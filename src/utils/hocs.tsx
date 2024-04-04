@@ -1,28 +1,31 @@
 import React, {FC} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {QueryClientProvider} from '@tanstack/react-query';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {config} from 'config';
+import {useAppQueryClient} from './hooks';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: config.staleTime,
-    },
-  },
-});
-export const withProvider =
-  (Component: FC): FC =>
-  () =>
-    (
-      <QueryClientProvider client={queryClient}>
-        <NavigationContainer>
+export const withProvider = (Component: FC): FC =>
+  withNavigationContainer(() => {
+    const appQueryClient = useAppQueryClient();
+
+    return (
+      <QueryClientProvider client={appQueryClient}>
+        <GestureHandlerRootView style={{flex: 1}}>
           <SafeAreaProvider>
-            <GestureHandlerRootView style={{flex: 1}}>
-              <Component />
-            </GestureHandlerRootView>
+            <Component />
           </SafeAreaProvider>
-        </NavigationContainer>
+        </GestureHandlerRootView>
       </QueryClientProvider>
     );
+  });
+
+const withNavigationContainer =
+  (Component: FC): FC =>
+  () => {
+    return (
+      <NavigationContainer>
+        <Component />
+      </NavigationContainer>
+    );
+  };

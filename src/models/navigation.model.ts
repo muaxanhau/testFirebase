@@ -19,4 +19,5 @@ export type MainStackNavigationModel = {
     restaurantId: string;
     restaurantName: string;
   };
+  Test: undefined;
 };

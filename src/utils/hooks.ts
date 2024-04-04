@@ -1,7 +1,7 @@
 import {DefaultValues, FieldValues, useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
-import {AppState, LayoutChangeEvent, LogBox} from 'react-native';
+import {Alert, AppState, LayoutChangeEvent, LogBox} from 'react-native';
 import {
   NavigationProp,
   useIsFocused,
@@ -13,7 +13,10 @@ import {StorageEnum} from 'models';
 import {utils} from './utils';
 import NetInfo, {useNetInfo} from '@react-native-community/netinfo';
 import {
+  MutationCache,
   onlineManager,
+  QueryCache,
+  QueryClient,
   useIsFetching,
   useIsMutating,
   useQueryClient,
@@ -22,6 +25,52 @@ import {z} from 'zod';
 import {storageUtil} from './storage.util';
 import auth from '@react-native-firebase/auth';
 import {resetAllStores, useAuthStore} from 'stores';
+import {config} from 'config';
+
+export const useAppQueryClient = () => {
+  const reset = useResetMainStackNavigation();
+
+  const getMessageError = (error: unknown) => {
+    if (!error) return undefined;
+
+    if (typeof error === 'string') {
+      return error;
+    }
+
+    if (typeof error !== 'object') {
+      return 'Wrong formatter error';
+    }
+
+    if ('message' in error) {
+      return error.message as string;
+    }
+
+    return 'Unknown error';
+  };
+
+  const onError = (error: unknown) => {
+    const msg = getMessageError(error);
+    if (!msg) return;
+
+    Alert.alert('Warning', msg);
+    msg.includes('Unauthorized') && reset('Login');
+  };
+
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: config.staleTime,
+          },
+        },
+        queryCache: new QueryCache({onError}),
+        mutationCache: new MutationCache({onError}),
+      }),
+  );
+
+  return queryClient;
+};
 
 export const useFirstSetupApp = () => {
   const queryClient = useQueryClient();

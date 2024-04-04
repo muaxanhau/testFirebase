@@ -1,4 +1,3 @@
-import {useResetMainStackNavigation} from 'utils';
 import {
   QueryKey,
   UseMutationOptions,
@@ -9,39 +8,10 @@ import {
   useQuery,
   InfiniteData,
 } from '@tanstack/react-query';
-import {useEffect} from 'react';
-import {Alert} from 'react-native';
-
-const useErrorEffect = (error: unknown) => {
-  const reset = useResetMainStackNavigation();
-  useEffect(() => {
-    if (!error) return;
-
-    // do something else here
-
-    if (typeof error === 'string') {
-      Alert.alert('Warning', error);
-
-      error.includes('Unauthorized') && reset('Login');
-      return;
-    }
-
-    // for firebase exception
-    const e = error as {message: string; code: string};
-    Alert.alert('Warning', e.message);
-  }, [error]);
-};
 
 type ApiQueryProps<Output> = UseQueryOptions<Output, unknown, Output, QueryKey>;
 export const useApiQuery = <Output>(props: ApiQueryProps<Output>) => {
-  const {error, ...rest} = useQuery<Output, unknown>(props);
-
-  useErrorEffect(error);
-
-  return {
-    error,
-    ...rest,
-  };
+  return useQuery<Output, unknown>(props);
 };
 
 type ApiMutationProps<Output, Input> = UseMutationOptions<
@@ -52,14 +22,7 @@ type ApiMutationProps<Output, Input> = UseMutationOptions<
 export const useApiMutation = <Output, Input = void>(
   props: ApiMutationProps<Output, Input>,
 ) => {
-  const {error, ...rest} = useMutation<Output, unknown, Input>(props);
-
-  useErrorEffect(error);
-
-  return {
-    error,
-    ...rest,
-  };
+  return useMutation<Output, unknown, Input>(props);
 };
 
 type ApiInfiniteQueryProps<Output> = UseInfiniteQueryOptions<
@@ -73,18 +36,11 @@ type ApiInfiniteQueryProps<Output> = UseInfiniteQueryOptions<
 export const useApiInfiniteQuery = <Output>(
   props: ApiInfiniteQueryProps<Output>,
 ) => {
-  const {error, ...rest} = useInfiniteQuery<
+  return useInfiniteQuery<
     Output,
     unknown,
     InfiniteData<Output>,
     QueryKey,
     number
   >(props);
-
-  useErrorEffect(error);
-
-  return {
-    error,
-    ...rest,
-  };
 };

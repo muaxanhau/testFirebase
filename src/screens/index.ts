@@ -11,3 +11,4 @@ export * from './map';
 export * from './listItems';
 export * from './listCarts';
 export * from './listFoods';
+export * from './test';

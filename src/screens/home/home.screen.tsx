@@ -13,6 +13,7 @@ export const HomeScreen: ScreenBaseModel = () => {
   const onPressProfile = () => navigation.navigate('Profile');
   const onPressItems = () => navigation.navigate('ListItems');
   const onPressCategories = () => navigation.navigate('ListCategories');
+  const onPressTest = () => navigation.navigate('Test');
 
   return (
     <ScreenLayoutComponent paddingHorizontal gap scrollable>
@@ -25,6 +26,13 @@ export const HomeScreen: ScreenBaseModel = () => {
         color="success"
         type="outline"
         onPress={onPressCategories}
+      />
+
+      <ButtonComponent
+        title="Test"
+        color="warning"
+        type="outline"
+        onPress={onPressTest}
       />
     </ScreenLayoutComponent>
   );

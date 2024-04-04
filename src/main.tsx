@@ -11,9 +11,6 @@ export const Main: FC = withProvider(() => {
     <>
       <StatusBar hidden translucent />
 
-      {/* don't need to use global loader anymore */}
-      {/* <LoaderComponent /> */}
-
       <MainStackNavigation />
     </>
   );

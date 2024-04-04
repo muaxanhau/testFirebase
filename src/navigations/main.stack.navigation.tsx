@@ -15,6 +15,7 @@ import {
   ProfileScreen,
   SignUpScreen,
   SplashScreen,
+  TestScreen,
 } from 'screens';
 
 const Stack = createNativeStackNavigator<MainStackNavigationModel>();
@@ -45,5 +46,6 @@ export const MainStackNavigation: FC = () => (
     <Stack.Screen name={'ListItems'} component={ListItemsScreen} />
     <Stack.Screen name={'ListCarts'} component={ListCartsScreen} />
     <Stack.Screen name={'ListFoods'} component={ListFoodsScreen} />
+    <Stack.Screen name={'Test'} component={TestScreen} />
   </Stack.Navigator>
 );

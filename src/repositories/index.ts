@@ -7,3 +7,4 @@ export * from './carts';
 export * from './restaurants';
 export * from './subCategories';
 export * from './foods';
+export * from './test';

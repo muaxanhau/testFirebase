@@ -1,4 +1,8 @@
 export enum KeyService {
+  // test
+  TEST_QUERY = 'TEST_QUERY',
+  TEST_MUTATION = 'TEST_MUTATION',
+
   // auth
   LOGIN = 'LOGIN',
   SIGN_UP = 'SIGN_UP',
