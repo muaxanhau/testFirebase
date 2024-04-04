@@ -17,5 +17,6 @@ export type MainStackNavigationModel = {
   ListCarts: undefined;
   ListFoods: {
     restaurantId: string;
+    restaurantName: string;
   };
 };

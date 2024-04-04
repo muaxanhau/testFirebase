@@ -17,7 +17,7 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 
 export const ListFoodsScreen: ScreenBaseModel = () => {
   const {
-    params: {restaurantId},
+    params: {restaurantId, restaurantName},
   } = useRoute<RouteProp<MainStackNavigationModel, 'ListFoods'>>();
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
   const [selectedSubCategoryId, setSelectedSubCategoryId] =
@@ -46,7 +46,7 @@ export const ListFoodsScreen: ScreenBaseModel = () => {
   };
 
   return (
-    <ScreenLayoutComponent title="Foods" paddingHorizontal>
+    <ScreenLayoutComponent title={restaurantName} paddingHorizontal>
       <View style={styles.header}>
         <TouchableOpacity style={styles.columnLeft} onPress={onPressClear}>
           <TextComponent

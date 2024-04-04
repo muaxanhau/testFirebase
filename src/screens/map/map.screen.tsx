@@ -26,7 +26,10 @@ export const MapScreen: ScreenBaseModel = () => {
   };
   const onPressGo = () => {
     ref.current?.close();
-    navigation.navigate('ListFoods', {restaurantId: selectedRestaurant?.id!});
+    navigation.navigate('ListFoods', {
+      restaurantId: selectedRestaurant?.id!,
+      restaurantName: selectedRestaurant?.name!,
+    });
   };
 
   return (
