@@ -16,16 +16,12 @@ export const useEditCategoryRepo = (props: EditCategoryProps) => {
     EditCategoryInput
   >({
     mutationKey: [KeyService.EDIT_CATEGORY],
-    mutationFn: async ({id, name, description, image}) => {
+    mutationFn: async ({id, ...newCategory}) => {
       await utils.sleep(devToolConfig.delayFetching);
 
       const response = await service.put<EditCategoryOutput, CategoryModel>(
         `categories/${id}`,
-        {
-          name,
-          description,
-          image,
-        },
+        newCategory,
       );
       return response.data;
     },

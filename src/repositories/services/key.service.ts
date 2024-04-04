@@ -6,6 +6,9 @@ export enum KeyService {
   LOGIN_WITH_PHONE = 'LOGIN_WITH_PHONE',
   CONFIRM_OTP = 'CONFIRM_OTP',
 
+  // restaurants
+  GET_ALL_RESTAURANTS = 'GET_ALL_RESTAURANTS',
+
   // users
   GET_USER_SELF = 'GET_USER_SELF',
   CREATE_USER = 'CREATE_USER',
@@ -18,11 +21,17 @@ export enum KeyService {
   EDIT_CATEGORY = 'EDIT_CATEGORY',
   GET_CATEGORY = 'GET_CATEGORY',
 
+  // subCategories
+  GET_ALL_SUB_CATEGORIES = 'GET_ALL_SUB_CATEGORIES',
+
   // items
   GET_ALL_ITEMS = 'GET_ALL_ITEMS',
   GET_ITEMS_BY_CATEGORY_ID = 'GET_ITEMS_BY_CATEGORY_ID',
 
-  // cart
+  // carts
   ADD_CART = 'ADD_CART',
   GET_USER_CARTS_SELF = 'GET_USER_CARTS_SELF',
+
+  // foods
+  GET_ALL_FOODS = 'GET_ALL_FOODS',
 }

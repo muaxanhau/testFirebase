@@ -1,6 +1,6 @@
 import {StyleSheet, View} from 'react-native';
 import React, {useRef, useState} from 'react';
-import {ScreenBaseModel} from 'models';
+import {RestaurantIdModel, ScreenBaseModel} from 'models';
 import {
   BottomSheetComponent,
   BottomSheetRefProps,
@@ -8,45 +8,43 @@ import {
   ScreenLayoutComponent,
   TextComponent,
 } from 'components';
-import MapView, {
-  Circle,
-  LatLng,
-  Marker,
-  PROVIDER_GOOGLE,
-} from 'react-native-maps';
+import MapView, {Circle, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {colors} from 'values';
-import {useMainStackNavigation, utils} from 'utils';
-import {
-  currPosition,
-  dummyRestaurants,
-  regionDelta,
-  Restaurant,
-} from './dummyData';
+import {currPosition, regionDelta, useMainStackNavigation, utils} from 'utils';
+import {useGetAllRestaurantsRepo} from 'repositories';
 
 export const MapScreen: ScreenBaseModel = () => {
-  const [restaurant, setRestaurant] = useState<Restaurant>();
+  const {restaurants} = useGetAllRestaurantsRepo();
   const navigation = useMainStackNavigation();
   const ref = useRef<BottomSheetRefProps>(null);
+  const [selectedRestaurant, setSelectedRestaurant] =
+    useState<RestaurantIdModel>();
 
-  const onPressMarker = (res: Restaurant) => () => {
-    setRestaurant(res);
+  const onPressMarker = (restaurant: RestaurantIdModel) => () => {
+    setSelectedRestaurant(restaurant);
     ref.current?.open();
   };
   const onPressGo = () => {
     ref.current?.close();
-    navigation.navigate('ListItems');
+    navigation.navigate('ListFoods', {restaurantId: selectedRestaurant?.id!});
   };
 
   return (
     <>
       <BottomSheetComponent ref={ref} paddingHorizontal>
-        <TextComponent type="h2">{restaurant?.title}</TextComponent>
-        <TextComponent>Description: {restaurant?.description}</TextComponent>
-        <TextComponent>Rate: {restaurant?.rate}</TextComponent>
+        <TextComponent type="h2">{selectedRestaurant?.name}</TextComponent>
         <TextComponent>
-          Coordinate: {restaurant?.latitude}
-          {'  '}|{'  '}
-          {restaurant?.longitude}
+          Description: {selectedRestaurant?.description}
+        </TextComponent>
+        <TextComponent>Rate: {selectedRestaurant?.rate}</TextComponent>
+        <TextComponent>Coordinate:</TextComponent>
+        <TextComponent>
+          {' '}
+          - Latitude: {selectedRestaurant?.latitude}
+        </TextComponent>
+        <TextComponent>
+          {' '}
+          - Longitude: {selectedRestaurant?.longitude}
         </TextComponent>
 
         <ButtonComponent
@@ -65,15 +63,15 @@ export const MapScreen: ScreenBaseModel = () => {
               ...currPosition,
               ...regionDelta,
             }}>
-            {dummyRestaurants.map((res, index) => (
+            {restaurants?.map((restaurant, index) => (
               <Marker
                 key={index}
                 coordinate={{
-                  latitude: res.latitude,
-                  longitude: res.longitude,
+                  latitude: restaurant.latitude,
+                  longitude: restaurant.longitude,
                 }}
-                title={res.title}
-                onPress={onPressMarker(res)}
+                title={restaurant.name}
+                onPress={onPressMarker(restaurant)}
               />
             ))}
 

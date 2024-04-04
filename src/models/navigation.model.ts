@@ -15,4 +15,7 @@ export type MainStackNavigationModel = {
   Map: undefined;
   ListItems: undefined;
   ListCarts: undefined;
+  ListFoods: {
+    restaurantId: string;
+  };
 };

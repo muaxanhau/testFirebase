@@ -12,7 +12,10 @@ import {KeyboardAvoidingView} from 'react-native';
 
 export const AddCategoryScreen: ScreenBaseModel = () => {
   const navigation = useMainStackNavigation();
-  const {control, handleSubmit} = useHookForm({schema: addCategoryFormSchema});
+  const {control, handleSubmit} = useHookForm({
+    schema: addCategoryFormSchema,
+    defaultValues: {image: ''},
+  });
   const {addCategory, isPending} = useAddCategoryRepo({
     onSuccess: () => navigation.navigate('ListCategories'),
   });
@@ -35,6 +38,13 @@ export const AddCategoryScreen: ScreenBaseModel = () => {
           control={control}
           name="description"
           title="Description"
+          placeholder="Aa..."
+        />
+
+        <InputTextComponent
+          control={control}
+          name="origin"
+          title="Origin"
           placeholder="Aa..."
         />
 

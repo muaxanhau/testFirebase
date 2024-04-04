@@ -21,20 +21,21 @@ export const EditCategoryScreen: ScreenBaseModel = () => {
   const {id} = params;
   const navigation = useMainStackNavigation();
   const {category} = useGetCategoryRepo({id});
-  const {editCategory, isPending} = useEditCategoryRepo({
-    onSuccess: () => navigation.navigate('ListCategories'),
-  });
   const {control, handleSubmit} = useHookForm({
     schema: editCategoryFormSchema,
     defaultValues: {
-      name: category?.name,
-      description: category?.description,
-      image: category?.image,
+      name: category?.name!,
+      description: category?.description!,
+      image: category?.image!,
+      origin: category?.origin!,
     },
   });
+  const {editCategory, isPending} = useEditCategoryRepo({
+    onSuccess: () => navigation.navigate('ListCategories'),
+  });
 
-  const onPress = handleSubmit(({name, description, image}) =>
-    editCategory({id, name, description, image}),
+  const onPress = handleSubmit(newCategory =>
+    editCategory({id, ...newCategory}),
   );
 
   return (
@@ -53,6 +54,13 @@ export const EditCategoryScreen: ScreenBaseModel = () => {
           control={control}
           name={'description'}
           title="Description"
+          placeholder="Aa..."
+        />
+
+        <InputTextComponent
+          control={control}
+          name={'origin'}
+          title="Origin"
           placeholder="Aa..."
         />
 

@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import React from 'react';
 import {ScreenBaseModel} from 'models';
 import {
@@ -9,16 +9,16 @@ import {
 import {ListItemsComponent} from './components';
 import {useMainStackNavigation} from 'utils';
 import {valueStyles} from 'values';
-import {useGetAllCategoriesWithItemsRepo} from 'repositories';
+import {useGetAllCategoriesRepo} from 'repositories';
 
 export const ListItemsScreen: ScreenBaseModel = () => {
   const navigation = useMainStackNavigation();
-  const {categoriesWithItems} = useGetAllCategoriesWithItemsRepo();
+  const {categories} = useGetAllCategoriesRepo();
 
-  const titles = categoriesWithItems?.map(category => category.name) || [];
-  const contents = (
-    categoriesWithItems?.map(category => category.id) || []
-  ).map(id => <ListItemsComponent id={id} />);
+  const titles = categories?.map(category => category.name) || [];
+  const contents = (categories?.map(category => category.id) || []).map(id => (
+    <ListItemsComponent id={id} />
+  ));
 
   const onPress = () => navigation.navigate('ListCarts');
 

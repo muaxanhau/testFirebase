@@ -5,3 +5,4 @@ export * from './storage.util';
 export * from './utils';
 export * from './validation.util';
 export * from './libs';
+export * from './dummyData';
