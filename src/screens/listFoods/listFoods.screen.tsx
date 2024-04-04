@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {MainStackNavigationModel, ScreenBaseModel} from 'models';
 import {
-  ButtonComponent,
   FlatListComponent,
   ScreenLayoutComponent,
   TextComponent,
@@ -17,21 +16,30 @@ import {colors, valueStyles} from 'values';
 import {RouteProp, useRoute} from '@react-navigation/native';
 
 export const ListFoodsScreen: ScreenBaseModel = () => {
-  const {params} = useRoute<RouteProp<MainStackNavigationModel, 'ListFoods'>>();
-  const {restaurantId} = params;
+  const {
+    params: {restaurantId},
+  } = useRoute<RouteProp<MainStackNavigationModel, 'ListFoods'>>();
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
   const [selectedSubCategoryId, setSelectedSubCategoryId] =
     useState<string>('');
-  const {categories} = useGetAllCategoriesRepo();
-  const {subCategories} = useGetAllSubCategoriesRepo();
+  const {categories} = useGetAllCategoriesRepo({restaurantId});
+  const {subCategories} = useGetAllSubCategoriesRepo({
+    restaurantId,
+    categoryId: selectedCategoryId,
+  });
   const {foods} = useGetAllFoodsRepo({
     restaurantId,
     categoryId: selectedCategoryId,
     subCategoryId: selectedSubCategoryId,
   });
 
+  const onPressClear = () => {
+    setSelectedCategoryId('');
+    setSelectedSubCategoryId('');
+  };
   const onPressCategory = (id: string) => () => {
     setSelectedCategoryId(id);
+    setSelectedSubCategoryId('');
   };
   const onPressSubCategory = (id: string) => () => {
     setSelectedSubCategoryId(id);
@@ -40,7 +48,17 @@ export const ListFoodsScreen: ScreenBaseModel = () => {
   return (
     <ScreenLayoutComponent title="Foods" paddingHorizontal>
       <View style={styles.header}>
-        <View style={styles.columnLeft} />
+        <TouchableOpacity style={styles.columnLeft} onPress={onPressClear}>
+          <TextComponent
+            style={{
+              ...styles.itemWrapper,
+              borderColor: colors.primary,
+              textAlign: 'center',
+            }}>
+            Clear
+          </TextComponent>
+        </TouchableOpacity>
+
         <FlatListComponent
           horizontal
           contentContainerStyle={[styles.listContainer, styles.listHeader]}

@@ -13,7 +13,7 @@ import {useMainStackNavigation, useScreenFocusedEffect, utils} from 'utils';
 import {Swipeable} from 'react-native-gesture-handler';
 
 export const ListCategoriesComponent: FC<ComponentBaseModel> = () => {
-  const {categories, refetch} = useGetAllCategoriesRepo();
+  const {categories, refetch} = useGetAllCategoriesRepo({});
   const refCategoriesList = useRef<CategoryRefProps[]>([]);
 
   const closeAllRightActions = () => {

@@ -13,7 +13,7 @@ import {useGetAllCategoriesRepo} from 'repositories';
 
 export const ListItemsScreen: ScreenBaseModel = () => {
   const navigation = useMainStackNavigation();
-  const {categories} = useGetAllCategoriesRepo();
+  const {categories} = useGetAllCategoriesRepo({});
 
   const titles = categories?.map(category => category.name) || [];
   const contents = (categories?.map(category => category.id) || []).map(id => (
