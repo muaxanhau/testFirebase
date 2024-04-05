@@ -1,5 +1,5 @@
 import {KeyboardAvoidingView} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   MainStackNavigationModel,
   ScreenBaseModel,
@@ -16,19 +16,13 @@ import {
 import {useHookForm, useMainStackNavigation} from 'utils';
 
 export const EditCategoryScreen: ScreenBaseModel = () => {
-  const {params} =
-    useRoute<RouteProp<MainStackNavigationModel, 'EditCategory'>>();
-  const {id} = params;
   const navigation = useMainStackNavigation();
+  const {
+    params: {id},
+  } = useRoute<RouteProp<MainStackNavigationModel, 'EditCategory'>>();
   const {category} = useGetCategoryRepo({id});
-  const {control, handleSubmit} = useHookForm({
+  const {control, handleSubmit, setDefaultValues} = useHookForm({
     schema: editCategoryFormSchema,
-    defaultValues: {
-      name: category?.name!,
-      description: category?.description!,
-      image: category?.image!,
-      origin: category?.origin!,
-    },
   });
   const {editCategory, isPending} = useEditCategoryRepo({
     onSuccess: () => navigation.navigate('ListCategories'),
@@ -37,6 +31,10 @@ export const EditCategoryScreen: ScreenBaseModel = () => {
   const onPress = handleSubmit(newCategory =>
     editCategory({id, ...newCategory}),
   );
+
+  useEffect(() => {
+    setDefaultValues(category);
+  }, [category]);
 
   return (
     <ScreenLayoutComponent paddingHorizontal gap>

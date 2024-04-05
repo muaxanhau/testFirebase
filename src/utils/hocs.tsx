@@ -5,27 +5,28 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {useAppQueryClient} from './hooks';
 
-export const withProvider = (Component: FC): FC =>
-  withNavigationContainer(() => {
+export const withProvider =
+  (Component: FC): FC =>
+  () => {
     const appQueryClient = useAppQueryClient();
 
     return (
       <QueryClientProvider client={appQueryClient}>
-        <GestureHandlerRootView style={{flex: 1}}>
-          <SafeAreaProvider>
-            <Component />
-          </SafeAreaProvider>
-        </GestureHandlerRootView>
+        <SafeAreaProvider>
+          <Component />
+        </SafeAreaProvider>
       </QueryClientProvider>
     );
-  });
+  };
 
-const withNavigationContainer =
+export const withNavigationContainer =
   (Component: FC): FC =>
   () => {
     return (
       <NavigationContainer>
-        <Component />
+        <GestureHandlerRootView style={{flex: 1}}>
+          <Component />
+        </GestureHandlerRootView>
       </NavigationContainer>
     );
   };

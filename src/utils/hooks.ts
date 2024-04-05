@@ -1,4 +1,4 @@
-import {DefaultValues, FieldValues, useForm} from 'react-hook-form';
+import {DefaultValues, FieldValues, Path, useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {Alert, AppState, LayoutChangeEvent, LogBox} from 'react-native';
@@ -162,12 +162,34 @@ export const useHookForm = <T extends FieldValues>({
   schema,
   defaultValues,
 }: UseHookFormProps<T>) => {
-  const form = useForm<T>({
+  const {setValue, getValues, ...rest} = useForm<T>({
     resolver: zodResolver(schema),
     defaultValues,
   });
 
-  return form;
+  const checkAllFieldsAreNotDataYet = () => {
+    const data = getValues();
+    const allEmpty = !Object.entries(data).filter(
+      ([, value]) => value !== undefined,
+    ).length;
+    return allEmpty;
+  };
+  const setDefaultValues = (data?: Partial<T>) => {
+    if (!data) return;
+    const notDataYet = checkAllFieldsAreNotDataYet();
+    if (!notDataYet) return;
+
+    // just can be setDefaultValues when all field are empty
+    const values = Object.entries(data).filter(
+      ([, value]) => value !== undefined,
+    );
+
+    values.forEach(([field, value]) => {
+      setValue(field as Path<T>, value);
+    });
+  };
+
+  return {setValue, getValues, setDefaultValues, ...rest};
 };
 
 export const useLocalStorage = <T>(key: StorageEnum) => {
