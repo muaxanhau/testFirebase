@@ -22,7 +22,7 @@ export const useDeleteCategoryRepo = () => {
     },
     onMutate: ({id}) => {
       queryClient.setQueryData<GetAllCategoriesOutput>(
-        [KeyService.GET_ALL_CATEGORIES],
+        [KeyService.GET_ALL_CATEGORIES, undefined],
         oldData => {
           const deletedCategories = oldData?.filter(
             category => category.id !== id,
@@ -33,7 +33,7 @@ export const useDeleteCategoryRepo = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: [KeyService.GET_ALL_CATEGORIES],
+        queryKey: [KeyService.GET_ALL_CATEGORIES, undefined],
       });
     },
   });
