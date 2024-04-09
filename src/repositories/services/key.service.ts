@@ -2,6 +2,7 @@ export enum KeyService {
   // test
   TEST_QUERY = 'TEST_QUERY',
   TEST_MUTATION = 'TEST_MUTATION',
+  TEST_PUSH_NOTIFICATION = 'TEST_PUSH_NOTIFICATION',
 
   // auth
   LOGIN = 'LOGIN',
@@ -14,6 +15,7 @@ export enum KeyService {
   GET_ALL_RESTAURANTS = 'GET_ALL_RESTAURANTS',
 
   // users
+  SETUP_USER = 'SETUP_USER',
   GET_USER_SELF = 'GET_USER_SELF',
   CREATE_USER = 'CREATE_USER',
 

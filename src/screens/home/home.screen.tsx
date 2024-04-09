@@ -1,14 +1,13 @@
 import React from 'react';
 import {ScreenBaseModel} from 'models';
 import {useMainStackNavigation} from 'utils';
-import {
-  ButtonComponent,
-  ScreenLayoutComponent,
-  TextComponent,
-} from 'components';
+import {ButtonComponent, ScreenLayoutComponent} from 'components';
+import {usePushNotificationRepo, useSetupUserRepo} from 'repositories';
 
 export const HomeScreen: ScreenBaseModel = () => {
   const navigation = useMainStackNavigation();
+  const {} = useSetupUserRepo();
+  const {pushNotification, isPending} = usePushNotificationRepo();
 
   const onPressProfile = () => navigation.navigate('Profile');
   const onPressItems = () => navigation.navigate('ListItems');
@@ -26,6 +25,14 @@ export const HomeScreen: ScreenBaseModel = () => {
         color="success"
         type="outline"
         onPress={onPressCategories}
+      />
+
+      <ButtonComponent
+        title="Push Notification"
+        color="fail"
+        type="outline"
+        onPress={pushNotification}
+        isLoading={isPending}
       />
 
       <ButtonComponent

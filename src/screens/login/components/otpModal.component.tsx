@@ -20,7 +20,7 @@ export type OtpModalRefProps = {
 };
 type OtpModalProps = ComponentBaseModel;
 export const OtpModalComponent = forwardRef<OtpModalRefProps, OtpModalProps>(
-  ({}, ref) => {
+  (_, ref) => {
     const resetMainStackNavigation = useResetMainStackNavigation();
     const refOtp = useRef<InputOTPRefProps>(null);
     const refModal = useRef<ModalRefProps>(null);

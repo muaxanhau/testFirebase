@@ -26,9 +26,13 @@ import {storageUtil} from './storage.util';
 import auth from '@react-native-firebase/auth';
 import {resetAllStores, useAuthStore} from 'stores';
 import {config} from 'config';
+import PushNotification from 'react-native-push-notification';
+import messaging from '@react-native-firebase/messaging';
+import PushNotificationIos from '@react-native-community/push-notification-ios';
 
 export const useAppQueryClient = () => {
   const reset = useResetMainStackNavigation();
+  const {androidSetBadge} = usePushNotification();
 
   const getMessageError = (error: unknown) => {
     if (!error) return undefined;
@@ -53,7 +57,13 @@ export const useAppQueryClient = () => {
     if (!msg) return;
 
     Alert.alert('Warning', msg);
-    msg.includes('Unauthorized') && reset('Login');
+    if (msg.includes('Unauthorized')) {
+      reset('Login');
+
+      resetAllStores();
+      queryClient.clear();
+      androidSetBadge(0);
+    }
   };
 
   const [queryClient] = useState(
@@ -72,39 +82,134 @@ export const useAppQueryClient = () => {
   return queryClient;
 };
 
-export const useFirstSetupApp = () => {
-  const queryClient = useQueryClient();
-  const {setAuth} = useAuthStore();
+export const usePushNotification = () => {
+  const setupAndroidChannel = () => {
+    if (utils.isIos()) return;
+
+    PushNotification.createChannel(androidChanel, () => {});
+  };
+  const androidIncreaseBadge = () => {
+    PushNotification.getApplicationIconBadgeNumber(badgeNumber => {
+      PushNotification.setApplicationIconBadgeNumber(badgeNumber + 1);
+    });
+  };
+  const androidDecreaseBadge = () => {
+    PushNotification.getApplicationIconBadgeNumber(badgeNumber => {
+      PushNotification.setApplicationIconBadgeNumber(badgeNumber - 1);
+    });
+  };
+  const androidSetBadge = (badge: number) => {
+    PushNotification.setApplicationIconBadgeNumber(badge);
+  };
+  const androidLocalNotification = (title: string, body: string) => {
+    PushNotification.localNotification({
+      channelId: androidChanel.channelId,
+      title,
+      message: body || '',
+    });
+  };
+  const iosLocalNotification = (
+    messageId: string,
+    title: string,
+    body: string,
+  ) => {
+    PushNotificationIos.addNotificationRequest({id: messageId, title, body});
+  };
+  return {
+    setupAndroidChannel,
+    androidIncreaseBadge,
+    androidDecreaseBadge,
+    androidSetBadge,
+    androidLocalNotification,
+    iosLocalNotification,
+  };
+};
+
+const useFirstCheckNavigation = () => {
   const resetMainStackNavigation = useResetMainStackNavigation();
 
-  const checkNavigation = () => {
+  useTimeout(() => {
     const isAuthorized = auth().currentUser !== null;
     resetMainStackNavigation(isAuthorized ? 'Home' : 'Login');
-  };
-
+  }, 1000);
+};
+const useFirstConfigQueryClient = () => {
   useLayoutEffect(() => {
-    LogBox.ignoreAllLogs();
-
     // event for re-online => refetch data
     onlineManager.setEventListener(setOnline =>
       NetInfo.addEventListener(state => setOnline(!!state.isConnected)),
     );
+  }, []);
+};
+const useFirstConfigAutoClearAppData = () => {
+  const {setAuth} = useAuthStore();
+  const queryClient = useQueryClient();
+  const {androidSetBadge} = usePushNotification();
 
+  useLayoutEffect(() => {
     const tokenListener = auth().onIdTokenChanged(async user => {
-      if (!user) {
-        resetAllStores();
-        queryClient.clear();
+      if (user) {
+        const token = await user.getIdToken();
+        setAuth({token});
         return;
       }
 
-      const token = await user.getIdToken();
-      setAuth({token});
+      resetAllStores();
+      queryClient.clear();
+      androidSetBadge(0);
     });
 
     return () => tokenListener();
   }, []);
+};
+const androidChanel = {
+  channelId: 'TestFirebaseNotificationChanel',
+  channelName: 'TestFirebaseNotificationChanel',
+} as const;
+const useFirstConfigNotification = () => {
+  const {
+    setupAndroidChannel,
+    androidLocalNotification,
+    iosLocalNotification,
+    androidIncreaseBadge,
+    androidDecreaseBadge,
+  } = usePushNotification();
 
-  useTimeout(checkNavigation, 1000);
+  useLayoutEffect(setupAndroidChannel, []);
+  useLayoutEffect(() => {
+    const unsubscribe = messaging().onMessage(
+      async ({notification, messageId}) => {
+        if (!notification || !messageId) return;
+
+        const {title, body} = notification;
+        if (utils.isIos()) {
+          iosLocalNotification(messageId, title || '', body || '');
+          return;
+        }
+
+        androidLocalNotification(title || '', body || '');
+        androidIncreaseBadge();
+      },
+    );
+
+    return unsubscribe;
+  }, []);
+  useLayoutEffect(() => {
+    const unsubscribe =
+      messaging().onNotificationOpenedApp(androidDecreaseBadge);
+
+    return unsubscribe;
+  }, []);
+};
+
+export const useFirstSetupApp = () => {
+  useFirstConfigQueryClient();
+  useFirstConfigAutoClearAppData();
+  useFirstConfigNotification();
+  useFirstCheckNavigation();
+  useLayoutEffect(() => {
+    LogBox.ignoreAllLogs();
+  }, []);
 };
 
 /**
