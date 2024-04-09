@@ -86,15 +86,13 @@ export const FlatListComponent = <T extends {}>({
         ) : null
       }
       ListEmptyComponent={
-        horizontal ? null : (
-          <View style={[styles.empty, {height}]}>
-            {isLoading ? (
-              <ActivityIndicatorComponent />
-            ) : (
-              <TextComponent>Empty...</TextComponent>
-            )}
-          </View>
-        )
+        <View style={[styles.empty, {height}]}>
+          {isLoading ? (
+            <ActivityIndicatorComponent />
+          ) : (
+            <TextComponent>Empty...</TextComponent>
+          )}
+        </View>
       }
       renderItem={data => (
         <ViewAnimationComponent

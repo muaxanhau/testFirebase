@@ -19,7 +19,7 @@ type ActivityIndicatorProps = ComponentBaseModel<{
   size?: number;
 }>;
 export const ActivityIndicatorComponent: FC<ActivityIndicatorProps> = ({
-  size = 40,
+  size = 30,
   style,
 }) => {
   const rotation = useSharedValue(0);
