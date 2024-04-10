@@ -1,7 +1,13 @@
 import {DefaultValues, FieldValues, Path, useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
-import {Alert, AppState, LayoutChangeEvent, LogBox} from 'react-native';
+import {
+  Alert,
+  AppState,
+  LayoutChangeEvent,
+  LogBox,
+  PermissionsAndroid,
+} from 'react-native';
 import {
   NavigationProp,
   useIsFocused,
@@ -30,9 +36,35 @@ import PushNotification from 'react-native-push-notification';
 import messaging from '@react-native-firebase/messaging';
 import PushNotificationIos from '@react-native-community/push-notification-ios';
 
-export const useAppQueryClient = () => {
-  const reset = useResetMainStackNavigation();
+export const useResetApp = (queryClient?: QueryClient) => {
+  const qClient = useQueryClient(queryClient);
   const {androidSetBadge} = usePushNotification();
+  const reset = useResetMainStackNavigation();
+
+  const resetApp = () => {
+    resetAllStores();
+    qClient.clear();
+    androidSetBadge(0);
+    reset('Login');
+  };
+
+  return resetApp;
+};
+
+export const useAppQueryClient = () => {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: config.staleTime,
+          },
+        },
+        queryCache: new QueryCache({onError}),
+        mutationCache: new MutationCache({onError}),
+      }),
+  );
+  const resetApp = useResetApp(queryClient);
 
   const getMessageError = (error: unknown) => {
     if (!error) return undefined;
@@ -58,44 +90,52 @@ export const useAppQueryClient = () => {
 
     Alert.alert('Warning', msg);
     if (msg.includes('Unauthorized')) {
-      reset('Login');
-
-      resetAllStores();
-      queryClient.clear();
-      androidSetBadge(0);
+      resetApp();
     }
   };
-
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: config.staleTime,
-          },
-        },
-        queryCache: new QueryCache({onError}),
-        mutationCache: new MutationCache({onError}),
-      }),
-  );
 
   return queryClient;
 };
 
+const androidChanel = {
+  channelId: 'TestFirebaseNotificationChanel',
+  channelName: 'TestFirebaseNotificationChanel',
+} as const;
 export const usePushNotification = () => {
-  const setupAndroidChannel = () => {
-    if (utils.isIos()) return;
+  const requestPermission = async () => {
+    if (utils.isIos()) {
+      const authStatus = await messaging().requestPermission();
+      const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+      return enabled;
+    }
 
-    PushNotification.createChannel(androidChanel, () => {});
+    if (utils.osVersion() < 33) {
+      return true;
+    }
+
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+    );
+    return granted === 'granted';
+  };
+  const getDeviceId = async () => {
+    const deviceId = await messaging().getToken();
+    return deviceId;
+  };
+  const setupAndroid = () => {
+    utils.isAndroid() &&
+      PushNotification.createChannel(androidChanel, () => {});
   };
   const androidIncreaseBadge = () => {
-    PushNotification.getApplicationIconBadgeNumber(badgeNumber => {
-      PushNotification.setApplicationIconBadgeNumber(badgeNumber + 1);
+    PushNotification.getApplicationIconBadgeNumber(badge => {
+      PushNotification.setApplicationIconBadgeNumber(badge + 1);
     });
   };
   const androidDecreaseBadge = () => {
-    PushNotification.getApplicationIconBadgeNumber(badgeNumber => {
-      PushNotification.setApplicationIconBadgeNumber(badgeNumber - 1);
+    PushNotification.getApplicationIconBadgeNumber(badge => {
+      PushNotification.setApplicationIconBadgeNumber(badge - 1);
     });
   };
   const androidSetBadge = (badge: number) => {
@@ -116,7 +156,9 @@ export const usePushNotification = () => {
     PushNotificationIos.addNotificationRequest({id: messageId, title, body});
   };
   return {
-    setupAndroidChannel,
+    requestPermission,
+    getDeviceId,
+    setupAndroid,
     androidIncreaseBadge,
     androidDecreaseBadge,
     androidSetBadge,
@@ -125,7 +167,7 @@ export const usePushNotification = () => {
   };
 };
 
-const useFirstCheckNavigation = () => {
+const useFirstSetupNavigation = () => {
   const resetMainStackNavigation = useResetMainStackNavigation();
 
   useTimeout(() => {
@@ -133,7 +175,7 @@ const useFirstCheckNavigation = () => {
     resetMainStackNavigation(isAuthorized ? 'Home' : 'Login');
   }, 1000);
 };
-const useFirstConfigQueryClient = () => {
+const useFirstSetupQueryClient = () => {
   useLayoutEffect(() => {
     // event for re-online => refetch data
     onlineManager.setEventListener(setOnline =>
@@ -141,10 +183,9 @@ const useFirstConfigQueryClient = () => {
     );
   }, []);
 };
-const useFirstConfigAutoClearAppData = () => {
+const useFirstSetupAuthApp = () => {
+  const resetApp = useResetApp();
   const {setAuth} = useAuthStore();
-  const queryClient = useQueryClient();
-  const {androidSetBadge} = usePushNotification();
 
   useLayoutEffect(() => {
     const tokenListener = auth().onIdTokenChanged(async user => {
@@ -154,28 +195,31 @@ const useFirstConfigAutoClearAppData = () => {
         return;
       }
 
-      resetAllStores();
-      queryClient.clear();
-      androidSetBadge(0);
+      resetApp();
     });
 
     return () => tokenListener();
   }, []);
 };
-const androidChanel = {
-  channelId: 'TestFirebaseNotificationChanel',
-  channelName: 'TestFirebaseNotificationChanel',
-} as const;
-const useFirstConfigNotification = () => {
+const useFirstSetupNotification = () => {
   const {
-    setupAndroidChannel,
+    requestPermission,
+    setupAndroid,
     androidLocalNotification,
     iosLocalNotification,
     androidIncreaseBadge,
     androidDecreaseBadge,
   } = usePushNotification();
 
-  useLayoutEffect(setupAndroidChannel, []);
+  const checkPermission = async () => {
+    const result = await requestPermission();
+    !result && utils.openSettings();
+  };
+
+  useLayoutEffect(() => {
+    checkPermission();
+  }, []);
+  useLayoutEffect(setupAndroid, []);
   useLayoutEffect(() => {
     const unsubscribe = messaging().onMessage(
       async ({notification, messageId}) => {
@@ -203,10 +247,10 @@ const useFirstConfigNotification = () => {
 };
 
 export const useFirstSetupApp = () => {
-  useFirstConfigQueryClient();
-  useFirstConfigAutoClearAppData();
-  useFirstConfigNotification();
-  useFirstCheckNavigation();
+  useFirstSetupNavigation();
+  useFirstSetupQueryClient();
+  useFirstSetupAuthApp();
+  useFirstSetupNotification();
   useLayoutEffect(() => {
     LogBox.ignoreAllLogs();
   }, []);
@@ -272,7 +316,7 @@ export const useHookForm = <T extends FieldValues>({
     defaultValues,
   });
 
-  const checkAllFieldsAreNotDataYet = () => {
+  const checkAllFieldsHaveNoDataYet = () => {
     const data = getValues();
     const allEmpty = !Object.entries(data).filter(
       ([, value]) => value !== undefined,
@@ -281,8 +325,8 @@ export const useHookForm = <T extends FieldValues>({
   };
   const setDefaultValues = (data?: Partial<T>) => {
     if (!data) return;
-    const notDataYet = checkAllFieldsAreNotDataYet();
-    if (!notDataYet) return;
+    const noDataYet = checkAllFieldsHaveNoDataYet();
+    if (!noDataYet) return;
 
     // just can be setDefaultValues when all field are empty
     const values = Object.entries(data).filter(

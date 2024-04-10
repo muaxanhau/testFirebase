@@ -1,5 +1,5 @@
 import {config} from 'config';
-import {Platform} from 'react-native';
+import {Linking, Platform} from 'react-native';
 import {z} from 'zod';
 import {images, valueStyles} from 'values';
 import {validationUtil} from './validation.util';
@@ -8,6 +8,23 @@ import {ErrorResponseBaseModel} from 'models';
 
 const isIos = () => Platform.OS === 'ios';
 const isAndroid = () => Platform.OS === 'android';
+const osVersion = () => {
+  if (Platform.OS === 'ios') {
+    const ver = parseFloat(Platform.Version);
+    return ver;
+  }
+  if (Platform.OS === 'android') {
+    return Platform.Version;
+  }
+  return -1;
+};
+const openSettings = () => {
+  if (isIos()) {
+    Linking.openURL('app-settings:');
+  } else {
+    Linking.openSettings();
+  }
+};
 
 function* generatorIncreaseIndex() {
   let i = 0;
@@ -319,6 +336,8 @@ type TransformSchemaToModel<T extends z.Schema> = Prettify<z.infer<T>>;
 export const utils = {
   isIos,
   isAndroid,
+  osVersion,
+  openSettings,
   getUniqueKey,
   random,
   clamp,
