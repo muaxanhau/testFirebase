@@ -38,34 +38,22 @@ import PushNotificationIos from '@react-native-community/push-notification-ios';
 
 export const useResetApp = (queryClient?: QueryClient) => {
   const qClient = useQueryClient(queryClient);
-  const {androidSetBadge} = usePushNotification();
+  const {removeAllNotifications} = usePushNotification();
   const reset = useResetMainStackNavigation();
 
   const resetApp = () => {
+    reset('Login');
+
     resetAllStores();
     qClient.clear();
-    androidSetBadge(0);
-    reset('Login');
+
+    removeAllNotifications();
   };
 
   return resetApp;
 };
 
 export const useAppQueryClient = () => {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: config.staleTime,
-          },
-        },
-        queryCache: new QueryCache({onError}),
-        mutationCache: new MutationCache({onError}),
-      }),
-  );
-  const resetApp = useResetApp(queryClient);
-
   const getMessageError = (error: unknown) => {
     if (!error) return undefined;
 
@@ -90,9 +78,23 @@ export const useAppQueryClient = () => {
 
     Alert.alert('Warning', msg);
     if (msg.includes('Unauthorized')) {
-      resetApp();
+      auth().signOut();
+      return;
     }
   };
+
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: config.staleTime,
+          },
+        },
+        queryCache: new QueryCache({onError}),
+        mutationCache: new MutationCache({onError}),
+      }),
+  );
 
   return queryClient;
 };
@@ -148,6 +150,10 @@ export const usePushNotification = () => {
       message: body || '',
     });
   };
+  const removeAllNotifications = () => {
+    PushNotification.removeAllDeliveredNotifications();
+    PushNotificationIos.removeAllDeliveredNotifications();
+  };
   const iosLocalNotification = (
     messageId: string,
     title: string,
@@ -159,6 +165,7 @@ export const usePushNotification = () => {
     requestPermission,
     getDeviceId,
     setupAndroid,
+    removeAllNotifications,
     androidIncreaseBadge,
     androidDecreaseBadge,
     androidSetBadge,
@@ -207,8 +214,6 @@ const useFirstSetupNotification = () => {
     setupAndroid,
     androidLocalNotification,
     iosLocalNotification,
-    androidIncreaseBadge,
-    androidDecreaseBadge,
   } = usePushNotification();
 
   const checkPermission = async () => {
@@ -226,21 +231,12 @@ const useFirstSetupNotification = () => {
         if (!notification || !messageId) return;
 
         const {title, body} = notification;
-        if (utils.isIos()) {
-          iosLocalNotification(messageId, title || '', body || '');
-          return;
-        }
 
-        androidLocalNotification(title || '', body || '');
-        androidIncreaseBadge();
+        utils.isIos() &&
+          iosLocalNotification(messageId, title || '', body || '');
+        utils.isAndroid() && androidLocalNotification(title || '', body || '');
       },
     );
-
-    return unsubscribe;
-  }, []);
-  useLayoutEffect(() => {
-    const unsubscribe =
-      messaging().onNotificationOpenedApp(androidDecreaseBadge);
 
     return unsubscribe;
   }, []);

@@ -13,6 +13,7 @@ export const useTestQueryRepo = ({}: TestQueryProps) => {
       const response = await service.get<TestQueryOutput>('somethings/query');
       return response.data;
     },
+    enabled: false,
   });
 
   return {queryData, ...rest};
