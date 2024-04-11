@@ -1,7 +1,11 @@
 import React from 'react';
 import {ScreenBaseModel} from 'models';
 import {useMainStackNavigation} from 'utils';
-import {ButtonComponent, ScreenLayoutComponent} from 'components';
+import {
+  ButtonComponent,
+  ScreenLayoutComponent,
+  TextComponent,
+} from 'components';
 import {usePushNotificationRepo, useSetupUserRepo} from 'repositories';
 
 export const HomeScreen: ScreenBaseModel = () => {
@@ -16,6 +20,8 @@ export const HomeScreen: ScreenBaseModel = () => {
 
   return (
     <ScreenLayoutComponent paddingHorizontal gap scrollable>
+      <TextComponent type="h1">Buyer</TextComponent>
+
       <ButtonComponent title="Profile" onPress={onPressProfile} />
 
       <ButtonComponent title="Items" color="success" onPress={onPressItems} />
