@@ -43,7 +43,9 @@ export const useResetApp = (queryClient?: QueryClient) => {
   const currentScreenName = useCurrentScreenName();
 
   const resetApp = () => {
-    if (currentScreenName === 'Login') return;
+    const firstEnterApp =
+      currentScreenName === 'Splash' || currentScreenName === 'Login';
+    if (firstEnterApp) return;
 
     resetAllStores();
     qClient.clear();
