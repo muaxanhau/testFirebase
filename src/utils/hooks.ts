@@ -40,13 +40,14 @@ export const useResetApp = (queryClient?: QueryClient) => {
   const qClient = useQueryClient(queryClient);
   const {removeAllNotifications} = usePushNotification();
   const reset = useResetMainStackNavigation();
+  const currentScreenName = useCurrentScreenName();
 
   const resetApp = () => {
-    reset('Login');
+    if (currentScreenName === 'Login') return;
 
     resetAllStores();
     qClient.clear();
-
+    reset('Login');
     removeAllNotifications();
   };
 
@@ -110,6 +111,7 @@ export const usePushNotification = () => {
       const enabled =
         authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
         authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
       return enabled;
     }
 
@@ -123,12 +125,29 @@ export const usePushNotification = () => {
     return granted === 'granted';
   };
   const getDeviceId = async () => {
-    const deviceId = await messaging().getToken();
-    return deviceId;
+    if (utils.isAndroid()) {
+      const deviceId = await messaging().getToken();
+      return deviceId;
+    }
+
+    const isIosRegistered = messaging().isDeviceRegisteredForRemoteMessages;
+    if (isIosRegistered) {
+      const deviceId = await messaging().getToken();
+      return deviceId;
+    }
+
+    return undefined;
   };
   const setupAndroid = () => {
-    utils.isAndroid() &&
-      PushNotification.createChannel(androidChanel, () => {});
+    if (!utils.isAndroid()) return;
+
+    PushNotification.createChannel(androidChanel, () => {});
+  };
+  const setupIos = () => {
+    if (!utils.isIos()) return;
+    if (__DEV__) return;
+
+    messaging().registerDeviceForRemoteMessages();
   };
   const androidIncreaseBadge = () => {
     PushNotification.getApplicationIconBadgeNumber(badge => {
@@ -165,6 +184,7 @@ export const usePushNotification = () => {
     requestPermission,
     getDeviceId,
     setupAndroid,
+    setupIos,
     removeAllNotifications,
     androidIncreaseBadge,
     androidDecreaseBadge,
@@ -212,6 +232,7 @@ const useFirstSetupNotification = () => {
   const {
     requestPermission,
     setupAndroid,
+    setupIos,
     androidLocalNotification,
     iosLocalNotification,
   } = usePushNotification();
@@ -225,6 +246,7 @@ const useFirstSetupNotification = () => {
     checkPermission();
   }, []);
   useLayoutEffect(setupAndroid, []);
+  useLayoutEffect(setupIos, []);
   useLayoutEffect(() => {
     const unsubscribe = messaging().onMessage(
       async ({notification, messageId}) => {
@@ -282,8 +304,8 @@ export const useAppNetwork = (): 'online' | 'offline' => {
   return isConnected ? 'online' : 'offline';
 };
 
-export const useCurrentRouteName = (): string => {
-  const [name, setName] = useState<string>('Splash');
+export const useCurrentScreenName = () => {
+  const [name, setName] = useState<keyof MainStackNavigationModel>('Splash');
   const routes = useNavigationState(item => item?.routes || []);
 
   const routesLength = routes.length;
@@ -293,7 +315,9 @@ export const useCurrentRouteName = (): string => {
       return;
     }
 
-    setName(routes[routesLength - 1].name);
+    const currName = routes[routesLength - 1]
+      .name as keyof MainStackNavigationModel;
+    setName(currName);
   }, [routesLength]);
 
   return name;

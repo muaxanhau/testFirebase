@@ -13,6 +13,8 @@ export const useSetupUserRepo = () => {
       await utils.sleep(devToolConfig.delayFetching);
 
       const deviceId = await getDeviceId();
+      if (!deviceId) return null;
+
       const response = await service.post<SetupUserOutput, SetupUserInput>(
         'users/setup',
         {
