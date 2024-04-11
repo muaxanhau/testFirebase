@@ -1,4 +1,4 @@
-import {Alert, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React, {useRef} from 'react';
 import {ScreenBaseModel} from 'models';
 import {
