@@ -8,12 +8,10 @@ import {
   ScreenLayoutComponent,
   TextComponent,
 } from 'components';
-import {useMainStackNavigation} from 'utils';
 import {useGetUserSelfRepo, useLogoutRepo} from 'repositories';
 import {colors} from 'values';
 
 export const ProfileScreen: ScreenBaseModel = () => {
-  const navigation = useMainStackNavigation();
   const {user} = useGetUserSelfRepo();
   const {logout, isPending} = useLogoutRepo();
   const refBottomSheet = useRef<BottomSheetRefProps>(null);
@@ -28,10 +26,6 @@ export const ProfileScreen: ScreenBaseModel = () => {
 
       <ScreenLayoutComponent paddingHorizontal gap scrollable title="Profile">
         <TextComponent>Role: {role}</TextComponent>
-        <ButtonComponent
-          title="Map"
-          onPress={() => navigation.navigate('Map')}
-        />
 
         <ButtonComponent
           title="Open BS"

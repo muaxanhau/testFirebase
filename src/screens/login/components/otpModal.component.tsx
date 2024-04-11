@@ -21,14 +21,14 @@ export type OtpModalRefProps = {
 type OtpModalProps = ComponentBaseModel;
 export const OtpModalComponent = forwardRef<OtpModalRefProps, OtpModalProps>(
   (_, ref) => {
-    const resetMainStackNavigation = useResetMainStackNavigation();
+    const reset = useResetMainStackNavigation();
     const refOtp = useRef<InputOTPRefProps>(null);
     const refModal = useRef<ModalRefProps>(null);
     const refConfirmation = useRef<FirebaseAuthTypes.ConfirmationResult>();
     const {confirmOtp, isPending} = useConfirmOtpRepo({
       onSuccess: () => {
         close();
-        resetMainStackNavigation('Home');
+        reset('Home');
       },
     });
 

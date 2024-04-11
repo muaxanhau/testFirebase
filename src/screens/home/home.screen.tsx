@@ -14,6 +14,7 @@ export const HomeScreen: ScreenBaseModel = () => {
   const {pushNotification, isPending} = usePushNotificationRepo();
 
   const onPressProfile = () => navigation.navigate('Profile');
+  const onPressMap = () => navigation.navigate('Map');
   const onPressItems = () => navigation.navigate('ListItems');
   const onPressCategories = () => navigation.navigate('ListCategories');
   const onPressTest = () => navigation.navigate('Test');
@@ -23,6 +24,8 @@ export const HomeScreen: ScreenBaseModel = () => {
       <TextComponent type="h1">Buyer</TextComponent>
 
       <ButtonComponent title="Profile" onPress={onPressProfile} />
+
+      <ButtonComponent title="Map" type="outline" onPress={onPressMap} />
 
       <ButtonComponent title="Items" color="success" onPress={onPressItems} />
 

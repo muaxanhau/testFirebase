@@ -17,7 +17,7 @@ type LoginPhoneModalProps = ComponentBaseModel;
 export const LoginPhoneModalComponent = forwardRef<
   ModalRefProps,
   LoginPhoneModalProps
->(({}, ref) => {
+>((_, ref) => {
   const {control, handleSubmit, reset} = useHookForm({
     schema: phoneFormSchema,
     defaultValues: {phone: '+84111111111'},

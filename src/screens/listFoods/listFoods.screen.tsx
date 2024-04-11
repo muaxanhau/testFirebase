@@ -85,6 +85,7 @@ export const ListFoodsScreen: ScreenBaseModel = () => {
             contentContainerStyle={styles.listContainer}
             keyExtractor={({id}) => id}
             data={subCategories}
+            showsVerticalScrollIndicator={false}
             renderItem={({item}) => {
               const selected = item.id === selectedSubCategoryId;
               const borderColor = selected ? colors.red : colors.primary300;
