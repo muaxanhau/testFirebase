@@ -18,16 +18,20 @@ export const ListSubCategoriesComponent = forwardRef<
   ListSubCategoriesRefProps,
   ListSubCategoriesProps
 >(({restaurantId, onChangeSubCategoryId}, ref) => {
-  const [categoryId, setCategoryId] = useState<string>('');
-  const {subCategories} = useGetAllSubCategoriesRepo({
-    restaurantId,
-    categoryId,
-  });
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
   const [selectedSubCategoryId, setSelectedSubCategoryId] =
     useState<string>('');
+  const {subCategories} = useGetAllSubCategoriesRepo({
+    restaurantId,
+    categoryId: selectedCategoryId,
+  });
 
   const reset = () => {
-    setCategoryId('');
+    setSelectedCategoryId('');
+    setSelectedSubCategoryId('');
+  };
+  const setCategoryId = (id: string) => {
+    setSelectedCategoryId(id);
     setSelectedSubCategoryId('');
   };
 

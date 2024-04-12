@@ -30,7 +30,6 @@ export const ListFoodsScreen: ScreenBaseModel = () => {
   const onChangeCategoryId = (id: string) => {
     refListSubCategories.current?.setCategoryId(id);
     refListFoods.current?.setCategoryId(id);
-    refListFoods.current?.setSubCategoryId('');
   };
   const onChangeSubCategoryId = (id: string) => {
     refListFoods.current?.setSubCategoryId(id);

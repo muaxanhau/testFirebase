@@ -1,9 +1,10 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import React, {forwardRef, useImperativeHandle, useState} from 'react';
 import {ComponentBaseModel} from 'models';
 import {FlatListComponent, TextComponent} from 'components';
 import {valueStyles} from 'values';
 import {useGetAllFoodsRepo} from 'repositories';
+import {useMainStackNavigation} from 'utils';
 
 export type ListFoodsRefProps = {
   setCategoryId: (id: string) => void;
@@ -15,17 +16,26 @@ type ListFoodsProps = ComponentBaseModel<{
 }>;
 export const ListFoodsComponent = forwardRef<ListFoodsRefProps, ListFoodsProps>(
   ({restaurantId}, ref) => {
-    const [categoryId, setCategoryId] = useState<string>('');
+    const navigation = useMainStackNavigation();
+    const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
     const [subCategoryId, setSubCategoryId] = useState<string>('');
     const {foods} = useGetAllFoodsRepo({
       restaurantId,
-      categoryId,
+      categoryId: selectedCategoryId,
       subCategoryId,
     });
 
     const reset = () => {
-      setCategoryId('');
+      setSelectedCategoryId('');
       setSubCategoryId('');
+    };
+    const setCategoryId = (id: string) => {
+      setSelectedCategoryId(id);
+      setSubCategoryId('');
+    };
+
+    const onPressFood = (id: string) => () => {
+      navigation.navigate('StatusFood');
     };
 
     useImperativeHandle(
@@ -39,8 +49,10 @@ export const ListFoodsComponent = forwardRef<ListFoodsRefProps, ListFoodsProps>(
         contentContainerStyle={styles.listContainer}
         keyExtractor={({id}) => id}
         data={foods}
-        renderItem={({item}) => (
-          <TextComponent style={styles.itemWrapper}>{item.name}</TextComponent>
+        renderItem={({item: {id, name}}) => (
+          <TouchableOpacity onPress={onPressFood(id)}>
+            <TextComponent style={styles.itemWrapper}>{name}</TextComponent>
+          </TouchableOpacity>
         )}
       />
     );
