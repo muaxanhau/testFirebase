@@ -15,6 +15,7 @@ export const HomeScreen: ScreenBaseModel = () => {
 
   const onPressProfile = () => navigation.navigate('Profile');
   const onPressMap = () => navigation.navigate('Map');
+  const onPressBuyerSeller = () => navigation.navigate('StatusFoods');
   const onPressItems = () => navigation.navigate('ListItems');
   const onPressCategories = () => navigation.navigate('ListCategories');
   const onPressTest = () => navigation.navigate('Test');
@@ -26,6 +27,12 @@ export const HomeScreen: ScreenBaseModel = () => {
       <ButtonComponent title="Profile" onPress={onPressProfile} />
 
       <ButtonComponent title="Map" type="outline" onPress={onPressMap} />
+
+      <ButtonComponent
+        title="Buyer - Seller"
+        color="warning"
+        onPress={onPressBuyerSeller}
+      />
 
       <ButtonComponent title="Items" color="success" onPress={onPressItems} />
 

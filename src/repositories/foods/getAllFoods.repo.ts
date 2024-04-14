@@ -1,5 +1,5 @@
 import {KeyService, service, useApiQuery} from 'repositories/services';
-import {FoodIdModel, SubCategoryIdModel} from 'models';
+import {FoodIdModel} from 'models';
 import {utils} from 'utils';
 import {devToolConfig} from 'config';
 

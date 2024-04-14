@@ -1,9 +1,13 @@
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import React, {forwardRef, useImperativeHandle, useState} from 'react';
 import {ComponentBaseModel} from 'models';
-import {FlatListComponent, TextComponent} from 'components';
+import {
+  ActivityIndicatorComponent,
+  FlatListComponent,
+  TextComponent,
+} from 'components';
 import {valueStyles} from 'values';
-import {useGetAllFoodsRepo} from 'repositories';
+import {useAddFoodSessionRepo, useGetAllFoodsRepo} from 'repositories';
 import {useMainStackNavigation} from 'utils';
 
 export type ListFoodsRefProps = {
@@ -24,6 +28,9 @@ export const ListFoodsComponent = forwardRef<ListFoodsRefProps, ListFoodsProps>(
       categoryId: selectedCategoryId,
       subCategoryId,
     });
+    const {addFoodSession, isPending} = useAddFoodSessionRepo({
+      onSuccess: () => navigation.navigate('StatusFoods'),
+    });
 
     const reset = () => {
       setSelectedCategoryId('');
@@ -34,8 +41,8 @@ export const ListFoodsComponent = forwardRef<ListFoodsRefProps, ListFoodsProps>(
       setSubCategoryId('');
     };
 
-    const onPressFood = (id: string) => () => {
-      navigation.navigate('StatusFood');
+    const onPressFood = (foodId: string) => () => {
+      addFoodSession({foodId});
     };
 
     useImperativeHandle(
@@ -50,8 +57,11 @@ export const ListFoodsComponent = forwardRef<ListFoodsRefProps, ListFoodsProps>(
         keyExtractor={({id}) => id}
         data={foods}
         renderItem={({item: {id, name}}) => (
-          <TouchableOpacity onPress={onPressFood(id)}>
-            <TextComponent style={styles.itemWrapper}>{name}</TextComponent>
+          <TouchableOpacity
+            style={styles.itemWrapper}
+            onPress={onPressFood(id)}>
+            <TextComponent>{name}</TextComponent>
+            {isPending && <ActivityIndicatorComponent size={20} />}
           </TouchableOpacity>
         )}
       />
@@ -67,5 +77,9 @@ const styles = StyleSheet.create({
     padding: valueStyles.gap,
     borderWidth: valueStyles.line2,
     borderRadius: valueStyles.borderRadius2,
+    flexDirection: 'row',
+    gap: valueStyles.gap,
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });

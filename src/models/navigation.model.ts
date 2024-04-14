@@ -20,5 +20,5 @@ export type MainStackNavigationModel = {
     restaurantName: string;
   };
   Test: undefined;
-  StatusFood: undefined;
+  StatusFoods: undefined;
 };

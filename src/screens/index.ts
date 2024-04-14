@@ -12,4 +12,4 @@ export * from './listItems';
 export * from './listCarts';
 export * from './listFoods';
 export * from './test';
-export * from './statusFood';
+export * from './statusFoods';

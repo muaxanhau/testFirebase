@@ -15,7 +15,7 @@ import {
   ProfileScreen,
   SignUpScreen,
   SplashScreen,
-  StatusFoodScreen,
+  StatusFoodsScreen,
   TestScreen,
 } from 'screens';
 
@@ -48,6 +48,6 @@ export const MainStackNavigation: FC = () => (
     <Stack.Screen name={'ListCarts'} component={ListCartsScreen} />
     <Stack.Screen name={'ListFoods'} component={ListFoodsScreen} />
     <Stack.Screen name={'Test'} component={TestScreen} />
-    <Stack.Screen name={'StatusFood'} component={StatusFoodScreen} />
+    <Stack.Screen name={'StatusFoods'} component={StatusFoodsScreen} />
   </Stack.Navigator>
 );
