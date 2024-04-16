@@ -15,9 +15,8 @@ import {
 } from './components';
 
 export const ListFoodsScreen: ScreenBaseModel = () => {
-  const {
-    params: {restaurantId, restaurantName},
-  } = useRoute<RouteProp<MainStackNavigationModel, 'ListFoods'>>();
+  const {params} = useRoute<RouteProp<MainStackNavigationModel, 'ListFoods'>>();
+  const {restaurantId, restaurantName} = params;
   const refListCategories = useRef<ListCategoriesRefProps>(null);
   const refListSubCategories = useRef<ListSubCategoriesRefProps>(null);
   const refListFoods = useRef<ListFoodsRefProps>(null);

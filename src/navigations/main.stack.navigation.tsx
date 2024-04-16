@@ -12,6 +12,7 @@ import {
   ListItemsScreen,
   LoginScreen,
   MapScreen,
+  PaymentScreen,
   ProfileScreen,
   SignUpScreen,
   SplashScreen,
@@ -49,5 +50,6 @@ export const MainStackNavigation: FC = () => (
     <Stack.Screen name={'ListFoods'} component={ListFoodsScreen} />
     <Stack.Screen name={'Test'} component={TestScreen} />
     <Stack.Screen name={'StatusFoods'} component={StatusFoodsScreen} />
+    <Stack.Screen name={'Payment'} component={PaymentScreen} />
   </Stack.Navigator>
 );

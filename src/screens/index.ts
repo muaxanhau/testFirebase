@@ -13,3 +13,4 @@ export * from './listCarts';
 export * from './listFoods';
 export * from './test';
 export * from './statusFoods';
+export * from './payment';

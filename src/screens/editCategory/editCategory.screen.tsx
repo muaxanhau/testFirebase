@@ -17,9 +17,9 @@ import {useHookForm, useMainStackNavigation} from 'utils';
 
 export const EditCategoryScreen: ScreenBaseModel = () => {
   const navigation = useMainStackNavigation();
-  const {
-    params: {id},
-  } = useRoute<RouteProp<MainStackNavigationModel, 'EditCategory'>>();
+  const {params} =
+    useRoute<RouteProp<MainStackNavigationModel, 'EditCategory'>>();
+  const {id} = params;
   const {category} = useGetCategoryRepo({id});
   const {control, handleSubmit, setDefaultValues} = useHookForm({
     schema: editCategoryFormSchema,

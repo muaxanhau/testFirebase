@@ -2,10 +2,13 @@ import {KeyService, service, useApiMutation} from 'repositories/services';
 import {utils} from 'utils';
 import {devToolConfig} from 'config';
 
+type StripePaymentProps = {
+  onSuccess?: (data: StripePaymentOutput) => void;
+} | void;
 export type StripePaymentOutput = {
   url: string;
 };
-export const stripePaymentRepo = () => {
+export const stripePaymentRepo = (props: StripePaymentProps) => {
   const {mutate: getStripePaymentUrl, ...rest} =
     useApiMutation<StripePaymentOutput>({
       mutationKey: [KeyService.TEST_STRIPE_PAYMENT],
@@ -16,6 +19,10 @@ export const stripePaymentRepo = () => {
           'tests/stripe-payment',
         );
         return response.data;
+      },
+      onSuccess: data => {
+        if (typeof props === 'undefined') return;
+        props.onSuccess?.(data);
       },
     });
 

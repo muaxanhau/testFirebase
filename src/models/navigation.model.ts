@@ -21,4 +21,9 @@ export type MainStackNavigationModel = {
   };
   Test: undefined;
   StatusFoods: undefined;
+  Payment: {
+    url: string;
+    onSuccess: () => void;
+    onCancel: () => void;
+  };
 };

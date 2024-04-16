@@ -25,9 +25,11 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.testFirebase</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.906313130942-637dvslkco9hagef6h6mjkicu896maqr</string>
+				<string>testfirebase</string>
 			</array>
 		</dict>
 	</array>
