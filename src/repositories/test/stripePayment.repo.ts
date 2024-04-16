@@ -6,7 +6,7 @@ type StripePaymentProps = {
   onSuccess?: (data: StripePaymentOutput) => void;
 } | void;
 export type StripePaymentOutput = {
-  url: string;
+  url: string | null;
 };
 export const stripePaymentRepo = (props: StripePaymentProps) => {
   const {mutate: getStripePaymentUrl, ...rest} =

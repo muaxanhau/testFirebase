@@ -1,10 +1,11 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
 import {useGetFoodSessionsRepo, useUpdateFoodSessionRepo} from 'repositories';
 import {FlatListComponent, TextComponent} from 'components';
 import {colors, valueStyles} from 'values';
-import {StatusFoodEnum, TriggerKeyPushNotificationEnum} from 'models';
-import {useEventPushNotification} from 'utils';
+import {StatusFoodEnum} from 'models';
+import {useGenerateStripePaymentRepo} from 'repositories/foods/generateStripePayment.repo';
+import {useMainStackNavigation} from 'utils';
 
 type ColorObjModel = {
   [key in StatusFoodEnum]: {
@@ -32,12 +33,35 @@ const colorObj: ColorObjModel = {
 };
 type StatusFoodsListProps = {};
 export const StatusFoodsListComponent: FC<StatusFoodsListProps> = () => {
+  const navigation = useMainStackNavigation();
   const {foodSessions, refetch} = useGetFoodSessionsRepo();
   const {updateFoodSession} = useUpdateFoodSessionRepo();
-  useEventPushNotification(TriggerKeyPushNotificationEnum.STATUS_FOOD, refetch);
+  const {generateStripePayment} = useGenerateStripePaymentRepo({
+    onSuccess: ({url}) => {
+      const invalidUrl = !url?.length;
+      if (invalidUrl) {
+        Alert.alert('Warning', 'Server generate payment fail');
+        return;
+      }
 
-  const onPress = (foodId: string) => () => {
-    updateFoodSession({foodId});
+      navigation.navigate('Payment', {
+        url,
+        onSuccess: () => {
+          Alert.alert('Alert', 'Payment success');
+          navigation.goBack();
+        },
+        onCancel: navigation.goBack,
+      });
+    },
+  });
+
+  const onPress = (statusFoodId: string, status: StatusFoodEnum) => () => {
+    if (status === StatusFoodEnum.PAYMENT) {
+      generateStripePayment({statusFoodId});
+      return;
+    }
+
+    updateFoodSession({statusFoodId});
   };
 
   return (
@@ -51,7 +75,7 @@ export const StatusFoodsListComponent: FC<StatusFoodsListProps> = () => {
         const borderColor = colorObj[status].borderColor;
 
         return (
-          <TouchableOpacity onPress={onPress(id)}>
+          <TouchableOpacity onPress={onPress(id, status)}>
             <View
               style={[styles.itemContainer, {backgroundColor, borderColor}]}>
               <TextComponent style={styles.itemTitle}>

@@ -15,6 +15,12 @@ export const TestScreen: ScreenBaseModel = () => {
   const {getStripePaymentUrl, isPending: isLoadingStripePayment} =
     stripePaymentRepo({
       onSuccess: ({url}) => {
+        const invalidUrl = !url?.length;
+        if (invalidUrl) {
+          Alert.alert('Warning', 'Server generate payment fail');
+          return;
+        }
+
         navigation.navigate('Payment', {
           url,
           onSuccess: () => {

@@ -4,7 +4,7 @@ import {devToolConfig} from 'config';
 
 type UpdateFoodSessionOutput = null;
 type UpdateFoodSessionInput = {
-  foodId: string;
+  statusFoodId: string;
 };
 export const useUpdateFoodSessionRepo = () => {
   const {mutate: updateFoodSession, ...rest} = useApiMutation<
@@ -12,11 +12,11 @@ export const useUpdateFoodSessionRepo = () => {
     UpdateFoodSessionInput
   >({
     mutationKey: [KeyService.UPDATE_FOOD_SESSION],
-    mutationFn: async ({foodId}) => {
+    mutationFn: async ({statusFoodId}) => {
       await utils.sleep(devToolConfig.delayFetching);
 
       const response = await service.put<UpdateFoodSessionOutput, undefined>(
-        `foods/sessions/${foodId}`,
+        `foods/sessions/${statusFoodId}`,
         undefined,
       );
       return response.data;
