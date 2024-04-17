@@ -1,6 +1,6 @@
 import {Alert, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
-import {useGetFoodSessionsRepo, useUpdateFoodSessionRepo} from 'repositories';
+import {useGetFoodSessionsRepo} from 'repositories';
 import {FlatListComponent, TextComponent} from 'components';
 import {colors, valueStyles} from 'values';
 import {StatusFoodEnum} from 'models';
@@ -35,7 +35,6 @@ type StatusFoodsListProps = {};
 export const StatusFoodsListComponent: FC<StatusFoodsListProps> = () => {
   const navigation = useMainStackNavigation();
   const {foodSessions, refetch} = useGetFoodSessionsRepo();
-  const {updateFoodSession} = useUpdateFoodSessionRepo();
   const {generateStripePayment} = useGenerateStripePaymentRepo({
     onSuccess: ({url}) => {
       const invalidUrl = !url?.length;
@@ -56,12 +55,9 @@ export const StatusFoodsListComponent: FC<StatusFoodsListProps> = () => {
   });
 
   const onPress = (statusFoodId: string, status: StatusFoodEnum) => () => {
-    if (status === StatusFoodEnum.PAYMENT) {
-      generateStripePayment({statusFoodId});
-      return;
-    }
+    if (status !== StatusFoodEnum.PAYMENT) return;
 
-    updateFoodSession({statusFoodId});
+    generateStripePayment({statusFoodId});
   };
 
   return (
